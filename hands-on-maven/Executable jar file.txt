@@ -1,0 +1,31 @@
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+<dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+====================================================================
+<plugin>
+    <!-- Build an executable JAR - Tạo file jar có thể chạy được!-->
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.4.1</version>
+    <configuration>
+        <archive>
+            <manifest>
+                <mainClass>
+                    com.giaolang.Main <!-- tên-package-và-tên-class-chứa-hàm-main -->
+                </mainClass>
+            </manifest>
+        </archive>
+    </configuration>
+</plugin>
+
+===================================================================
+mvn clean package
+java -jar file-jar-có-hàm-main-để-chạy.jar
+java -cp file-jar-có-hàm-main.jar full-tên-package-kèm-tên-class-chứa-hàm-main
+
+java -jar target/file-jar-có-hàm-main-để-chạy.jar
+java -cp target/file-jar-có-hàm-main.jar full-tên-package-kèm-tên-class-chứa-hàm-main
