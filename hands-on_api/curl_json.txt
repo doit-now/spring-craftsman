@@ -1,0 +1,1 @@
+curl -X POST "http://localhost:6969/api/v2/dogs" -H "Content-Type: application/json" -d "{\"name\":\"Chi Hu Hu\", \"yob\":2025}"

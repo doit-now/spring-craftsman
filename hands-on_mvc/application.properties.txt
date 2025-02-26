@@ -1,0 +1,25 @@
+spring.application.name=bookstore
+
+# Thiết lập cổng mà ứng dụng sẽ chạy (tuỳ chọn). Mặc định là 8080 ==========
+server.port=6969
+
+# Cấu hình kết nối tới Data Source SQL Server ==========
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=SP25;encrypt=true;trustServerCertificate=true
+spring.datasource.username=sa
+spring.datasource.password=sa123456
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+# Cấu hình JPA/Hibernate  ==========
+# Quản lí schema: create, update, validate, none
+spring.jpa.hibernate.ddl-auto=update
+# Hiển thị câu lệnh SQL trong console dùng để debug
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Cấu hình Thymeleaf  ==========
+#cache=false: Giúp cập nhật giao diện mà không cần khởi động lại app
+spring.thymeleaf.cache=false 
+#prefix: Nơi chứa UI/các trang thymeleaf
+spring.thymeleaf.prefix=classpath:/templates/
+#suffix: Mặc định Thymeleaf sẽ tìm file .html.
+spring.thymeleaf.suffix=.html
