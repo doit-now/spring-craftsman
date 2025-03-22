@@ -1,0 +1,102 @@
+hãy viết cho tôi đúng 1 hàm xử lý chuỗi trong Java, hàm nhận vào 1 chuỗi bất kì và trả về null nếu không hợp lệ, trả về chính chuỗi đó nếu hợp lệ, và chuỗi được đổi qua chữ hoa từng đầu từ. 
+Chuỗi hợp lệ được định nghĩa như sau: không có khoảng trắng dư, lớn hơn 5 kí tự và nhỏ hơn 20 kí tự, không chứa kí tự đặc biệt, không chứa kí số (0, 1, 2,...). Tóm lại chỉ chứa kí tự. Hàm làm việc tốt với kí tự Unicode, tiếng Việt
+
+
+import java.text.Normalizer;
+
+public class StringHandler {
+    public static String processString(String input) {
+        if (input == null) return null;
+
+        // Xóa khoảng trắng dư thừa
+        String trimmed = input.trim().replaceAll("\\s+", " ");
+
+        // Kiểm tra độ dài
+        if (trimmed.length() <= 5 || trimmed.length() >= 20) {
+            return null;
+        }
+
+        // Kiểm tra chỉ chứa chữ cái (Unicode) hoặc số hoặc khoảng trắng
+        // [\\p{L}] là tất cả các chữ cái trong Unicode (hỗ trợ tiếng Việt)
+        // [\\p{N}] là chữ số
+        if (!trimmed.matches("[\\p{L}\\p{N} ]+")) {
+            return null;
+        }
+
+        // Viết hoa chữ cái đầu mỗi từ
+        String[] words = trimmed.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                char firstChar = word.charAt(0);
+                if (Character.isLetter(firstChar)) {
+                    result.append(Character.toUpperCase(firstChar));
+                    result.append(word.substring(1).toLowerCase());
+                } else {
+                    result.append(firstChar); // Giữ nguyên nếu là số
+                    result.append(word.substring(1));
+                }
+                result.append(" ");
+            }
+        }
+
+        return result.toString().trim();
+    }
+
+    // Test thử
+    public static void main(String[] args) {
+        System.out.println(processString("  lập trình 123 cơ bản "));   // Lập Trình 123 Cơ Bản
+        System.out.println(processString("xin chào việt nam"));        // Xin Chào Việt Nam
+        System.out.println(processString("java!rocks"));               // null (ký tự đặc biệt)
+        System.out.println(processString("tôi yêu tổ quốc"));          // Tôi Yêu Tổ Quốc
+        System.out.println(processString("học123lập456trình"));        // Học123Lập456Trình
+    }
+}
+  
+=======================
+HÀM CẤM KÍ SỐ 0123... VÀ KÍ TỰ ĐẶC BIỆT, CHỈ CHO PHÉP KÍ TỰ THUẦN
+public class StringHandler {
+    public static String processString(String input) {
+        if (input == null) return null;
+
+        // Xóa khoảng trắng dư
+        String trimmed = input.trim().replaceAll("\\s+", " ");
+
+        // Kiểm tra độ dài
+        if (trimmed.length() <= 5 || trimmed.length() >= 20) {
+            return null;
+        }
+
+        // Kiểm tra chỉ chứa chữ cái Unicode và khoảng trắng (không số, không ký tự đặc biệt)
+        if (!trimmed.matches("[\\p{L} ]+")) {
+            return null;
+        }
+
+        // Viết hoa chữ cái đầu mỗi từ
+        String[] words = trimmed.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)));
+                if (word.length() > 1) {
+                    result.append(word.substring(1).toLowerCase());
+                }
+                result.append(" ");
+            }
+        }
+
+        return result.toString().trim();
+    }
+
+    // Test thử
+    public static void main(String[] args) {
+        System.out.println(processString("  lập trình cơ bản "));       // Lập Trình Cơ Bản
+        System.out.println(processString("xin chào việt nam"));         // Xin Chào Việt Nam
+        System.out.println(processString("java2025 rocks"));            // null (có số và ký tự đặc biệt)
+        System.out.println(processString("tôi yêu tổ quốc"));           // Tôi Yêu Tổ Quốc
+        System.out.println(processString("123 học lập trình"));         // null (có số)
+        System.out.println(processString("học@lập#trình"));             // null (có ký tự đặc biệt)
+    }
+}
