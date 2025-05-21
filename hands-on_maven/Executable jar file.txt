@@ -1,16 +1,21 @@
+
+<!-- DEPENDENCY DÙNG ĐÓNG GÓI FILE .JAR -->
+
 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
 <dependency>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-jar-plugin</artifactId>
-    <version>3.4.1</version>
+    <version>3.4.2</version>
 </dependency>
 
 ====================================================================
+<!-- PLUGIN CHẠY SONG SONG CÙNG MAVEN DÙNG ĐÓNG GÓI FILE .JAR CHẠY ĐƯỢC TỪ HÀM MAIN() -->
+
 <plugin>
     <!-- Build an executable JAR - Tạo file jar có thể chạy được!-->
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-jar-plugin</artifactId>
-    <version>3.4.1</version>
+    <version>3.4.2</version>
     <configuration>
         <archive>
             <manifest>
@@ -23,9 +28,68 @@
 </plugin>
 
 ===================================================================
+<!-- PLUGIN CHẠY SONG SONG CÙNG MAVEN DÙNG ĐÓNG GÓI FILE .JAR CHẠY ĐƯỢC TỪ HÀM MAIN() VÀ NÉN CHUNG VỚI CÁC DEPENDENCY KHÁC TRONG CÙNG 1 FILE .JAR, CÒN GỌI LÀ FAT JAR -->
+
+ <build>
+        <plugins>
+            <!-- Tắt JAR mặc định -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- Assembly plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+
+                    <!-- Bỏ suffix "-jar-with-dependencies" -->
+                    <appendAssemblyId>false</appendAssemblyId>
+
+                    <!-- Tên file đầu ra -->
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+
+                    <!-- Thêm Manifest với Main-Class -->
+                    <archive>
+                        <manifest>
+                            <mainClass>com.giaolang.heathy.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+===================================================================
+CÁC LỆNH CHẠY FILE .JAR (FILE .JAR CÓ HÀM MAIN() BÊN TRONG 
+
+>>>>> LỆNH NÀY KHI CHẠY PHẢI ĐỨNG TRONG THƯ MỤC TARGET
+
 mvn clean package
 java -jar file-jar-có-hàm-main-để-chạy.jar
 java -cp file-jar-có-hàm-main.jar full-tên-package-kèm-tên-class-chứa-hàm-main
 
-java -jar target/file-jar-có-hàm-main-để-chạy.jar
+>>>>> LỆNH NÀY KHI CHẠY ĐỨNG Ở THƯ MỤC PROJECT, LÀ THƯ MỤC CHA CỦA THƯ MỤC TARGET
+
+java -jar target/file-jar-có-hàm-main-để-chạy.jar  
 java -cp target/file-jar-có-hàm-main.jar full-tên-package-kèm-tên-class-chứa-hàm-main
+
+
+>>>>> THAM SỐ -JAR YÊU CẦU TÍCH HỢP KHAI BÁO HÀM MAIN() VÀO TRONG FILE .JAR
+>>>>> NẾU FILE .JAR CHÍNH CÓ SỰ PHỤ THUỘC VỚI CÁC FILE .JAR KHÁC (DEPENDENCY) TA CẦN TÍCH HỢP CÁC DEPENDENCY VÀO CHUNG TRONG FILE .JAR - FAT JAR NHƯ HƯỚNG DẪN Ở TRÊN
