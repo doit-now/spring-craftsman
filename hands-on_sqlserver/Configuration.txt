@@ -1,0 +1,27 @@
+© 2025 giáo.làng *****
+
+I. KIỂM TRA (CẤU HÌNH) CỦA SQLSERVER ******************************
+
+1. KIỂM TRA: SQL Server Configuration Manager
+
+> Phím Windows + R
+> Gõ lệnh dưới đây trong cửa sổ Run ứng với từng phiên bản SQL Server đã cài
+
+SQL Server version		Command
+----------------------          -------------------------------
+SQL Server 2022                 SQLServerManager16.msc
+SQL Server 2019                 SQLServerManager15.msc
+SQL Server 2017                 SQLServerManager14.msc
+SQL Server 2016                 SQLServerManager13.msc
+SQL Server 2014                 SQLServerManager12.msc
+SQL Server 2012                 SQLServerManager11.msc
+
+2. KIỂM TRA: SQL Native Client Configuration | SQL Server Network Configuration 
+> Client Protocols | Protocols for... 
+> TCP/IP > Enabled > IP Addresses > IPAll > TCP Port > 1433
+> Restart Server
+
+3. KIỂM TRA: SQL Server Services
+> Phím Windows + R
+> Gõ lệnh: services.msc 
+> SQL Server Browser Service: Manual or Automatic | Start | Running
