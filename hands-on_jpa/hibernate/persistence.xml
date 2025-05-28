@@ -1,0 +1,41 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="com.giaolang.superapp-PU" transaction-type="RESOURCE_LOCAL">
+        <!-- Khai báo các entity class để map xuống table -->
+        <!--        <class>com.giaolang.superpapp.entity.Student</class>-->
+
+        <!-- Cấu hình kết nối CSDL -->
+        <properties>
+            <!-- JDBC Driver dùng MS SQL Server -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+
+            <!-- JDBC URL kết nối tới SQL Server (sửa localhost, tên DB cho đúng với máy của bạn) -->
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:sqlserver://localhost:1433;databaseName=HSF302;encrypt=true;trustServerCertificate=true"/>
+
+            <!-- Tài khoản đăng nhập SQL Server -->
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="jakarta.persistence.jdbc.password" value="sa123456"/>
+
+            <!-- Chỉ định Hibernate làm provider nối tới SQLServer -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+
+            <!-- Tùy chọn thao tác với CSDL:
+            "none": Không làm gì cả – không kiểm tra, không tạo, không cập nhật gì cả
+            "validate": Kiểm tra bảng có sẵn có khớp với entity không – nếu lệch thì báo lỗi
+            "update": Cập nhật schema: tạo thêm bảng/cột nếu thiếu, không xoá gì cả
+            "create": Xoá toàn bộ bảng cũ rồi tạo bảng mới từ đầu
+            "create-drop": Tạo bảng khi chạy app, xoá toàn bộ bảng khi app dừng
+            "drop": (Hiếm dùng) Xoá toàn bộ bảng khi app khởi động – không tạo lại bảng -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+
+            <!-- Hiển thị SQL khi chạy (tùy chọn) -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
+<!-- LƯU Ý: FILE CẤU HÌNH PHẢI NẰM Ở ĐÚNG THƯ MỤC resources/META-INF/ -->
