@@ -1,1 +1,25 @@
-curl -X POST "http://localhost:6969/api/v2/dogs" -H "Content-Type: application/json" -d "{\"name\":\"Chi Hu Hu\", \"yob\":2025}"
+0. JSON MẪU *****************************
+
+=> MỘT OBJECT ***************************** 
+
+{"id":1,"name":"Cafe Java chủ nhật","price":29000.0}
+
+=> MẢNG OBJECT *****************************
+
+[{"id":1,"name":"Cafe Java chủ nhật","price":29000.0},{"id":2,"name":"Cà phê sữa đá","price":20000.0},{"id":3,"name":"Bạc xỉu","price":25000.0},{"id":4,"name":"Cafe muối","price":22000.0}]
+
+1. TEST POST API TRONG LINUX TERMINAL *****************************
+
+curl -X POST "http://localhost:6969/api/add" \
+     -H "Content-Type: application/json" \
+     -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
+
+2. TEST POST API TRONG WINDOWS TERMINAL *****************************
+
+curl -X POST "http://localhost:6969/api/add" ^
+  -H "Content-Type: application/json" ^
+  -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
+
+3. TEST POST API DÙNG CHUNG 2 MÔI TRƯỜNG ***************************** 
+
+curl -X POST "http://localhost:6969/api/add" -H "Content-Type: application/json" -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
