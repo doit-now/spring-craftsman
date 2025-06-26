@@ -1,0 +1,67 @@
+ĐỀ THI MẪU, ĐỀ THI THẬT - 85 PHÚT ////////////////////////////////////////////////////////////////////
+
+1. 3 TABLES: 
+- ACCOUNT (TÊN KHÁC: USER, MEMBER...): LƯU INFO LOGIN
+                                       username| email | pass | role | active
+                                                                       true/false
+                                       role: 1 (admin)                 
+                                             2 (staff)
+                                             3 (member)  
+
+- 2 TABLE CÓ MỐI QUAN HỆ 1 - N, VÍ DỤ: CATEGORY -< BOOK,  MAJOR -< STUDENT, TYPE -< ITEM, ...
+
+2. DÙNG CODE FIRST ĐỂ TẠO 3 TABLE VÀ CHÈN SẴN DATA GIẢ 
+   (ĐỀ THI CHO SẴN DATA GIẢ, TẠO DATA THEO ĐÚNG MẪU ĐÃ CHO)
+-> class DataInitializer đã học!!!
+
+3. CODE DỰ ÁN THEO MÔ HÌNH 3-LAYER (UI/THYMELEAF <-> SERVICE <-> REPOSITORY <-> SPRING DATA JPA/HIBERNATE)
+-> BẮT BUỘC PHẢI DÙNG DEPENDENCY INJECTION @Autowire -> học rồi
+
+4. ÍT NHẤT 3 PAGE .HTML (HOẶC GỘP CHỈ CÒN 2): 
+- TRANG LOGIN, 
+- TRANG LIST MỌI THỨ DƯỚI DẠNG TABLE, CÓ DÀN NÚT BẤM/LINK: EDIT, DELETE, CREATE, SEARCH 
+- TRANG DETAIL (GỘP EDIT VÀ CREATE) 
+  > HOẶC TRANG DETAIL DÙNG OVERLAY-MODAL TRONG TRANG LIST, HOẶC CHO CÁC Ô NHẬP NẰM TRÊN TABLE DANH SÁCH
+* NHA SĨ KHUYÊN DÙNG: TÁCH TRANG CHO DỄ LÀM
+
+5. CÁC TÍNH NĂNG:
+* LOGIN, CHECK ROLE
+  -> ADMIN: FULL TÍNH NĂNG CHO TRANG PHÍA SAU LOGIN
+  -> !ADMIN: CẤM THÊM, XOÁ, SỬA, CHỈ ĐƯỢC SEARCH
+
+* MÀN HÌNH SAU LOGIN - SHOW DANH SÁCH SẢN PHẨM/ITEMS/ĐƠN HÀNG/...
+  -> CÁC TÍNH NĂNG CRUD: CREATE (BẮT VALIDATION), UPDATE (BẮT VALIDATION), 
+                         DELETE (PHẢI CONFIRM YES|NO), SEARCH: TÌM GẦN ĐÚNG 2 CỘT NÀO ĐÓ, TOÁN TỬ LIKE
+
+>>>>> KHÓ NHẸ NHẸ: TRONG MÀN HÌNH DETAIL, VÍ DỤ TẠO MỚI SẢN PHẨM, EDIT SẢN PHẨM, 
+      THÌ PHẢI SHOW DROP-DOWN/COMBO-BOX XỔ CHỌN 
+
+* VÍ DỤ MÀN HÌNH DETAIL     
+      
+     TẠO MỚI | CHỈNH SỬA THÔNG TIN CHI TIẾT
+
+     ID:    [_______]                  //KEY TỰ TĂNG THÌ DẤU ĐI
+     NAME:  [___________________]      MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE N, VÍ DỤ PRODUCT 
+     PRICE: [__________.00]            Id | Name | Price | Quantity | Date | FK CateId|
+     QUANT: [______]                                                         lấy khoá chính từ danh sách xổ ở dưới
+     DATE : [__/__/____]                                                     ví dụ số 1
+
+     CATE : [----Choose category  ]    MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE 1, VÍ DỤ CATEGORY     
+             > Bia/rượu
+             > Thực phẩm đông lạnh           Id | Name                | Desc  
+             > Bánh kẹo                      1    Bia/rượu              ...
+             > Văn phòng phẩm                2    Thực phẩm đông lạnh   ...
+                                             TREO ĐẦU DÊ, LẤY THỊT HEO, SHOW NAME, NHƯNG LẤY ID ĐỂ THẢY LÊN KHOÁ NGOẠI
+
+    [SAVE]  -> GỌI SERVICE -> REPO ĐỂ XUỐNG TABLE N - VÍ DỤ PRODUCT
+                                      KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN                 
+
+>>>>> DÙNG SQLSERVER, SPRINGBOOT, SPRING JPA/HIBERNATE, CODE FIRST, 3-LAYER, THYMELEAF
+
+
+
+
+
+
+ 
+   
