@@ -1,0 +1,23 @@
+//THEO CHUẨN XML/XHTML parser ***********************
+<script th:if="${successMessage}" th:inline="javascript">
+    //<![CDATA[
+    alert([[${successMessage}]]);
+    //]]>
+</script>
+
+
+//THEO CHUẨN HTML5 ***********************
+<script th:if="${successMessage}" th:inline="javascript">
+    // Thymeleaf sẽ render thành: alert("…");
+    alert([[${successMessage}]]);
+</script>
+
+
+//THEO CHUẨN HTML5 ***********************
+<!-- Script alert sau khi trang load xong -->
+<script th:if="${successMessage}" th:inline="javascript">
+    window.addEventListener('load', function() {
+        // Thymeleaf sẽ render thành: alert("…");
+        alert([[${successMessage}]]);
+    });
+</script>
