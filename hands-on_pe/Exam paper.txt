@@ -4,47 +4,62 @@
 
 1. 3 TABLES: 
 - ACCOUNT (TÊN KHÁC: USER, MEMBER...): LƯU INFO LOGIN
-                                       |Username     | Email          | Pass           | Role      | Active
-                                         ngoctrinh     ngoctrinh@...    hoangdeptrai     1           True | False
+                                       | Username     | Email          | Pass           | Role      | Active
+                                         ngoctrinh      ngoctrinh@...    hoangdeptrai     1           True | False
                                          ...
                                      
                                                                                    Role: 1 (Admin)                 
                                                                                          2 (Staff)
                                                                                          3 (Member)  
 
-- 2 TABLE CÓ MỐI QUAN HỆ 1 - N, VÍ DỤ: CATEGORY -< BOOK,  MAJOR -< STUDENT, TYPE -< ITEM, ...
+- 2 TABLE CÓ MỐI QUAN HỆ 1 - N, VÍ DỤ: CATEGORY -< BOOK,  MAJOR -< STUDENT, TYPE -< ITEM, CATEGORY -< PRODUCT ...
+                                                   crud            crud             crud                crud         
+                                                
+  >>>>> CRUD TRÊN BẢNG NHIỀU (N), BẢNG 1, ACCOUNT KO THAY ĐỔI DATA GÌ CẢ
+        TOÀN BỘ BÀI THI CHỈ LÀ CRUD BẢNG CHÍNH - BẢNG N, VÍ DỤ PRODUCT!!!!!!!!!!!!!!!!!                                         
 
-2. DÙNG CODE FIRST ĐỂ TẠO 3 TABLE VÀ CHÈN SẴN DATA GIẢ 
+2. DÙNG CODE FIRST ĐỂ TẠO 3 TABLE VÀ CHÈN SẴN DATA GIẢ. TÊN DATABASE ĐẦU BÀI CHO, PHẢI TẠO SẴN DATABASE TRỐNG
+   NHƯ ĐẦU BÀI CHO, TABLE VÀ DATA TRONG TABLE LÀ DO CODE MÌNH SINH RA!!!!!!!! 
    (ĐỀ THI CHO SẴN DATA GIẢ, TẠO DATA THEO ĐÚNG MẪU ĐÃ CHO)
--> class DataInitializer đã học!!!
+-> class DataInitializer đã học (implements CommandLineRunner interface) nằm ở package config - đã học rồi !!!
 
 3. CODE DỰ ÁN THEO MÔ HÌNH 3-LAYER (UI/THYMELEAF <-> SERVICE <-> REPOSITORY <-> SPRING DATA JPA/HIBERNATE)
 -> BẮT BUỘC PHẢI DÙNG DEPENDENCY INJECTION @Autowire -> học rồi
 
-4. ÍT NHẤT 3 PAGE .HTML (HOẶC GỘP CHỈ CÒN 2): 
-- TRANG LOGIN, 
-- TRANG LIST MỌI THỨ DƯỚI DẠNG TABLE, CÓ DÀN NÚT BẤM/LINK: EDIT, DELETE, CREATE, SEARCH 
-- TRANG DETAIL (GỘP EDIT VÀ CREATE) 
-  > HOẶC TRANG DETAIL DÙNG OVERLAY-MODAL TRONG TRANG LIST, HOẶC CHO CÁC Ô NHẬP NẰM TRÊN TABLE DANH SÁCH
-* NHA SĨ KHUYÊN DÙNG: TÁCH TRANG CHO DỄ LÀM
+4. PROJECT CÓ ÍT NHẤT 3 PAGE .HTML (HOẶC GỘP CHỈ CÒN 2): 
+- P1: TRANG LOGIN  (login.html) 
+- P2: TRANG LIST MỌI THỨ DƯỚI DẠNG TABLE, CÓ DÀN NÚT BẤM/LINK: EDIT, DELETE, CREATE, SEARCH
+                                      DÀN NÚT BẤM CREATE | EDIT | DELETE SẼ ẨN HIỆN THEO ROLE: ADMIN FULL NÚT BẤM  
+                    (products.html, product-list.html)   
+   
+- P3: TRANG DETAIL (GỘP CHUNG CHO CẢ EDIT VÀ CREATE)  (product-form) => XONG MÀN HÌNH NÀY, VỀ MÀN HÌNH P2 - LIST
+
+>>>>> GỘP TRANG: HOẶC TRANG DETAIL DÙNG OVERLAY-MODAL TRONG TRANG LIST, NẰM ĐÈ LÊN TRANG LIST, LÀM MỜ TRANG LIST
+                 HOẶC CHO CÁC Ô NHẬP NẰM TRÊN TABLE DANH SÁCH
+
+****** NHA SĨ KHUYÊN DÙNG: TÁCH TRANG CHO DỄ LÀM; ĐÁP ÁN: THOẢI MÁI CHỌN CÁCH GỘP TRANG HOẶC TÁCH TRANG!!!
 
 5. CÁC TÍNH NĂNG:
 * LOGIN, CHECK ROLE
-  -> ADMIN: FULL TÍNH NĂNG CHO TRANG PHÍA SAU LOGIN
+  -> ADMIN: FULL TÍNH NĂNG CHO TRANG PHÍA SAU LOGIN (FULL CREATE, UPDATE, DELETE, SEARCH)
   -> !ADMIN: CẤM THÊM, XOÁ, SỬA, CHỈ ĐƯỢC SEARCH
 
 * MÀN HÌNH SAU LOGIN - SHOW DANH SÁCH SẢN PHẨM/ITEMS/ĐƠN HÀNG/...
-  -> CÁC TÍNH NĂNG CRUD: CREATE (BẮT VALIDATION), UPDATE (BẮT VALIDATION), 
-                         DELETE (PHẢI CONFIRM YES|NO), SEARCH: TÌM GẦN ĐÚNG 2 CỘT NÀO ĐÓ, TOÁN TỬ LIKE
+
+* CÁC TÍNH NĂNG CRUD: CREATE (BẮT VALIDATION: SỐ TRONG KHOẢNG..., CHỮ KO CHỨA ĐẶC BIỆT, NGÀY THÁNG...), 
+                      UPDATE (BẮT VALIDATION), 
+                      DELETE (PHẢI CONFIRM YES|NO)
+                      SEARCH: TÌM GẦN ĐÚNG 2 CỘT NÀO ĐÓ, TOÁN TỬ LIKE
 
 >>>>> KHÓ NHẸ NHẸ: TRONG MÀN HÌNH DETAIL, VÍ DỤ TẠO MỚI SẢN PHẨM, EDIT SẢN PHẨM, 
-      THÌ PHẢI SHOW DROP-DOWN/COMBO-BOX XỔ CHỌN 
+                   THÌ PHẢI SHOW DROP-DOWN/COMBO-BOX XỔ CHỌN (GIỐNG DANH SÁCH 63 TỈNH THÀNH XỔ XUỐNG, DS QUỐC GIA)
+                   -> XÀI DATA CỦA TABLE 1, CHỈ SELECT VÀ SHOW DANH SÁCH
 
 * VÍ DỤ MÀN HÌNH DETAIL     
       
      MÀN HÌNH TẠO MỚI | CHỈNH SỬA THÔNG TIN CHI TIẾT  ------------------------------------------
 
-     ID:    [_______]                  //KEY TỰ TĂNG THÌ DẤU ĐI
+     ID:    [_______]                  //KEY TỰ TĂNG THÌ DẤU ĐI; XEM ĐẦU BÀI ĐỂ BIẾT KEY TỰ GÕ, TỰ TĂNG?
      NAME:  [___________________]      MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE N, VÍ DỤ PRODUCT 
      PRICE: [__________.00]            |Id | Name | Price | Quantity | Date | FK CateId|
      QUANT: [______]                                                         lấy khoá chính từ danh sách xổ ở dưới
@@ -59,4 +74,3 @@
  
      [SAVE]  -> GỌI SERVICE -> REPO ĐỂ XUỐNG TABLE N - VÍ DỤ PRODUCT
                                       KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN       
-
