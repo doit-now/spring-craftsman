@@ -1,12 +1,16 @@
 ĐỀ THI MẪU, ĐỀ THI THẬT - 85 PHÚT ////////////////////////////////////////////////////////////////////
 
+>>>>> DÙNG SQLSERVER, SPRINGBOOT, SPRING JPA/HIBERNATE, CODE FIRST, 3-LAYER, THYMELEAF
+
 1. 3 TABLES: 
 - ACCOUNT (TÊN KHÁC: USER, MEMBER...): LƯU INFO LOGIN
-                                       username| email | pass | role | active
-                                                                       true/false
-                                       role: 1 (admin)                 
-                                             2 (staff)
-                                             3 (member)  
+                                       |Username     | Email          | Pass           | Role      | Active
+                                         ngoctrinh     ngoctrinh@...    hoangdeptrai     1           True | False
+                                         ...
+                                     
+                                                                                   Role: 1 (Admin)                 
+                                                                                         2 (Staff)
+                                                                                         3 (Member)  
 
 - 2 TABLE CÓ MỐI QUAN HỆ 1 - N, VÍ DỤ: CATEGORY -< BOOK,  MAJOR -< STUDENT, TYPE -< ITEM, ...
 
@@ -38,30 +42,21 @@
 
 * VÍ DỤ MÀN HÌNH DETAIL     
       
-     TẠO MỚI | CHỈNH SỬA THÔNG TIN CHI TIẾT
+     MÀN HÌNH TẠO MỚI | CHỈNH SỬA THÔNG TIN CHI TIẾT  ------------------------------------------
 
      ID:    [_______]                  //KEY TỰ TĂNG THÌ DẤU ĐI
      NAME:  [___________________]      MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE N, VÍ DỤ PRODUCT 
-     PRICE: [__________.00]            Id | Name | Price | Quantity | Date | FK CateId|
+     PRICE: [__________.00]            |Id | Name | Price | Quantity | Date | FK CateId|
      QUANT: [______]                                                         lấy khoá chính từ danh sách xổ ở dưới
-     DATE : [__/__/____]                                                     ví dụ số 1
+     DATE : [__/__/____]                                                     ví dụ số 1 (CHO CATE BIA/RƯỢU)
 
-     CATE : [----Choose category  ]    MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE 1, VÍ DỤ CATEGORY     
+     CATE : [----Choose category----]    MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE 1, VÍ DỤ CATEGORY     
              > Bia/rượu
-             > Thực phẩm đông lạnh           Id | Name                | Desc  
+             > Thực phẩm đông lạnh          |Id | Name                | Desc    |
              > Bánh kẹo                      1    Bia/rượu              ...
              > Văn phòng phẩm                2    Thực phẩm đông lạnh   ...
-                                             TREO ĐẦU DÊ, LẤY THỊT HEO, SHOW NAME, NHƯNG LẤY ID ĐỂ THẢY LÊN KHOÁ NGOẠI
-
-    [SAVE]  -> GỌI SERVICE -> REPO ĐỂ XUỐNG TABLE N - VÍ DỤ PRODUCT
-                                      KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN                 
-
->>>>> DÙNG SQLSERVER, SPRINGBOOT, SPRING JPA/HIBERNATE, CODE FIRST, 3-LAYER, THYMELEAF
-
-
-
-
-
-
+     [SAVE]                                  TREO ĐẦU DÊ, LẤY THỊT HEO, SHOW NAME, NHƯNG LẤY ID ĐỂ THẢY LÊN KHOÁ NGOẠI
  
-   
+     [SAVE]  -> GỌI SERVICE -> REPO ĐỂ XUỐNG TABLE N - VÍ DỤ PRODUCT
+                                      KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN       
+
