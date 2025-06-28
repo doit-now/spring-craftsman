@@ -73,4 +73,4 @@
      [SAVE]                                  TREO ĐẦU DÊ, LẤY THỊT HEO, SHOW NAME, NHƯNG LẤY ID ĐỂ THẢY LÊN KHOÁ NGOẠI
  
      [SAVE]  -> GỌI SERVICE -> REPO ĐỂ XUỐNG TABLE N - VÍ DỤ PRODUCT
-                                      KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN       
+                                      KO ĐỤNG GÌ TABLE 1, TABLE 1 CHỈ DÙNG ĐỂ XỔ DANH SÁCH CHỌN      
