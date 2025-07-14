@@ -1,0 +1,60 @@
+STRING VALIDATION - KIỂM TRA TÍNH HỢP LỆ CỦA 1 CHUỖI DÙNG REGEX ***************************************************************************** 
+* CHUỖI NHẬP TỪ BÀN PHÍM
+- MỖI TỪ PHẢI BẮT ĐẦU BẰNG CHỮ HOA, 
+- CHỈ CHỨA CHỮ CÁI
+- KHÔNG CHỨA SỐ/KÝ TỰ ĐẶC BIỆT
+- KHÔNG THỪA KHOẢNG TRẮNG
+
+
+***********************************************************
+>>>>> STRING VALIDATION CHO CHUỖI TIẾNG ANH - NGLISH STRING
+
+@NotBlank(message = "Tên không được để trống")
+@Size(min = 5, max = 100, message = "Tên phải dài từ 5 đến 100 ký tự")
+@Pattern(
+            regexp = "^([A-Z][a-z]+)(\\s[A-Z][a-z]+)*$",
+            message = "Tên không hợp lệ – mỗi từ phải bắt đầu hoa, chỉ chữ cái, không số/ký tự đặc biệt, không thừa khoảng trắng"
+    )
+
+
+>>>>> Giải thích RegEx
+
+^                  # Bắt đầu chuỗi
+([A-Z][a-z]+)      # 1 từ: chữ in hoa + ít nhất 1 chữ thường
+(\\s[A-Z][a-z]+)*  # 0 hoặc nhiều từ tiếp theo, mỗi từ cách nhau đúng 1 dấu cách
+$                  # Kết thúc chuỗi
+
+[A-Z]		   # Ký tự đầu mỗi từ phải là chữ hoa.
+[a-z]+		   # Theo sau là ít nhất một chữ thường (ngăn cả từ dài chỉ 1 ký tự).
+\\s		   # Chỉ cho phép 1 khoảng trắng giữa các từ, không có leading/trailing spaces và không cho nhiều space liên tiếp.
+
+Với RegEx này, chuỗi chỉ chứa các chữ cái A–Z/a–z và đúng khoảng trắng giữa từ, loại trừ số và ký tự đặc biệt.
+
+
+************************************************************************
+>>>>> STRING VALIDATION CHO CHUỖI TIẾNG VIỆT - VIETNAMESE/UNICODE STRING 
+* TRONG TIẾNG VIỆT LƯU Ý NHỮNG CHỮ CÁI HOA DẠNG: Â, Đ, Ứ, À...
+
+@Pattern(
+        regexp = "^(\\p{Lu}\\p{Ll}+)(\\s\\p{Lu}\\p{Ll}+)*$",
+        message = "Mỗi từ phải bắt đầu hoa, chỉ chứa chữ (Unicode), không số/ký tự đặc biệt, không khoảng trắng thừa"
+)
+
+
+>>>>> Giải thích RegEX
+\p{Lu}: mọi chữ in hoa Unicode (A–Z, Á, Đ, Ứ…)
+
+\p{Ll}: mọi chữ thường Unicode (a–z, à, đ, ư…)
+
+^(…)(\s…)*$:
+
+Từ đầu: một từ (\p{Lu}\p{Ll}+)
+
+Tiếp theo: zero hoặc nhiều nhóm “1 space + từ”
+
+Kết thúc chuỗi
+
+Java regex mặc định đã hỗ trợ Unicode cho \p{Lu}/\p{Ll}.
+
+
+                                                                >>>>> GENERATIVE AI MÃI ĐỈNH :) >>>>>

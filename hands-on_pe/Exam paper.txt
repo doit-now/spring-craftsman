@@ -1,4 +1,5 @@
 ĐỀ THI MẪU, ĐỀ THI THẬT - 85 PHÚT ////////////////////////////////////////////////////////////////////
+PRACTICAL EXAM (PE) - THI THỰC HÀNH
 
 >>>>> DÙNG SQLSERVER, SPRINGBOOT, SPRING JPA/HIBERNATE, CODE FIRST, 3-LAYER, THYMELEAF
 
@@ -68,7 +69,7 @@
      CATE : [----Choose category----]    MÀN HÌNH ỨNG VỚI CỘT TRONG TABLE 1, VÍ DỤ CATEGORY     
              > Bia/rượu
              > Thực phẩm đông lạnh          |Id | Name                | Desc    |
-             > Bánh kẹo                      1    Bia/rượu              ...
+             > Cà phê                        1    Bia/rượu              ...
              > Văn phòng phẩm                2    Thực phẩm đông lạnh   ...
      [SAVE]                                  TREO ĐẦU DÊ, LẤY THỊT HEO, SHOW NAME, NHƯNG LẤY ID ĐỂ THẢY LÊN KHOÁ NGOẠI
  
