@@ -1,6 +1,133 @@
 MÌNH ĂN GÌ TỐI NAY CHO NGÀY MAI SUNG SỨC ĐI THI?
 
-RECIPE FOR COOKING A PRACTICAL EXAM SPRINGMVC APP
+RECIPE FOR COOKING A PRACTICAL EXAM SPRINGMVC APP (MÔN HSF302)
+
+I. TOOL VÀ CÔNG CỤ SỬ DỤNG
+1. INTELLIJ
+2. SQL SERVER 2019 (18 OKIE)
+3. WIFI ĐỂ DOWNLOAD DEPENDENCY NGAY LÚC TẠO PROJECT!!!
+4. MS WORD ĐỂ MỞ FILE NOTES.DOCX - GHI CHÚ 1 SỐ THÔNG TIN
+
+>>>>> KO MỞ, DÙNG CÁC TOOL KHÁC, VÌ SẼ BỊ APP EXAM NÓ LOG LẠI
+      SAU NÀY HẬU KIỂM, CÓ THỨ LẠ ĐC MỞ -> 0 ĐIỂM!!!
+
+II. TẠO BÀI
+1. TẠO 1 THƯ MỤC TRÊN DESKTOP 
+  * KO ĐỂ Ở THƯ MỤC DOWNLOADS\, ZALO DOWNLOADS\, GOOGLE DRIVE, ONE DRIVE, ... DRIVE
+    VÌ RẤT DỄ BỊ XUNG ĐỘT VỚI CÁI TOOL ĐỒNG BỘ LÊN CLOUD, ẢNH HƯỞNG QUÁ TRÌNH BIÊN DỊCH 
+    APP! KO DỄ TÌM RA NGUYÊN NHÂN TRONG PHÒNG THI.
+    -> ĐỂ FIX CHỈ CẦN MOVE APP SANG THƯ MỤC
+    KO PHẢI ĐÁM TRÊN  
+
+  * TẠO THƯ MỤC VÍ DỤ HSF302-PE\, HSF302_PE\ TRÊN DESKTOP, RỒI NHÉT APP VÀO TRONG THƯ
+    MỤC NÀY
+
+2. TẠO PROJECT SPRING BOOT (MAVEN), CẦN WIFI NGAY!!! BÁO GIÁM THỊ LÀ GIÁM THỊ BIẾT
+2.1 ĐẶT TÊN PROJECT ĐÚNG CHUẨN NHÀ TRƯỜNG YÊU CẦU
+2.2 ĐẶT TÊN PACKAGE ĐÚNG CHUẨN NHÀ TRƯỜNG YÊU CẦU
+2.3 ĐẶT TÊN CÁC PACKAGE CON ĐÚNG CHUẨN NHÀ TRƯỜNG YÊU CẦU
+2.4 CHỌN JDK 21, HOẶC 24
+2.5 CHỌN 5 OPTIONS...
+2.6 BỔ SUNG NGAY CÁI VALIDATION DEPENDENCY SAU KHI TẠO XONG PROJECT!!! ĐỒNG BỘ NGAY POM.XML
+    BẰNG CÁCH NHẤN CTRL-SHIFT-O
+    LẤY THÔNG TIN DEPENDENCY NÀY Ở TRONG FILE NOTES.DOCX (KO LÊN WEB MVNREPOSITORY.COM ĐỂ LẤY)
+    
+2.7 TẠO DATABASE TRONG SQL SERVER, TÊN DATABASE ĐÚNG NHƯ ĐỀ THI YÊU CẦU
+    VÍ DỤ NÀY TUI DÙNG TÊN: Bookstore 
+
+2.8 QUAN TRỌNG: CẤU HÌNH APP TRONG FILE application.properties 
+                                        !!!!!!!!!!!!! **********************************
+
+    THÔNG TIN CẤU HÌNH NẰM TRONG FILE NOTES.DOCX: KẾT NỐI CSDL, JPA/HIBERNATE, THYMELEAF 
+    (ĐỀ THI MẪU BỊ THIẾU PHẦN KHAI BÁO THYMELEAF) 
+
+    * SỬA USER/PASS MÓC VÀO SQL SERVER THEO MÁY CỦA BẠN; KO CẦN SỬA LẠI KHI NỘP BÀI!!!
+
+    >>>>> RUN THỬ APP ĐỂ XEM TOMCAT CHẠY ĐC KO, NÓ THỬ CONNECT DB LUÔN ĐẤY!!!
+          TOANG: LÚC NÀY CHỦ YẾU LÀ CHƯA TẠO DB, SETUP SAI PASS!!!
+          OKIE: TÍN HIỆU MÀU ĐỎ NẰM CHÌNH ÌNH KO TẮT 
+                                            KẾ BÊN NÚT RUN BÁO RẰNG APP/TOMCAT SẴN SÀNG LẮNG NGHE
+            
+                         
+III. TẠO CẤU TRÚC PROJECT
+    * CẤU TRÚC THƯ MỤC (PACKAGE) NGAY GỐC THÌ TẠO ĐỦ, GIỐNG THEO ĐỀ THI YÊU CẦU
+
+    \pojo 
+    (là \entity, hoặc \model, hoặc \dto...) => GHÉT ĐỀ Ở CHỖ NÀY, NHƯNG NGHIẾN RĂNG ĐẶT THEO!!!
+   
+    \repository
+    \service
+    \controller 
+    \config 
+
+    * CẤU TRÚC VIEW (TRANG THYMELEAF HTML VÀ CSS)
+    resources\
+       static\
+          css\               -> phải chuột, new Directory, gõ css 
+             style.css       -> phải chuột, new Stylesheet, gõ style
+       templates\
+             login.html      -> phải chuột, new HTML file
+             books.html      -> ứng với tên table chính (table phía N)
+             book-form.html  -> ứng với edit/create table chính  
+                   
+IV. VIẾT CODE...
+
+VI. NỘP BÀI:
+- CÁCH 1: UPLOAD THƯ MỤC PROJECT Ở DESKTOP
+- CÁCH 2: NÉN THƯ MỤC PROJECT .ZIP .RAR RỒI UPLOAD FILE NÉN LÊN!!!
+              
+IV. VIẾT VIEW...
+1. CSS NẾU CÓ LÀM 
+   CÓ THỂ TÁCH RIÊNG FILE .CSS
+   HAY ĐỂ TRONG FILE .HTML 
+   HAY GÕ TRỰC TIẾP TRONG CÁC TAG <p style="color:red;">????</p>  
+
+   CẦN LƯU Ý PHẦN STYLE: FONT CHỮ, MÀU NỀN, MÀU CHỮ
+   FontFamily = Arial
+   FontSize of the Text = 18
+   FontSize of the Title = 24
+   Background Color of page = #02CAA9
+   Color of the text = white
+
+   > DÙNG FILE CSS PLAIN ĐỦ VỚI ĐỀ THI (NHƯNG ĐANG CHƠI MÃ MÀU CỜ ĐỎ SAO VÀNG, BẠN SỬA 
+                                        LẠI CHO PHÙ HỢP ĐỀ)
+
+2. COPY NGUYÊN FILE .CSS, .HTML VÀO PROJECT
+
+3. CHỈNH ĐẦU TRANG <HTML xmlns:th="http://www.thymeleaf.org">
+   CHỈNH LẠI ĐƯỜNG DẪN TRỎ TỚI FILE CSS <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+4. HOÀN THIỆN CODE THYMELEAF MÓC BÊN CONTROLLER
+
+V. VIẾT CODE...
+> TA DÙNG CODE FIRST ĐỂ TẠO TABLE, TẠO DATA NGAY LÚC CHẠY TOMCAT
+> BẮT VALIDATION Ở ENTITY
+
+1. TẠO 3 ENTITY
+   >>>>> NẾU TABLE CHÍNH CÓ KEY TỰ TĂNG, THÌ GÁN SẴN DEFAULT = 0L;
+             @Column(name = "Id")
+             private Long id = 0L;
+         BÊN BOOK-FORM.HTML, CÓ TRUYỀN CÁI FIELD ẨN
+             <input type="hidden" th:field="*{id}" />
+
+
+2. TẠO 3 REPOSITORY -> TẠO THÊM HÀM ĐẶC BIỆT TỰ SINH, NHƯNG PHẢI GÕ TÊN HÀM
+3. TẠO 3 SERVICE    -> TẠO HÀM GỌI LẠI REPO
+4. TẠO 2 CONFIG
+   - TỰ ĐỘNG CHÈN/INSERT DATA XUỐNG DB
+   - TỰ ĐỘNG AUDITING NGÀY THÁNG NĂM
+
+
+>>>>> CHÚC ANH EM XỨ XAVALO VÀ TOÀN BỘ XỨ F MÙA THI PE, MÙA THI TE, MÙA THI FINAL
+      GREEN 4EVER - SỐNG XANH - PASSED MÀU XANH
+      THI XONG MƠ TOP 100 :) 
+
+      HAPPY CODE | HAPPY MONEY | HAPPY LIFE
+   
+      LIVE ĐẾN GẦN SÁNG SỚM, ÔN BÀI RỒI ĐI THI LUÔN, LẤY ĐIỂM TỪ 9 UP!!!
+   
+   
+   
 
 
 
