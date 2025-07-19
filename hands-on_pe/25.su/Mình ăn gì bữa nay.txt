@@ -1,0 +1,96 @@
+MÌNH ĂN GÌ TỐI NAY CHO NGÀY MAI SUNG SỨC ĐI THI?
+
+RECIPE FOR COOKING A PRACTICAL EXAM SPRINGMVC APP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MÌNH ĂN GÌ TỐI SÁNG NAY? AUTHENTICATION (XÁC THỰC) & AUTHORIZATION (PHÂN QUYỀN)
+
+* LOGIN: DÙNG [EMAIL & PASSWORD], HOẶC [ID & PASS] TUỲ ĐỀ BÀI
+* ROLE: ADMIN-1, STAFF-2, MEMBER-3 
+  ...
+
+1. XÁC THỰC - AUTHEN - MÌNH QUEN BIẾT NHAU HEM? => LOGIN 
+* LOGIN QUA EMAIL & PASSWORD, HOẶC ID & PASS
+
+* NẾU CÓ THỂ, BÁO LỖI LOGIN CỤ THỂ:
+  - EMAIL SAI (PASS KO CARE)                                      -> ACCOUNT KO TỒN TẠI -> SIGN-UP
+  - EMAIL ĐÚNG & PASS SAI                                         -> SAI PASS -> RESET
+  - EMAIL ĐÚNG & PASS ĐÚNG & ROLE (MEMBER)                        -> ĐUỔI RA LUÔN
+  - EMAIL ĐÚNG & PASS ĐÚNG & ROLE (ADMIN, STAFF) & ACTIVE = FALSE -> INVALID CREDENTIALS
+  - EMAIL ĐÚNG & PASS ĐÚNG & ROLE (ADMIN, STAFF) & ACTIVE = TRUE  -> VÀO TRANG /products FULL KO CHE DATA    
+
+2. PHÂN QUYỀN - AUTHOR - MÌNH ĐÃ QUEN NHAU VÀ ... ĐƯỢC LÀM GÌ NHAU? => IF/ELSE
+  1 -> ADMIN : FULL KO CHE QUYỀN CRUD
+  2 -> STAFF : CHỈ XEM FULL DATA VÀ SEARCH, CẤM CUD 
+  3 -> MEMBER: CẤM CỬA, CẤM SỜ HIỆN VẬT 
+  
+3. GÕ TRỰC TIẾP URL: 
+- CẤM CỬA GÕ TRỰC TIẾP, LỘI VÒNG VỀ LOGIN NẾU CHƯA LOGIN
+- PHẢI KHỞI ĐI TỪ MÀN HÌNH CHÍNH /products [NÂNG CAO THÁCH THỨC DANH HÀI, BẤM LINK, THAY VÌ GÕ URL] 
+
+=====> CÁC METHOD TRONG AuthController
+@GetMapping({"/", "/login", "/ngoctrinh"})  //TRẢ VỀ TRANG LOGIN TRƯỚC CÁI ĐÃ, KO TRẢ VỀ LẤY CHỖ NÀO MÀ GÕ
+                                            //EMAIL VÀ PASS?
+@GetMapping("/logout")                      //XOÁ SESSION NGAY MÀ KO CHỜ TIMEOUT 30 PHÚT       
+ 
+@PostMapping("/auth")                       //LOGIN, THIẾT LẬP SESSION THÙNG CHỨA 30 PHÚT, LUÂN CHUYỂN INFO
+                                            //GIỮA MỌI TRANG CỦA 1 USER ĐANG LOGIN (COOKIE, SESSION ID)
+                                            //
+
+=====> CÁC METHOD ĐANG CÓ TRONG ProductController
+
+@GetMapping("/products")               //SHOW FULL SẢN PHẨM, ĐC GỌI TỪ LOGIN ->
+@GetMapping("/products/edit/{id}")     //CLICK LINK EDIT 1 SẢN PHẨM      CÙNG MỞ  PRODUCT-FORM.HTML: selectedOne, cates
+@GetMapping("/products/new")           //CLICK LINK TẠO MỚI 1 SẢN PHẨM   CÙNG MỞ  PRODUCT-FORM.HTML: selectedOne, cates
+@PostMapping("/products/save")         //CLICK [SAVE] BUTTON TRÊN FORM   SAVE BẤT CHẤP EDIT VÀ NEW
+@GetMapping("/products/delete/{id}")   //CLICK LINK XOÁ 1 SẢN PHẨM
+
+ 
+server.servlet.session.timeout=30m # 30 phút
+
+
+
+
+
+
+
+
+
+
+
+MÌNH ĂN GÌ BỮA NAY? (MÔ PHỎNG LẠI QUÁ TRÌNH LÀM BÀI THI PE - PRACTICAL EXAM)
+
+1. TẠO 1 PROJECT SPRING BOOT MVC (5 OPTIONS CẦN CHỌN)
+
+2. MÓC NỐI VÀO CSDL - XÀI SPRING DATA: SPRING JPA/HIBERNATE
+
+3. CODE FIRST, TẠO TABLE SCHEMA, TẠO DATA SẴN CHO TABLE KHI RUN APP!!!
+   CẤM TUYỆT ĐỐI VÀO SQL SERVER MANAGEMENT STUDIO, TẠO TABLE, INSERT DATA 
+   TRỰC TIẾP!!! MỌI THỨ PHẢI QUA CODE
+
+4. 3-LAYER: XÂY DỰNG CÁC CLASS XỬ LÍ DATA TỪ TABLE, TỪ OBJECT -> TABLE
+ 
+5. HIỂN THỊ TRANG WEB VỚI DATA LẤY TỪ TABLE 
+     
+6. ...
+
+>>>>> TOÀN BỘ KIẾN THỨC PHÍA TRÊN ĐÃ HỌC TRÊN LỚP RỒI, BỮA NAY RÁP BÀI!!!
+
+
+
