@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="64" height="64" viewBox="0 0 64 64">
+
+  <!-- FRAME: bordeaux (1.5px) → white (1.5px) → bordeaux -->
+  <rect x="0" y="0" width="64" height="64" fill="#5A0F24"/>
+  <rect x="1.5" y="1.5" width="61" height="61" fill="#FFFFFF"/>
+  <rect x="3" y="3" width="58" height="58" fill="#6B0F2A"/>
+
+  <!-- g ♥ l : giữ nguyên toàn bộ bố cục -->
+  <g stroke="#FFFFFF"
+     fill="none"
+     stroke-width="3.8"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     transform="translate(26 33) scale(0.78 1.02) translate(-32 -34)">
+
+    <!-- g -->
+    <g transform="translate(-3 0)">
+      <path d="
+        M 31 14
+        C 25 14, 22 18, 22 24
+        C 22 30, 25 34, 31 34
+        C 37 34, 40 30, 40 24
+        C 40 18, 37 14, 31 14
+        Z"/>
+      <path d="
+        M 33 14
+        C 37 11, 43 14, 41 19"/>
+      <path d="
+        M 40 24
+        L 40 46
+        C 40 52, 35 55, 30 55
+        C 25 55, 22 52, 22 49"/>
+      <path d="
+        M 22 49
+        C 22 45, 26 43, 30 43
+        C 34 43, 38 45, 38 48
+        C 38 51, 34 53, 30 53
+        C 26 53, 22 51, 22 49
+        Z"/>
+    </g>
+
+    <!-- dot = vẩy cong, tụt xuống -->
+    <path d="
+      M 44 51
+      C 45.5 52.2, 47.2 52, 48.2 50.8
+    "/>
+
+
+
+    <!-- l -->
+    <g transform="translate(1.5 0)">
+      <path d="
+        M 54 14
+        C 55 13, 56.5 13.5, 56.2 15
+        L 56.2 54
+        Q 56.2 54.5 57.2 54.5
+        Q 58.2 54.5 59 54
+      "/>
+    </g>
+
+  </g>
+
+</svg>

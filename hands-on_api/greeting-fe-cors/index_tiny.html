@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minimal fetch demo (CORS)</title>
+</head>
+<body>
+  <!-- Mục tiêu: tối giản để tập trung vào "fetch" và demo hiện tượng CORS -->
+  <button id="btn">Call /api/greeting/fu</button>
+  <pre id="out">(chưa gọi)</pre>
+
+  <script>
+    // Spring Boot đang chạy ở đây (KHÁC origin với trang HTML -> dễ gặp CORS)
+    const url = "http://localhost:6969/api/greeting/fu";
+
+    document.getElementById("btn").onclick = async () => {
+      const out = document.getElementById("out");
+      out.textContent = "Calling: " + url + "\n";
+
+      try {
+        // Fetch mặc định là GET
+        const res = await fetch(url);
+
+        // In status + body để quan sát
+        const text = await res.text();
+        out.textContent += "Status: " + res.status + " " + res.statusText + "\n\n" + text;
+      } catch (e) {
+        // Nếu bị CORS, thường sẽ rơi vào catch với TypeError: Failed to fetch
+        out.textContent += "ERROR: " + e;
+      }
+    };
+  </script>
+</body>
+</html>
