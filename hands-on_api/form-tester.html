@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Form - POST /save</title>
+</head>
+
+<body>
+  <h1>Nhập thông tin sinh viên</h1>
+
+  <!--
+    - method="post": gửi theo HTTP POST
+    - action="/save": gửi tới link /save (cùng domain/host hiện tại)
+    - enctype mặc định là application/x-www-form-urlencoded (dễ debug)
+  -->
+  <form action="/save" method="POST">
+    <fieldset>
+      <legend>Student</legend>
+
+      <p>
+        <label for="id">ID</label><br />
+        <input
+          type="text"
+          id="id"
+          name="id"
+          placeholder="VD: SV001"
+          required
+          autocomplete="off"
+        />
+      </p>
+
+      <p>
+        <label for="name">Name</label><br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="VD: Nguyễn Văn A"
+          required
+        />
+      </p>
+
+      <p>
+        <label for="yob">Year of birth (YOB)</label><br />
+        <input
+          type="number"
+          id="yob"
+          name="yob"
+          placeholder="VD: 2004"
+          min="1900"
+          max="2100"
+          required
+        />
+      </p>
+
+      <button type="submit">Save (POST /save)</button>
+    </fieldset>
+  </form>
+</body>
+</html>

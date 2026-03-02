@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <title>POST JSON Demo</title>
+</head>
+<body>
+
+  <h2>Student Form</h2>
+
+  <form id="studentForm">
+    <input name="id" placeholder="ID" required />
+    <input name="name" placeholder="Name" required />
+    <input name="yob" type="number" placeholder="YOB" required />
+    <button type="submit">Save</button>
+  </form>
+
+  <script>
+    document.getElementById("studentForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // chặn submit mặc định
+
+      const form = e.target;
+
+      const data = {
+        id: form.id.value,
+        name: form.name.value,
+        yob: Number(form.yob.value)
+      };
+
+      fetch("/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+    });
+  </script>
+
+</body>
+</html>

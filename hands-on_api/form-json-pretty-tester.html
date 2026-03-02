@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Form - POST /save (JSON)</title>
+</head>
+
+<body>
+  <h1>Nhập thông tin sinh viên</h1>
+
+  <!-- UI giữ giống bản bạn, chỉ đổi cách gửi sang JSON bằng JS -->
+  <form id="studentForm" action="/save" method="POST">
+    <fieldset>
+      <legend>Student</legend>
+
+      <p>
+        <label for="id">ID</label><br />
+        <input
+          type="text"
+          id="id"
+          name="id"
+          placeholder="VD: SV001"
+          required
+          autocomplete="off"
+        />
+      </p>
+
+      <p>
+        <label for="name">Name</label><br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="VD: Nguyễn Văn A"
+          required
+        />
+      </p>
+
+      <p>
+        <label for="yob">Year of birth (YOB)</label><br />
+        <input
+          type="number"
+          id="yob"
+          name="yob"
+          placeholder="VD: 2004"
+          min="1900"
+          max="2100"
+          required
+        />
+      </p>
+
+      <button type="submit">Save (POST /save)</button>
+    </fieldset>
+  </form>
+
+  <script>
+    document.getElementById("studentForm").addEventListener("submit", async (e) => {
+      e.preventDefault(); // chặn submit form dạng x-www-form-urlencoded
+
+      const form = e.target;
+
+      const payload = {
+        id: form.id.value.trim(),
+        name: form.name.value.trim(),
+        yob: Number(form.yob.value)
+      };
+
+      // Gửi đúng endpoint trong action (ở đây là /save)
+      await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    });
+  </script>
+</body>
+</html>
