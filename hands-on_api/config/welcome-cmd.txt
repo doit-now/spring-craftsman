@@ -1,0 +1,26 @@
+private static void printStartupInfo() {
+        System.out.println("""                
+                ╔═══════════════════════════════════════════════════════════╗
+                ║                                                           ║
+                ║   🍎             MÂM NGŨ QUẢ REST API               🍎   ║
+                ║   🍎 FRUIT MANAGEMENT SYSTEM - STARTED SUCCESSFULLY 🍎   ║
+                ║                                                           ║
+                ╠═══════════════════════════════════════════════════════════╣
+                ║                                                           ║
+                ║ 📌 Server:    http://localhost:6969                       ║
+                ║ 📚 Swagger:   http://localhost:6969/swagger-ui.html       ║
+                ║                                                           ║
+                ║ ✅ 3 Sample Fruits Pre-loaded in Database: SQL Server/H2  ║
+                ║                                                           ║
+                ║ 🚀 API Endpoints:                                         ║       
+                ║     • GET    /api/fruits                                  ║
+                ║     • GET    /api/fruits/page                             ║
+                ║     • GET    /api/fruits/{id}                             ║
+                ║     • GET    /api/fruits/types                            ║
+                ║     • POST   /api/fruits                                  ║
+                ║     • PUT    /api/fruits/{id}                             ║
+                ║     • DELETE /api/fruits/{id}                             ║            
+                ║                                                           ║
+                ╚═══════════════════════════════════════════════════════════╝
+                """);
+    }

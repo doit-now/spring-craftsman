@@ -1,0 +1,14 @@
+==========================================================================================
+=============                        CẤU HÌNH NGROK                        ===============
+=============                       © 2026 giáo.làng                       ===============
+==========================================================================================
+
+>_ 2 LỆNH PUBLIC FE, BE CỦA BẠN RA THẾ GIỚI ********************************************
+
+# Vào link để lấy token: https://dashboard.ngrok.com/get-started/your-authtoken (nhớ đăng ký account trước) 
+>_ ngrok config add-authtoken YOUR_TOKEN_HERE          
+   
+
+# Muốn public cổng Back-End hoặc Front-End nào thì truyền vào  
+>_ ngrok http YOUR_LOCALHOST_PORT                      
+

@@ -1,0 +1,76 @@
+# Application Properties ============================================
+spring:
+  application:
+    name: Mam-ngu-qua
+
+
+
+  # H2 la` DB nhu'ng trong RAM, ko ca^`n ca`i -da(.t rie^ng, kho+?i cha.y cu`ng lu'c run app
+  # Du`ng cho dev/test — du+~ liê.u ma^'t khi restart app
+  # Ne^'u muo^'n lu*u ra file (ko ma^'t khi restart app):
+
+  # H2 Configuration ============================================
+  datasource:
+    url: jdbc:h2:mem:mamnguqua    # mem: = lu+u trong RAM, mamnguqua la` te^n database
+    username: sa                  # ma(.c -di.nh cu?a H2
+    password:                     # ma(.c -dịnh cu?a H2 la` ro^~ng
+    driver-class-name: org.h2.Driver
+
+  # H2 Console — giao diê.n web -de^? xem database tru*.c tie^'p tre^n browser
+  h2:
+    console:
+      enabled: true               # ba^.t console
+      path: /h2-console           # truy ca^.p ta.i: http://localhost:6969/h2-console
+      # -Die^`n va`o console: JDBC URL = jdbc:h2:mem:mamnguqua, username = sa, password = (tro^'ng)
+
+  # JPA/Hibernate Configuration ============================================
+  jpa:
+    hibernate:
+      ddl-auto: create-drop      
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect  # ba'o Hibernate du`ng cu' pha'p SQL cu?a H2
+
+
+
+  # Data Serialization Mode ============================================
+  data:
+    web:
+      pageable:
+        serialization-mode: via_dto
+
+  # CORS Configuration ============================================
+  web:
+    cors:
+      allowed-origins: http://localhost:3000,http://localhost:8080
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+
+
+# Server Configuration ============================================
+server:
+  port: 6969
+
+
+# JWT Configuration ============================================
+jwt:
+  secret: mamnguqua-fruit-management-system-secret-key
+  expiration: 86400000            # 24 hours = 86.400.000 milliseconds
+
+
+# Swagger/OpenAPI Configuration ============================================
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+
+# Logging Configuration ============================================
+logging:
+  level:
+    com.giaolang.mamnguqua: DEBUG
+    org.springframework.security: INFO

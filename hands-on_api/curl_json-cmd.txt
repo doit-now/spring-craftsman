@@ -1,0 +1,35 @@
+==========================================================================================
+=============                         JSON VÀ CMD                          ===============
+=============                       © 2026 giáo.làng                       ===============
+==========================================================================================
+
+0. JSON MẪU - MỘT OBJECT *****************************************************************
+{"id":1,"name":"Cafe Java chủ nhật","price":29000.0}
+
+
+1. JSON MẪU - MẢNG OBJECT ****************************************************************
+[
+  {"id":1,"name":"Cafe Java chủ nhật","price":29000.0},
+  {"id":2,"name":"Cà phê sữa đá","price":20000.0},
+  {"id":3,"name":"Bạc xỉu","price":25000.0},
+  {"id":4,"name":"Cafe muối","price":22000.0}
+]
+
+
+2. TEST POST API TRONG LINUX TERMINAL ****************************************************
+>_ curl -X POST "http://localhost:6969/api/add" \
+     -H "Content-Type: application/json" \
+     -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
+
+
+3. TEST POST API TRONG WINDOWS TERMINAL **************************************************
+>_ curl -X POST "http://localhost:6969/api/add" ^
+     -H "Content-Type: application/json" ^
+     -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
+
+//Dấu ^ dùng để xuống hàng nếu lệnh dài phải viết trên nhiều dòng!!!
+
+
+4. TEST POST API DÙNG CHUNG 2 MÔI TRƯỜNG WINDOWS, LINUX  ********************************* 
+>_ curl -X POST "http://localhost:6969/api/add" -H "Content-Type: application/json" -d "{\"id\":1,\"name\":\"Cafe Java chủ nhật\",\"price\":29000}"
+
