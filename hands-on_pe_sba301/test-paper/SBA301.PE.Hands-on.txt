@@ -1,0 +1,142 @@
+=====================================================================================
+             PRACTICAL EXAM STYLE "VIBE CODING" & "REVERSE ENGINEERING"
+=====================================================================================
+I. BACK-END - SPRING BOOT API
+
+* LƯU Ý CÀI ĐẶT BIẾN MÔI TRƯỜNG JAVA_HOME TRỎ TỚI -> C:\PROGRAM FILES\JAVA\JDK-CỦA-BẠN
+
+- ĐỀ THI CHO SẴN PROJECT SPRING BOOT API, KO CẦN VIẾT THÊM CODE CHO API!!! 
+
+- SOURCE CODE GỐC THÌ CÓ THỂ KHÁC, HOẶC CHƯA CÓ MAVEN DEPENDENCY VERSION VỚI MÁY MÌNH
+  -> FIX: 
+     KHI MỞ PROJECT TRONG INTELLIJ, INTELLIJ SẼ TỰ ĐỘNG UPDATE GIÚP MÌNH CÁI DEPENDENCY!!!
+
+- SOURCE CODE GỐC THÌ CÓ THỂ KHÁC JDK MÁY MÌNH, KHI LOAD LÊN TRONG INTELLIJ SẼ BỊ MẤT
+  DẤU VẾT JDK, BỊ DISABLE NÚT BẤM BUILD & RUN (PLAY BUTTON)
+  -> FIX: 
+     MENU FILE | PROJECT STRUCTURE | TRONG MỤC SDK CHỌN JDK ĐANG CÓ TRÊN MÁY MÌNH | OK
+  
+  -> FIX NÚT PLAY MÀU XÁM: KẾ BÊN NÚT PLAY | EDIT CONFIGURATIONS... | ADD NEW RUN CONFIGURATION... 
+     | APPLICATION 
+     | TICK VÀO MAIN CLASS | CHỜ SEARCH RA SPRING BOOT MAIN APP | CHỌN MAIN APP | 
+       CÓ THỂ NHẬP THÊM TÊN CHO PHẦN CẤU HÌNH Ở TRÊN CÙNG
+     
+- SỬA BACK-END ĐỂ ENABLE CORS TRONG CÁC FILE CONTROLLER. ADD DÒNG CORS VÀO TẤT CẢ CÁC CONTROLLER
+  THÊM DÒNG LỆNH NGAY ĐẦU CONTROLLER
+  @CrossOrigin(origins = "http://localhost:5173")
+
+- TẠO MỚI DATABASE TRONG SQL SERVER THEO ĐỀ THI, VÀ CHỈNH NÓ Ở TRONG FILE CẤU HÌNH 
+  APPLICATION.PROPERTIES
+- ĐỔI LẠI PASSWORD PHÙ HỢP MÁY MÌNH. 
+
+- RUN BACK-END API, VÀO LOCALHOST:8080/SWAGGER-UI.HTML ĐỂ XEM DANH SÁCH CÁC END-POINT VÀ TEST THỬ
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>> ĐỂ CHUẨN BỊ TỐT CHO PHẦN FRONT-END KHI GỌI API, ĐẶC BIỆT API POST (JSON ĐƯA LÊN)
+                                                               API GET  (JSON NHẬN VỀ)
+      
+      TA PHẢI VÀO XEM KĨ SỐ FIELD, TÊN FIELD CỦA PACKAGE DTO - CHỨA CÁC CLASS CUNG CẤP DATA 
+      CHO API HAY API TRẢ VỀ CHO FE. 
+      
+      API KO CHƠI TRỰC TIẾP VỚI ENTITY (MAP 1 - 1 VỚI TABLE DB) 
+      
+      TA VÀO TRONG 2 PACKAGE DTO, VÀ ENTITY ĐỂ KIỂM TRA TÊN CÁC FIELD CỦA TABLE CHÍNH
+      VÌ NÓ SẼ NẰM TRONG PROPERTY CỦA FILE JSON GỬI NHẬN VỚI FE
+    
+      PHÁT HIỆN ĐƯỢC RESPONSE TRẢ VỀ CHO FE ĐÃ JOIN SẴN 2 TABLE 1 - N ĐỂ LẤY ĐC CỘT NAME/DESC CỦA
+      TABLE 1 (LẤY ĐC CATEGORY NAME, TYPE NAME TRONG MỐI QUAN HỆ 1 CATEGORY CÓ NHIỀU SHOES/FRUITS)
+
+II. FRONT-END - REACT VỚI JS
+0. DÙNG LOVABLE, AI TOOLS ĐỂ TẠO PROJECT ***********************************************
+
+* TA SẼ NHỜ LOVEABLE, HOẶC 1 AI TOOL NÀO ĐÓ GENERATE NGUYÊN PROJECT CHO CHÚNG TA ĐỂ TỪ ĐÓ TA HỌC
+KĨ THUẬT LÀM APP REACT "CHUYÊN NGHIỆP" - REVERSE ENGINEERING (CÓ SẢN PHẨM RỒI RÃ RA XEM BÊN TRONG)
+
+* ĐĂNG KÍ TÀI KHOẢN LOVABLE. 
+  DEFAULT TẶNG 5 CREDITS, TA GENERATE ĐƯỢC KHOẢNG 3 LẦN, NGÀY MAI RESET LẠI CREDITS
+
+* TẠO SẴN 1 REPO - KHO CHỨA SOURCE CODE TRÊN GITHUB NHÀ MÌNH
+  ĐỂ LÁT HỒI LOVABLE CONNECT SANG, FILL PROJECT SANG LUÔN!!!
+  Ví dụ: repo: 26.sp.pe.sba301
+
+
+1. PROMPT TRONG AI TOOL: TỐT CHO CHATGPT, LOVEABLE,... *******************************************
+
+Đính kèm là đề thi mẫu môn học làm app React sử dụng Java Script kết hợp gọi API Spring Boot. Không sử dụng TypeScript  
+Tôi nhờ bạn generate giúp tôi app React với các yêu cầu sau:
+1. Về cấu hình app
+- API không cần làm, hãy sử dụng các endpoint theo đầu bài
+- Tuân thủ đầu bài về các thư viện và công nghệ sử dụng. Chỉ sử dụng các thư viện được đề xuất
+- Thư viện sử dụng: React Boostrap, Axios, React Router DOM, Vite.
+- Tất cả các thư viện dùng version mới nhất hiện nay. (Theo tôi được biết React đang là version 19.x hoặc 20.x)
+- Code dự án dùng JavaScript, TUYỆT ĐỐI KHÔNG DÙNG TypeScript  
+- Port API là 8080
+- Port của React app là 5173
+ 
+2. Về chức năng VÀ UI:
+- Đây là app CRUD cặp table One to Many Category and Shoes, nhưng tính năng chính chỉ tập trung CRUD trên table Many Shoes
+- Chức năng chi tiết bạn xem các hình mô tả trong đề thi
+- Trong đề có thấy màn hình chính, Shoes List có phần phân trang, và API cũng đã có hỗ trợ phân trang pagination trên các tiêu chí: page, size, sort by field (default shoesName), sort by direction. Tôi đính kèm thông tin field trả về của phần phân trang ở mục 3 ở ngay dưới. Màn hình bạn chỉ cần làm kết quả điều hướng phân trang, không cần thiết kế phần lựa chọn page, size... trên màn hình.
+- Giao diện tuân thủ đúng các field, layout mà đã chỉ ra trong hình đề thi và hình đính kèm tôi đã tách riêng
+- Giao diện trang web DÙNG TIẾNG ANH như trong đề thi yêu cầu, đúng đủ field không tự thêm bớt.
+- Về Action, bạn thêm link Edit, kế bên link View, màn hình Edit giống màn hình tạo mới Add New, nhưng khác màn hình View. Các màn hình tôi có đính kèm riêng theo prompt.
+- Về validation làm cơ bản: tên sản phẩm không trùng, số trong 1 đoạn, các field required, ngày tháng năm theo dd/mm/yyyy, đừng làm code thêm phức tạp, giữ đủ đơn giản để cho người mới bắt đầu có thể tiếp cận code nhanh chóng. Validation hiển thị đỏ cạnh input (inline)
+- Dùng bảng màu mặc định của React Boostrap, không chế thêm CSS để khiến code thêm phức tạp cho người mới bắt đầu
+
+3. Các field của Request, ResponseEntity (dto) từ API như sau:
+public class PageResponse<T> {
+    private List<T> content;
+    private int currentPage;
+    private int pageSize;
+    private long totalElements;
+    private int totalPages;
+    private boolean first;
+    private boolean last;
+}
+public class ShoesCategoryResponse {
+    private Long id;
+    private String categoryName;
+    private String description;
+}
+public class ShoesRequest {
+    private String shoesName;
+    private double price;
+    private int quantity;
+    private String manufacturer;
+    private Date productionDate;
+    private Date importDate;
+    private Long categoryId;
+}
+public class ShoesResponse {
+    private Long shoesId;
+    private String shoesName;
+    private double price;
+    private int quantity;
+    private String manufacturer;
+    private Date productionDate;
+    private Date importDate;
+    private String categoryName;
+}
+ 
+4. Về kiến trúc dự án:
+- Vì thời lượng làm project chỉ trong vòng 80 phút, bạn generate cấu trúc dự án theo quy ước chuẩn công nghiệp mới nhất hiện nay, nhưng có thể rút gọn, compact lại cho phù hợp thời gian nhưng vẫn không làm sai lệch tiêu chuẩn công nghiệp. Cấu trúc dự án chưa cần tính toán quá mức cho phần scale up - mở rộng như dự án enterprise trong tương lai, nhưng vẫn giúp tôi học hỏi được code theo chuẩn công nghiệp
+- XOÁ TẤT CẢ CÁC FILE CẤU HÌNH DƯ KHÔNG CẦN CHO BÀI NÀY, VÍ DỤ: CẤU HÌNH TAILWIND, CẤU HÌNH TYPESCRIPT... 
+- GIỮ CẤU TRÚC CODE GỌN NHẸ CHO SINH VIÊN MỚI BẮT ĐẦU, CLEAN, ĐỪNG TÁCH QUÁ PHỨC TẠP CHO NGƯỜI MỚI BẮT ĐẦU. TỐT NHẤT CODE CHỈ CHỨA THƯ MỤC 1 TẦNG, KHÔNG TÁCH SUB FOLDER SÂU. KIỂU NHƯ CHỈ CÓ DẠNG PAGES, COMPONENTS...
+
+5. Về tên app
+- App đặt tên là sba301-pe-sms  
+
+6. Về ghi chú:
+Toàn bộ project được generate bạn bổ sung thêm ghi chú trong từng file source code, thêm các thông tin sau để tôi học hỏi từ source code của bạn:
+- Ghi chú đầu file source code mục đích chung của file source
+- Ghi chú đầu các hàm, method, page, component...
+- Ghi chú các câu lệnh quan trọng trong source code liên quan đến kĩ thuật, thuật toán
+- Toàn bộ ghi chú ghi bằng tiếng Việt để tôi tiện học hỏi
+- Bạn cũng generate cho tôi 1 file markdown .md riêng giải thích tổng quát toàn bộ dự án, từ cấu trúc dự án, thư mục dự án, luồng chạy, kĩ thuật áp dụng, giải thích source code, hay những ghi chú bạn thấy cần thiết để tôi tự học hỏi lại, để tôi có thể tự tái tạo/reproduce 1 project tương đương
+
+TỔNG QUAN: GIỮ CODE ĐỦ ĐƠN GIẢN, KHÔNG THÊM PHẦN THỪA HAY MỞ RỘNG NÀO TRONG TƯƠNG LAI, ĐỂ DỄ DÀNG CHO NGƯỜI MỚI HỌC, CHO REVERSE ENGINEERING
+
+Nén dự án thành file .zip để tôi download
+ 
+26.sp.pe.sba301
+
