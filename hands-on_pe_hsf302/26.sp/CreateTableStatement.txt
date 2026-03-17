@@ -1,0 +1,36 @@
+USE [HSF302_2025_PE]
+GO
+CREATE TABLE [dbo].[shoes](
+	[shoes_id] [int] IDENTITY(1,1) NOT NULL,
+	[shoes_no] [nvarchar](10) UNIQUE NOT NULL,
+	[shoes_name] [nvarchar](100) NOT NULL,
+	[price] [float] NOT NULL,
+	[type] [nvarchar](10) NOT NULL
+) ON [PRIMARY]
+
+GO
+CREATE TABLE [dbo].[shoes_type](
+	[type_code] [nvarchar](10) UNIQUE NOT NULL,
+	[type_name] [nvarchar](50) NOT NULL
+) ON [PRIMARY]
+GO
+
+INSERT INTO [dbo].[shoes_type]
+           ([type_code]
+           ,[type_name])
+     VALUES
+           ('TN','Tennis')
+GO
+INSERT INTO [dbo].[shoes_type]
+           ([type_code]
+           ,[type_name])
+     VALUES
+           ('SP','Sport')
+GO
+
+INSERT INTO [dbo].[shoes_type]
+           ([type_code]
+           ,[type_name])
+     VALUES
+           ('RN','Running');
+GO
