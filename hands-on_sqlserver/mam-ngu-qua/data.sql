@@ -3,9 +3,11 @@
 -- Sample data
 -- =============================================
 
--- Category
-INSERT INTO Category (name)
-VALUES (N'Trái cây');
+-- Category: 3 loại trái cây
+INSERT INTO Category (name) VALUES
+(N'Trái cây tươi'),
+(N'Trái cây khô'),
+(N'Trái cây nhập khẩu');
 
 -- Fruits: Cầu Sung Dừa Đủ Xoài
 INSERT INTO Fruit (name, description, price, expired_date, category_id) VALUES
