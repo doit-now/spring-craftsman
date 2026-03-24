@@ -1,0 +1,20 @@
+spring.application.name=mam-ngu-qua
+
+server.port=6969
+
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=HSF302;encrypt=true;trustServerCertificate=true
+spring.datasource.username=sa
+spring.datasource.password=sa123456
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+
+# Option da`nh cho DB First. Nho+' thie^'t la^.p option ddl-auto=none -di ke`m vo+'i sql.init.mode=always 
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.sql.init.mode=always
+
+
+spring.thymeleaf.cache=false 
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
