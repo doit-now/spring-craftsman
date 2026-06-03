@@ -1,0 +1,100 @@
+======================================================================================================
+                             KAFKA TRONG MỘT NỐT NHẠC - © 2026 giáo.làng
+======================================================================================================
+
+
+
+======================================================================================================
+pom.xml
+======================================================================================================
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-kafka</artifactId>
+</dependency>
+
+
+
+======================================================================================================
+application.properties - CẤU HÌNH BÊN GỬI MESSAGE - PRODUCER
+======================================================================================================
+
+# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác)
+spring.kafka.bootstrap-servers=localhost:9092
+
+# Bộ mã hóa: Biến dữ liệu chuỗi (String) thành mảng Byte để truyền đi qua mạng
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+
+
+======================================================================================================
+application.properties - CẤU HÌNH BÊN NHẬN MESSAGE - CONSUMER
+======================================================================================================
+
+# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác)
+spring.kafka.bootstrap-servers=localhost:9092
+
+# Group ID để phân cụm các service cùng loại (bắt buộc phải có)
+spring.kafka.consumer.group-id=user-group
+
+# Tự động bắt đầu đọc tin nhắn từ đầu nếu là lần đầu tiên kết nối vào topic
+spring.kafka.consumer.auto-offset-reset=earliest
+
+# Bộ giải mã: Biến mảng Byte nhận được từ mạng quay ngược lại thành chuỗi String
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+
+
+======================================================================================================
+CODE BÊN GỬI MESSAGE - PRODUCER
+======================================================================================================
+
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate; // Công cụ gửi tin nhắn của Spring Kafka
+
+// Gửi tin nhắn vào một "chủ đề" tên là "order-created"
+kafkaTemplate.send("order-created", "69696868");
+
+// service.OrderService
+@Service
+public class OrderService {
+
+    // KafkaTemplate là công cụ gửi message của Spring Kafka
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    public String getOrderById(Long id) {
+
+        // Gửi message vào topic "order-created"
+        // user-service lắng nghe topic này và xử lý
+        // order-service KHÔNG chờ kết quả — gửi xong là xong
+        kafkaTemplate.send("order-created", "orderId:" + id);
+
+        // Trả về ngay, không chờ user-service xử lý xong
+        return "Order #6969 đã gửi thông báo — xử lý bất đồng bộ";
+    }
+}
+
+
+======================================================================================================
+CODE BÊN NHẬN MESSAGE - CONSUMER
+======================================================================================================
+
+// user-service — Lắng nghe message từ Kafka
+// consumer/OrderConsumer.java
+@Service
+public class OrderConsumer {
+
+    // @KafkaListener tự động kích hoạt khi có message mới trong topic
+    @KafkaListener(topics = "order-created", groupId = "user-group")
+    public void handleOrderCreated(String message) {
+
+        //Nhận message và xử lý — ví dụ gửi email thông báo
+        System.out.println("Nhận được: " + message);
+        System.out.println("Gửi email thông báo cho HOÀNG NGỌC TRINH");
+
+       //Tăng điểm thành viên quy đổi từ tiền đang nằm trong message
+       //...
+    }
+}

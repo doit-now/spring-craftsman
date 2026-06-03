@@ -1,0 +1,58 @@
+======================================================================================================
+                             DOCKER TRONG MỘT NỐT NHẠC - © 2026 giáo.làng
+======================================================================================================
+
+
+
+
+
+-------------------------------------------------------------
+Download docker image - Kafka mới nhất (3/6/2026)
+docker pull apache/kafka:4.3.0
+
+
+-------------------------------------------------------------
+Chạy image với tên container mặc định được tự generate
+docker run -p 9092:9092 apache/kafka:4.3.0
+
+Chạy image với tên container chỉ định
+docker run --name ngoctrinh_center -p 9092:9092 apache/kafka:4.3.0
+
+Chạy image với tên container chỉ định và chế độ nền, nhả lại dấu nháy/dấu nhắc gõ lệnh
+docker run -d --name ngoctrinh_center -p 9092:9092 apache/kafka:4.3.0
+
+
+-------------------------------------------------------------
+Tạo topic/kênh tên là ngoctrinh-mess:
+docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ngoctrinh-mess
+
+
+-------------------------------------------------------------
+Kiểm tra topic đã có chưa:
+docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+
+-------------------------------------------------------------
+Chạy lệnh producer - Gửi tin nhắn vào kênh:
+docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
+
+
+-------------------------------------------------------------
+Chạy lệnh consumer - Đọc tin nhắn vừa gửi
+docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess --from-beginning
+
+
+-------------------------------------------------------------
+Đọc message mới phát sinh từ bây giờ trở đi - Bỏ --from-beginning:
+Lệnh này không đọc message cũ, nó sẽ đứng chờ message mới:
+docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
+
+
+-------------------------------------------------------------
+Xóa topic/kênh & tạo lại topic/kênh
+docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic ngoctrinh_mess
+
+Tạo lại topic:
+docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ngoctrinh_maiyeu 
+
+
