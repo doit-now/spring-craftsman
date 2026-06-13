@@ -4,15 +4,20 @@
 
 
 
-> Kafka là message broker; là 1 bảng tin nhắn "bự chà bá", ở đó Service A gửi message vào topic (1 chuyên mục trong bảng tin), Service B đọc message từ topic / chuyên mục đó.
+> Kafka là gì?
+- Là message broker (gã trung gian); là 1 tổng đài, 1 bưu cục, 1 kho chứa tin nhắn "bự chà bá" - LÀ 1 SERVER
+- Các tin nhắn sẽ được chia nhóm vào các thư mục, các hộp, các phòng, các kênh, hay CÒN GỌI LÀ TOPIC
+- Sẽ có Service X gửi message vào 1 topic nào đó (GỌI LÀ PRODUCER)
+- Sẽ có Service Y đọc message từ topic / chuyên mục đó (GỌI LÀ CONSUMER)
+
 > Ví dụ: 
   Order Service tạo đơn hàng thành công 
                   ---> Gửi tin nhắn báo order-created vào Kafka topic "order-created" 
                              --->  User Service lắng nghe, nhận được tin báo (listener) và nhào vào đọc tin nhắn
 > Khái niệm cơ bản:
+* Broker		Server Kafka - tổng đài, kho chứa tin nhắn
 * Producer		Người gửi message, là 1 service nào đó (ví dụ Order-Service)
 * Consumer		Người đọc message, là 1 service nào đó (ví dụ User-Service)
-* Broker		Server Kafka
 * Topic			Kênh / hộp thư, chuyên mục chứa nhiều message, tin nhắn
 * Partition		Ngăn nhỏ bên trong topic, 1 nhóm tin
 * Offset		Số thứ tự của message trong partition
@@ -88,22 +93,22 @@ VÀO TRONG KAFKA - XEM BÊN TRONG CONTAINER (ĐANG CHẠY)
 
 
 -------------------------------------------------------------
-TOPIC -> TẠO, XOÁ KÊNH GỬI TIN
+TOPIC -> TẠO, XOÁ KÊNH GỬI TIN, TẠO HỘP THƯ, HỘP ĐỰNG TIN NHẮN
 -------------------------------------------------------------
 
 * Tạo topic, chủ đề kênh, thư mục chứa tin nhắn tên là ngoctrinh-mess:
   ** Lệnh kafka-topics.sh dùng để tạo chủ đề
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:8386 --create --topic ngoctrinh-mess
+>_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ngoctrinh-mess
 
 
 -------------------------------------------------------------
 * Kiểm tra topic đã có chưa:
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:8386 --list
+>_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 
 
 -------------------------------------------------------------
 * Xóa topic / kênh & tạo lại topic / kênh
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:8386 --delete --topic ngoctrinh_mess
+>_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic ngoctrinh_mess
 
 
 
@@ -112,7 +117,7 @@ TOPIC -> GỬI TIN NHẮN
 -------------------------------------------------------------
 
 * Chạy lệnh producer - Gửi tin nhắn vào kênh:
->_docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:8386 --topic ngoctrinh_mess
+>_docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
 
   ** Nhập gõ tin nhắn bình thường. Nhấn `Ctrl + C` để thoát màn hình gửi tin
 
@@ -121,13 +126,13 @@ TOPIC -> ĐỌC TIN NHẮN
 -------------------------------------------------------------
 
 * Chạy lệnh consumer - Đọc tin nhắn vừa gửi
->_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:8386 --topic ngoctrinh_mess --from-beginning
+>_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess --from-beginning
 
 
 
 -------------------------------------------------------------
 * Đọc message mới phát sinh từ bây giờ trở đi - Bỏ --from-beginning:
   ** Lệnh này không đọc message cũ, nó sẽ đứng chờ message mới:
->_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:8386 --topic ngoctrinh_mess
+>_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
 
 
