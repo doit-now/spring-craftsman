@@ -52,29 +52,59 @@ CHẠY KAFKA TRONG DOCKER (VỚI OPTION TUỲ CHỌN)
 -------------------------------------------------------------
 
 * Chạy Kafka image để tạo container với tên mặc định được Docker tự đặt
-  ** Cổng 8386 trên máy host nhận request và đẩy vào Kafka đang nằm ở trong "máy ảo" trong Docker và đang lắng nghe ở cổng 9092 mặc định
->_ docker run -p 8386:9092 apache/kafka:4.3.0
+  ** Cổng 9092 BÊN NGOÀI trên máy host nhận request và đẩy vào Kafka đang nằm ở trong "máy ảo" trong Docker và đang lắng nghe ở cổng 9092 mặc định BÊN TRONG DOCKER
+>_ docker run -p 9092:9092 apache/kafka:4.3.0
 
-* Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh_center
->_ docker run --name ngoctrinh_center -p 8386:9092 apache/kafka:4.3.0
+* Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
+  ** Lệnh chạy trong CMD, CÓ THỂ ĐẨY VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG
+
+>_ docker run --name ngoctrinh-center ^
+  -p 8386:9092 ^
+  -e KAFKA_NODE_ID=1 ^
+  -e KAFKA_PROCESS_ROLES=broker,controller ^
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 ^
+  -e KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 ^
+  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:8386 ^
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER ^
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT ^
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT ^
+  apache/kafka:4.3.0
+
+* Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
+  ** Lệnh chạy trong POWERSHELL, CÓ THỂ ĐẨY VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG
+
+PS >_ docker run --name kafka-demo `
+  -p 8386:9092 `
+  -e KAFKA_NODE_ID=1 `
+  -e KAFKA_PROCESS_ROLES=broker,controller `
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 `
+  -e KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 `
+  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:8386 `
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER `
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT `
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT `
+  apache/kafka:4.3.0
+
+* Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center 
+>_ docker run --name  ngoctrinh-center  -p 9092:9092 apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định và chạy ở chế độ nền, nhả lại dấu nháy/dấu nhắc gõ lệnh
->_ docker run -d --name ngoctrinh_center -p 8386:9092 apache/kafka:4.3.0
+>_ docker run -d --name  ngoctrinh-center  -p 9092:9092 apache/kafka:4.3.0
 
 * Kiểm tra container:
 >_ docker ps
 
 * Xem log Kafka:
->_ docker logs -f ngoctrinh_center
+>_ docker logs -f  ngoctrinh-center 
 
 * Dừng Kafka:
->_ docker stop ngoctrinh_center
+>_ docker stop  ngoctrinh-center 
 
 * Chạy lại Kafka:
->_ docker start ngoctrinh_center
+>_ docker start  ngoctrinh-center 
 
 * Xóa container Kafka:
->_ docker rm -f ngoctrinh_center
+>_ docker rm -f  ngoctrinh-center 
 
 
 
@@ -83,10 +113,10 @@ VÀO TRONG KAFKA - XEM BÊN TRONG CONTAINER (ĐANG CHẠY)
 -------------------------------------------------------------
 
 * Vào trong container Kafka
->_ docker exec -it ngoctrinh_center bash
+>_ docker exec -it  ngoctrinh-center  bash
 
 * Nếu `bash` không chạy được, thử:
->_ docker exec -it ngoctrinh_center sh
+>_ docker exec -it  ngoctrinh-center  sh
 
 ** Các script Kafka thường nằm ở: /opt/kafka/bin
 
@@ -98,17 +128,17 @@ TOPIC -> TẠO, XOÁ KÊNH GỬI TIN, TẠO HỘP THƯ, HỘP ĐỰNG TIN NHẮN
 
 * Tạo topic, chủ đề kênh, thư mục chứa tin nhắn tên là ngoctrinh-mess:
   ** Lệnh kafka-topics.sh dùng để tạo chủ đề
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ngoctrinh-mess
+>_ docker exec  ngoctrinh-center  /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ngoctrinh-mess
 
 
 -------------------------------------------------------------
 * Kiểm tra topic đã có chưa:
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+>_ docker exec  ngoctrinh-center  /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 
 
 -------------------------------------------------------------
 * Xóa topic / kênh & tạo lại topic / kênh
->_ docker exec ngoctrinh_center /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic ngoctrinh_mess
+>_ docker exec  ngoctrinh-center  /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic ngoctrinh_mess
 
 
 
@@ -117,7 +147,7 @@ TOPIC -> GỬI TIN NHẮN
 -------------------------------------------------------------
 
 * Chạy lệnh producer - Gửi tin nhắn vào kênh:
->_docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
+>_docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
 
   ** Nhập gõ tin nhắn bình thường. Nhấn `Ctrl + C` để thoát màn hình gửi tin
 
@@ -126,13 +156,15 @@ TOPIC -> ĐỌC TIN NHẮN
 -------------------------------------------------------------
 
 * Chạy lệnh consumer - Đọc tin nhắn vừa gửi
->_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess --from-beginning
+>_ docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess --from-beginning
 
+* Chạy lệnh consumer - Đọc tin nhắn vừa gửi, NẾU LỆNH TRÊN BỊ LỖI
+>_ docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess --partition 0 --offset 0 --max-messages 10
 
 
 -------------------------------------------------------------
 * Đọc message mới phát sinh từ bây giờ trở đi - Bỏ --from-beginning:
   ** Lệnh này không đọc message cũ, nó sẽ đứng chờ message mới:
->_ docker exec -it ngoctrinh_center /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
+>_ docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
 
 
