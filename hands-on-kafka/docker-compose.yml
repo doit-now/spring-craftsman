@@ -1,0 +1,60 @@
+services:
+  kafka:
+    image: apache/kafka:4.3.0
+    container_name: ngoctrinh-center          # Tên Kafka container
+    hostname: ngoctrinh-center                # Đặt bằng container_name để tránh nhầm lẫn nội bộ
+
+    ports:
+      - "8386:9092"                           # Host:8386 → Container:9092
+
+    environment:
+
+      # ── KRaft Mode (không dùng Zookeeper) ──────────────────────────────────
+      KAFKA_NODE_ID: 1                        # ID của node này trong cluster
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+                                              # broker    = lưu và phục vụ message
+                                              # controller = bầu leader, quản lý cluster (thay Zookeeper)
+
+      CLUSTER_ID: 'FUHCMC'                   # ID cố định cho cluster KRaft, phải nhất quán mỗi lần chạy
+
+
+      # ── Controller nội bộ ──────────────────────────────────────────────────
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+                                              # Tên listener dành riêng cho giao tiếp controller ↔ controller
+
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@127.0.0.1:9093'
+                                              # Danh sách controller trong cluster
+                                              # Format: nodeId@host:port
+                                              # 127.0.0.1 = chính container này (tường minh hơn "localhost")
+                                              # :9093 = cổng nội bộ, KHÔNG expose ra host
+
+
+      # ── Listeners ──────────────────────────────────────────────────────────
+      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093'
+                                              # Kafka lắng nghe ở đây BÊN TRONG container
+                                              # 0.0.0.0 = chấp nhận kết nối từ mọi interface
+                                              # :9092 cho client | :9093 cho controller nội bộ
+
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://localhost:8386'
+                                              # Địa chỉ Kafka "quảng cáo" lại cho client sau khi kết nối
+                                              # Client gửi tin lần 2 sẽ dùng địa chỉ này
+                                              # localhost:8386 = cổng trên máy host Windows của bạn
+                                              # ⚠️ Nếu client là container khác → đổi thành host.docker.internal:8386
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT'
+                                              # Map tên listener → giao thức bảo mật
+                                              # Cả hai đều dùng PLAINTEXT (không mã hoá), phù hợp môi trường dev
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+                                              # Listener các broker dùng để nói chuyện với nhau
+                                              # Với 1 broker thì ít dùng, nhưng bắt buộc phải khai báo
+
+
+      # ── Cấu hình cơ bản ────────────────────────────────────────────────────
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+                                              # Topic __consumer_offsets chỉ cần 1 bản sao vì chỉ có 1 broker
+                                              # Nếu để mặc định (3) sẽ bị lỗi khi chỉ có 1 broker
+
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+                                              # Thư mục lưu dữ liệu message bên trong container
+                                              # /tmp sẽ mất khi container bị xoá — dùng volume nếu cần giữ data

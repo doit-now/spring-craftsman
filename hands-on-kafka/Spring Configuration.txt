@@ -13,18 +13,37 @@ pom.xml
 	<artifactId>spring-boot-starter-kafka</artifactId>
 </dependency>
 
+<!-- THỐNG NHẤT PRODUCER VÀ CONSUME CÙNG DÙNG CHUNG DTO, CÙNG CHUNG TÊN PACKAGE!!! QUAN TRỌNG, DO PRODUCER GẮN TÊN PACKAGE VÀO MESSAGE GỬI -->
+<dependency>
+	<groupId>com.giaolang.dieudao</groupId>
+	<artifactId>common</artifactId>
+	<version>1.0</version>
+</dependency>
+
+
+<!-- CẦN CHO PARSER JSON DO KAFKA ĐANG CHƠI VỚI JACKSON 2.X THAY VÌ MỚI NHẤT 3.X -->
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-databind</artifactId>
+	<version>2.21.4</version>
+	<scope>provided</scope>  <!-- Các service sẽ có sẵn -->
+</dependency>
+
+
 
 
 ======================================================================================================
 application.properties - CẤU HÌNH BÊN GỬI MESSAGE - PRODUCER
 ======================================================================================================
 
-# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác)
+# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác, HOẶC localhost:8386 NẾU Ở MÁY HOST THIẾT LẬP CỔNG KHÁC 9092 MẶC ĐỊNH)
 spring.kafka.bootstrap-servers=localhost:9092
 
-# Bộ mã hóa: Biến dữ liệu chuỗi (String) thành mảng Byte để truyền đi qua mạng
+# Bộ mã hóa: Biến dữ liệu chuỗi (String), HOẶC EVENT OBJECT NẾU GỬI OBJECT JSON thành mảng Byte để truyền đi qua mạng
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+# spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
 
 
 
@@ -32,7 +51,7 @@ spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.Str
 application.properties - CẤU HÌNH BÊN NHẬN MESSAGE - CONSUMER
 ======================================================================================================
 
-# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác)
+# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác, HOẶC localhost:8386 NẾU Ở MÁY HOST THIẾT LẬP CỔNG KHÁC 9092 MẶC ĐỊNH)
 spring.kafka.bootstrap-servers=localhost:9092
 
 # Group ID để phân cụm các service cùng loại (bắt buộc phải có)
@@ -41,9 +60,12 @@ spring.kafka.consumer.group-id=user-group
 # Tự động bắt đầu đọc tin nhắn từ đầu nếu là lần đầu tiên kết nối vào topic
 spring.kafka.consumer.auto-offset-reset=earliest
 
-# Bộ giải mã: Biến mảng Byte nhận được từ mạng quay ngược lại thành chuỗi String
+# Bộ giải mã: Biến mảng Byte nhận được từ mạng quay ngược lại thành chuỗi String, HOẶC EVENT OBJECT NẾU NHẬN OBJECT JSON
 spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+# spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+# Cho phép deserialize class từ bất kỳ package nào (cần thiết vì event đến từ order-service)
+# spring.kafka.properties.spring.json.trusted.packages=*
 
 
 
@@ -62,7 +84,8 @@ kafkaTemplate.send("order-created", "69696868");
 public class OrderService {
 
     // KafkaTemplate là công cụ gửi message của Spring Kafka
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    @Autowire
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public String getOrderById(Long id) {
 

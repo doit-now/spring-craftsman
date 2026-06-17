@@ -5,11 +5,23 @@
 
 
 > Kafka là gì?
-- Là message broker (gã trung gian); là 1 tổng đài, 1 bưu cục, 1 kho chứa tin nhắn "bự chà bá" - LÀ 1 SERVER
-- Các tin nhắn sẽ được chia nhóm vào các thư mục, các hộp, các phòng, các kênh, hay CÒN GỌI LÀ TOPIC
-- Sẽ có Service X gửi message vào 1 topic nào đó (GỌI LÀ PRODUCER)
-- Sẽ có Service Y đọc message từ topic / chuyên mục đó (GỌI LÀ CONSUMER)
+- Là message broker (gã trung gian); là 1 tổng đài, 1 bưu cục, 1 kho chứa tin nhắn "bự chà bá", bảng tin ở chung cư
+  (message queue - RabbitMQ)
+- LÀ 1 SERVER, PORT DEFAULT: 9092
+- Các tin nhắn (bưu kiện, gói hàng) sẽ được chia nhóm vào các thư mục, các hộp thư, các phòng, các kênh, 
+  hay CÒN GỌI LÀ TOPIC
+- Sẽ có Service X gửi message / bưu kiện vào 1 topic nào đó (GỌI LÀ PRODUCER)
+- Sẽ có Service Y đọc / nhận message từ topic / chuyên mục đó (GỌI LÀ CONSUMER)
 
+  CHUNG CƯ:     BAN QUẢN LÍ, BAN QUẢN TRỊ  ------>  GỬI, DÁN, NIÊM YẾT TIN LÊN BẢNG TIN   <------- CƯ DÂN GHÉ ĐỌC
+                                                    (TIN DÁN, CHIA THEO KHU VỰC, TẦNG, LÔ)
+                                                                 TOPIC
+                      PRODUCER                                                                      CONSUMER
+
+
+
+                      SHOP                 ------>   GỬI ĐỒ VÀO KHO CỦA BÊN GIAO VẬN  <---------    BUYER  
+                                                       VIETTEL POST, VNPT POST                
 > Ví dụ: 
   Order Service tạo đơn hàng thành công 
                   ---> Gửi tin nhắn báo order-created vào Kafka topic "order-created" 
@@ -56,33 +68,41 @@ CHẠY KAFKA TRONG DOCKER (VỚI OPTION TUỲ CHỌN)
 >_ docker run -p 9092:9092 apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
-  ** Lệnh chạy trong CMD, CÓ THỂ ĐẨY VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG
+  ** Lệnh chạy trong CMD, CÓ THỂ GOM VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG NHIỀU LẦN TỚI LUI
 
 >_ docker run --name ngoctrinh-center ^
   -p 8386:9092 ^
   -e KAFKA_NODE_ID=1 ^
   -e KAFKA_PROCESS_ROLES=broker,controller ^
-  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 ^
-  -e KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 ^
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093 ^
+  -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 ^
   -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:8386 ^
   -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER ^
   -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT ^
   -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT ^
+  -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 ^
+  -e KAFKA_LOG_DIRS=/tmp/kraft-combined-logs ^
+  -e CLUSTER_ID=FUHCMC ^
+  -e KAFKA_AUTO_CREATE_TOPICS_ENABLE=true ^
   apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
   ** Lệnh chạy trong POWERSHELL, CÓ THỂ ĐẨY VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG
 
-PS >_ docker run --name kafka-demo `
+PS >_ docker run --name ngoctrinh-center `
   -p 8386:9092 `
   -e KAFKA_NODE_ID=1 `
   -e KAFKA_PROCESS_ROLES=broker,controller `
-  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 `
-  -e KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 `
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093 `
+  -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 `
   -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:8386 `
   -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER `
   -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT `
   -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT `
+  -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 `
+  -e KAFKA_LOG_DIRS=/tmp/kraft-combined-logs `
+  -e CLUSTER_ID=FUHCMC `
+  -e KAFKA_AUTO_CREATE_TOPICS_ENABLE=true `
   apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center 
@@ -91,19 +111,22 @@ PS >_ docker run --name kafka-demo `
 * Chạy Kafka image để tạo container với tên chỉ định và chạy ở chế độ nền, nhả lại dấu nháy/dấu nhắc gõ lệnh
 >_ docker run -d --name  ngoctrinh-center  -p 9092:9092 apache/kafka:4.3.0
 
-* Kiểm tra container:
+* Kiểm tra container đang chạy (UP STATUS):
 >_ docker ps
+
+* Xem tất cả các container, đang chạy và đang nghỉ:
+>_ docker ps -a
 
 * Xem log Kafka:
 >_ docker logs -f  ngoctrinh-center 
 
-* Dừng Kafka:
+* Dừng Kafka: (dừng chạy container, thư mục xả)
 >_ docker stop  ngoctrinh-center 
 
-* Chạy lại Kafka:
+* Chạy lại Kafka: (chạy ảnh đã xả thành container, chạy container)
 >_ docker start  ngoctrinh-center 
 
-* Xóa container Kafka:
+* Xóa container Kafka: (xoá thư mục xả, ko xoá image)
 >_ docker rm -f  ngoctrinh-center 
 
 
@@ -125,6 +148,14 @@ VÀO TRONG KAFKA - XEM BÊN TRONG CONTAINER (ĐANG CHẠY)
 -------------------------------------------------------------
 TOPIC -> TẠO, XOÁ KÊNH GỬI TIN, TẠO HỘP THƯ, HỘP ĐỰNG TIN NHẮN
 -------------------------------------------------------------
+
+BẢNG TIN CHUNG CƯ
+
+TOPIC                                  TOPIC    TOPIC      TOPIC
+LẦU 1                                  LẦU 2    LẦU 3      ngoctrinh-mess
+tìm bé cưng lạc                                            -> message: String, số, JSON
+ngày mai kiểm tra ống nước/PCCC
+...
 
 * Tạo topic, chủ đề kênh, thư mục chứa tin nhắn tên là ngoctrinh-mess:
   ** Lệnh kafka-topics.sh dùng để tạo chủ đề
