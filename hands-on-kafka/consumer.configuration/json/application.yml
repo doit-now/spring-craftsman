@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: user-service
+
+  # Địa chỉ của Kafka Server
+  # Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    consumer:
+      # Group ID định danh một nhóm consumer cùng chia nhau xử lý message trong cùng topic
+      # Các instance có cùng group-id sẽ chia nhau đọc message, mỗi message thường chỉ được xử lý bởi 1 instance trong cùng group
+      # Nếu service khác cũng cần nhận đầy đủ message từ topic này, nên dùng group-id khác
+      # Có thể cấu hình group-id ở đây, hoặc khai báo trực tiếp trong @KafkaListener
+      group-id: user-group
+
+      # Nếu consumer group này chưa từng đọc topic trước đó, Kafka sẽ bắt đầu đọc từ message cũ nhất còn được lưu
+      # Lưu ý: cấu hình này chỉ có tác dụng khi chưa có offset đã commit trước đó
+      auto-offset-reset: earliest
+
+      # Bộ giải mã key: Biến đổi mảng Byte nhận được từ Kafka server trở lại thành key dạng String
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      # Bộ giải mã value: Biến đổi mảng Byte chứa JSON nhận được từ Kafka server trở lại thành object Java
+      # Dùng cấu hình này khi consumer nhận event object, ví dụ OrderCreatedEvent do order-service gửi sang
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+    properties:
+      spring:
+        json:
+          # Cho phép JsonDeserializer deserialize class từ các package được tin cậy
+          # Cần thiết khi consumer nhận object JSON, ví dụ OrderCreatedEvent, từ service khác gửi sang
+          # Dùng * cho demo/học tập thì tiện, nhưng production nên chỉ định package cụ thể để an toàn hơn
+          # Ví dụ: com.giaolang.common.event, com.giaolang.orderservice.event
+          trusted:
+            packages: "*"
+
+# user-service lắng nghe request ở cổng 6789
+server:
+  port: 6789
+
+# Cấu hình Swagger/OpenAPI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+  api-docs:
+    path: /v3/api-docs

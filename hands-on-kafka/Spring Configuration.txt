@@ -4,6 +4,7 @@
 
 
 
+
 ======================================================================================================
 pom.xml
 ======================================================================================================
@@ -13,7 +14,7 @@ pom.xml
 	<artifactId>spring-boot-starter-kafka</artifactId>
 </dependency>
 
-<!-- THỐNG NHẤT PRODUCER VÀ CONSUME CÙNG DÙNG CHUNG DTO, CÙNG CHUNG TÊN PACKAGE!!! QUAN TRỌNG, DO PRODUCER GẮN TÊN PACKAGE VÀO MESSAGE GỬI -->
+<!-- THỐNG NHẤT PRODUCER VÀ CONSUME CÙNG DÙNG CHUNG DTO, CÙNG CHUNG TÊN PACKAGE!!! QUAN TRỌNG, DO PRODUCER GẮN TÊN PACKAGE VÀO MESSAGE GỬI (META INFO) -->
 <dependency>
 	<groupId>com.giaolang.dieudao</groupId>
 	<artifactId>common</artifactId>
@@ -21,7 +22,7 @@ pom.xml
 </dependency>
 
 
-<!-- CẦN CHO PARSER JSON DO KAFKA ĐANG CHƠI VỚI JACKSON 2.X THAY VÌ MỚI NHẤT 3.X -->
+<!-- CẦN CHO PARSER JSON Ở BÊN CONSUMER, DO KAFKA ĐANG CHƠI VỚI JACKSON 2.X THAY VÌ MỚI NHẤT 3.X -->
 <dependency>
 	<groupId>com.fasterxml.jackson.core</groupId>
 	<artifactId>jackson-databind</artifactId>
@@ -33,39 +34,100 @@ pom.xml
 
 
 ======================================================================================================
-application.properties - CẤU HÌNH BÊN GỬI MESSAGE - PRODUCER
+application.properties - CẤU HÌNH BÊN GỬI MESSAGE - PRODUCER | DÀNH CHO GỬI STRING
 ======================================================================================================
 
-# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác, HOẶC localhost:8386 NẾU Ở MÁY HOST THIẾT LẬP CỔNG KHÁC 9092 MẶC ĐỊNH)
+# Địa chỉ của Kafka Server
+# Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
 spring.kafka.bootstrap-servers=localhost:9092
 
-# Bộ mã hóa: Biến dữ liệu chuỗi (String), HOẶC EVENT OBJECT NẾU GỬI OBJECT JSON thành mảng Byte để truyền đi qua mạng
+# Bộ mã hóa key: Biến đổi key dạng String thành mảng Byte để gửi lên Kafka server
+# Key thường dùng để Kafka quyết định message đi vào partition nào; khi mới học có thể chưa cần truyền key
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-# spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Bộ mã hóa value: Biến đổi message dạng String thành mảng Byte để gửi lên Kafka server
+# Dùng cấu hình này khi mới học Kafka và chỉ gửi message đơn giản như "Hello Kafka"
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+
+
+
+======================================================================================================
+application.properties - CẤU HÌNH BÊN GỬI MESSAGE - PRODUCER | DÀNH CHO GỬI OBJECT/JSON
+======================================================================================================
+# Địa chỉ của Kafka Server
+# Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
+spring.kafka.bootstrap-servers=localhost:9092
+
+# Bộ mã hóa key: Biến đổi key dạng String thành mảng Byte để gửi lên Kafka server
+# Key thường dùng để Kafka quyết định message đi vào partition nào; khi mới học có thể chưa cần truyền key
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Bộ mã hóa value: Biến đổi event object / object Java thành JSON, sau đó thành mảng Byte để gửi lên Kafka server
+# Dùng cấu hình này khi producer gửi object, ví dụ OrderCreatedEvent
 spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
 
 
 
 
 ======================================================================================================
-application.properties - CẤU HÌNH BÊN NHẬN MESSAGE - CONSUMER
+application.properties - CẤU HÌNH BÊN NHẬN MESSAGE - CONSUMER | DÀNH CHO NHẬN STRING
 ======================================================================================================
 
-# Địa chỉ của Kafka Server (thay localhost bằng IP thật nếu chạy trên server khác, HOẶC localhost:8386 NẾU Ở MÁY HOST THIẾT LẬP CỔNG KHÁC 9092 MẶC ĐỊNH)
+# Địa chỉ của Kafka Server
+# Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
 spring.kafka.bootstrap-servers=localhost:9092
 
-# Group ID để phân cụm các service cùng loại (bắt buộc phải có)
+# Group ID định danh một nhóm consumer cùng chia nhau xử lý message trong cùng topic
+# Các instance có cùng group-id sẽ chia nhau đọc message, mỗi message thường chỉ được xử lý bởi 1 instance trong cùng group
+# Nếu service khác cũng cần nhận đầy đủ message từ topic này, nên dùng group-id khác
+# Có thể cấu hình group-id ở đây, hoặc khai báo trực tiếp trong @KafkaListener
 spring.kafka.consumer.group-id=user-group
 
-# Tự động bắt đầu đọc tin nhắn từ đầu nếu là lần đầu tiên kết nối vào topic
+# Nếu consumer group này chưa từng đọc topic trước đó, Kafka sẽ bắt đầu đọc từ message cũ nhất còn được lưu
+# Lưu ý: cấu hình này chỉ có tác dụng khi chưa có offset đã commit trước đó
 spring.kafka.consumer.auto-offset-reset=earliest
 
-# Bộ giải mã: Biến mảng Byte nhận được từ mạng quay ngược lại thành chuỗi String, HOẶC EVENT OBJECT NẾU NHẬN OBJECT JSON
+# Bộ giải mã: Biến đổi mảng Byte nhận được từ Kafka server trở lại thành key dạng String
 spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-# spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+# Bộ giải mã: Biến đổi mảng Byte chứa message dạng String nhận được từ Kafka server trở lại thành chuỗi String trong Java
+# Dùng cấu hình này khi mới học Kafka và chỉ gửi/nhận message đơn giản như "Hello Kafka"
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+
+
+
+======================================================================================================
+application.properties - CẤU HÌNH BÊN NHẬN MESSAGE - CONSUMER | DÀNH CHO NHẬN OBJECT/JSON
+======================================================================================================
+# Địa chỉ của Kafka Server
+# Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
+spring.kafka.bootstrap-servers=localhost:9092
+
+# Group ID định danh một nhóm consumer cùng chia nhau xử lý message trong cùng topic
+# Các instance có cùng group-id sẽ chia nhau đọc message, mỗi message thường chỉ được xử lý bởi 1 instance trong cùng group
+# Nếu service khác cũng cần nhận đầy đủ message từ topic này, nên dùng group-id khác
+# Có thể cấu hình group-id ở đây, hoặc khai báo trực tiếp trong @KafkaListener
+spring.kafka.consumer.group-id=user-group
+
+# Nếu consumer group này chưa từng đọc topic trước đó, Kafka sẽ bắt đầu đọc từ message cũ nhất còn được lưu
+# Lưu ý: cấu hình này chỉ có tác dụng khi chưa có offset đã commit trước đó
+spring.kafka.consumer.auto-offset-reset=earliest
+
+# Bộ giải mã key: Biến đổi mảng Byte nhận được từ Kafka server trở lại thành key dạng String
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+# Bộ giải mã value: Biến đổi mảng Byte chứa JSON nhận được từ Kafka server trở lại thành object Java
+# Dùng cấu hình này khi consumer nhận event object, ví dụ OrderCreatedEvent do order-service gửi sang
 spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
-# Cho phép deserialize class từ bất kỳ package nào (cần thiết vì event đến từ order-service)
-# spring.kafka.properties.spring.json.trusted.packages=*
+
+# Cho phép JsonDeserializer deserialize class từ các package được tin cậy
+# Cần thiết khi consumer nhận object JSON, ví dụ OrderCreatedEvent, từ service khác gửi sang
+# Dùng * cho demo/học tập thì tiện, nhưng production nên chỉ định package cụ thể để an toàn hơn
+# Ví dụ: com.giaolang.common.event, com.giaolang.orderservice.event
+spring.kafka.properties.spring.json.trusted.packages=*
+
 
 
 

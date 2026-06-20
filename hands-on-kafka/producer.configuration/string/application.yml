@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: order-service
+
+  # Địa chỉ của Kafka Server
+  # Thay localhost:9092 bằng localhost:8386 nếu Kafka trên máy host đang map ra cổng 8386, hoặc thay bằng IP/server thật nếu Kafka chạy ở máy khác
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      # Bộ mã hóa key: Biến đổi key dạng String thành mảng Byte để gửi lên Kafka server
+      # Key thường dùng để Kafka quyết định message đi vào partition nào; khi mới học có thể chưa cần truyền key
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      # Bộ mã hóa value: Biến đổi message dạng String thành mảng Byte để gửi lên Kafka server
+      # Dùng cấu hình này khi mới học Kafka và chỉ gửi message đơn giản như "Hello Kafka"
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+# order-service lắng nghe request ở cổng 6969
+server:
+  port: 6969
+
+# Cấu hình Swagger/OpenAPI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+  api-docs:
+    path: /v3/api-docs

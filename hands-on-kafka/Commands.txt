@@ -68,7 +68,7 @@ CHẠY KAFKA TRONG DOCKER (VỚI OPTION TUỲ CHỌN)
 >_ docker run -p 9092:9092 apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
-  ** Lệnh chạy trong CMD, CÓ THỂ GOM VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG NHIỀU LẦN TỚI LUI
+  ** Lệnh chạy trong cửa sổ CMD, CÓ THỂ GOM LỆNH VÀO FILE DOCKER-COMPOSE.YML CHO GỌN KHI GÕ LỆNH VÀ TIỆN DÙNG NHIỀU LẦN TỚI LUI
 
 >_ docker run --name ngoctrinh-center ^
   -p 8386:9092 ^
@@ -87,7 +87,7 @@ CHẠY KAFKA TRONG DOCKER (VỚI OPTION TUỲ CHỌN)
   apache/kafka:4.3.0
 
 * Chạy Kafka image để tạo container với tên chỉ định, đặt riêng, ví dụ ngoctrinh-center và tương tác với web-service bên ngoài
-  ** Lệnh chạy trong POWERSHELL, CÓ THỂ ĐẨY VÀO DOCKER-COMPOSE.YML CHO GỌN VÀ TIỆN DÙNG
+  ** Lệnh chạy trong cửa sổ POWERSHELL, CÓ THỂ GOM LỆNH VÀO FILE DOCKER-COMPOSE.YML CHO GỌN KHI GÕ LỆNH VÀ TIỆN DÙNG NHIỀU LẦN TỚI LUI
 
 PS >_ docker run --name ngoctrinh-center `
   -p 8386:9092 `
@@ -130,6 +130,25 @@ PS >_ docker run --name ngoctrinh-center `
 >_ docker rm -f  ngoctrinh-center 
 
 
+-------------------------------------------------------------
+CHẠY KAFKA TRONG DOCKER DÙNG DOCKER COMPOSE - FILE CẤU HÌNH CONTAINER CÓ TÊN COMPOSE.YML
+-------------------------------------------------------------
+
+* Chạy Kafka image để tạo container mới qua file compose.yml hoặc docker-compose.yml, thông tin chi tiết về container chứa trong file .yml ở ngay nơi chạy lệnh
+>_ docker compose up 
+
+* Dừng và xóa container, network, thông tin container lấy từ file .yml ở ngay nơi chạy lệnh
+>_ docker compose down	
+
+* Khởi động, chạy container đã tạo trước đó (tạo container trước bằng lệnh docker compose up)
+>_ docker compose start
+
+* Tạm ngừng chạy container đã tạo trước đó (tạo container trước bằng lệnh docker compose up)
+>_ docker compose stop	
+
+* Dùng option -f (hoặc --file) để chỉ định file cấu hình có tên khác với tên mặc định (compose.yml)
+  - -d là chạy ngầm nhả dấu nhắc lệnh lại cho người dùng
+>_ docker compose -f dev-compose.yml up -d
 
 -------------------------------------------------------------
 VÀO TRONG KAFKA - XEM BÊN TRONG CONTAINER (ĐANG CHẠY)
@@ -142,7 +161,6 @@ VÀO TRONG KAFKA - XEM BÊN TRONG CONTAINER (ĐANG CHẠY)
 >_ docker exec -it  ngoctrinh-center  sh
 
 ** Các script Kafka thường nằm ở: /opt/kafka/bin
-
 
 
 -------------------------------------------------------------
@@ -178,7 +196,7 @@ TOPIC -> GỬI TIN NHẮN
 -------------------------------------------------------------
 
 * Chạy lệnh producer - Gửi tin nhắn vào kênh:
->_docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
+>_ docker exec -it  ngoctrinh-center  /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic ngoctrinh_mess
 
   ** Nhập gõ tin nhắn bình thường. Nhấn `Ctrl + C` để thoát màn hình gửi tin
 
