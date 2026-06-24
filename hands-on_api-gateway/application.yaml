@@ -15,13 +15,13 @@ spring:
             - id: order-route                    # Tên định danh route (tùy đặt, không trùng nhau)
               uri: http://localhost:6969          # Địa chỉ thật của service cần forward tới
               predicates:
-                - Path=/api/v2/orders/**         # Khi request khớp path này thì kích hoạt route
+                - Path=/api/v8/orders/**         # Khi request khớp path này thì kích hoạt route
 
             # ------ ROUTE 2: User Service ------
             - id: user-route
               uri: http://localhost:6789
               predicates:
-                - Path=/users/**
+                - Path=/api/v8/users/**
 
 # ================================================================
 #  ACTUATOR - Endpoint quản trị, giám sát Gateway
@@ -38,4 +38,4 @@ management:
 #  SERVER
 # ================================================================
 server:
-  port: 8080                         # Cổng Gateway lắng nghe - client gọi vào đây
+  port: 2204                         # Cổng Gateway lắng nghe - client gọi vào đây
