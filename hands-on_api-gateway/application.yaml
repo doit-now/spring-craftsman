@@ -1,0 +1,41 @@
+# ================================================================
+#  API GATEWAY - Spring Boot 4.x + Spring Cloud Gateway MVC 5.x
+# ================================================================
+
+spring:
+  application:
+    name: api-gateway        # Tên service, hiển thị trong log và Actuator
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            # ------ ROUTE 1: Order Service ------
+            - id: order-route                    # Tên định danh route (tùy đặt, không trùng nhau)
+              uri: http://localhost:6969          # Địa chỉ thật của service cần forward tới
+              predicates:
+                - Path=/api/v2/orders/**         # Khi request khớp path này thì kích hoạt route
+
+            # ------ ROUTE 2: User Service ------
+            - id: user-route
+              uri: http://localhost:6789
+              predicates:
+                - Path=/users/**
+
+# ================================================================
+#  ACTUATOR - Endpoint quản trị, giám sát Gateway
+# ================================================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, gateway"   # Mở health check và gateway routes endpoint
+                                     # Truy cập: GET /actuator/health
+                                     #            GET /actuator/gateway/mvc/routes
+
+# ================================================================
+#  SERVER
+# ================================================================
+server:
+  port: 8080                         # Cổng Gateway lắng nghe - client gọi vào đây
