@@ -1,0 +1,106 @@
+=================================
+GIẢI NGỐ ĐỀ THI PE
+=================================
+0. TẠO MỚI PROJECT DÙNG SPRING BOOT VÀ MAVEN
+- HẾT SỨC LƯU Ý KHI NEW PROJECT, INTELLIJ KO CHỌN SẴN MAVEN MÀ CHỌN SẴN GRADLE GROOVY, NÊN NHỚ TÍCH CHỌN MAVEN Ở TAY PHẢI 
+- TA CÓ THỂ CHỌN FILE CẤU HÌNH THEO STYLE MẶC ĐỊNH LÀ 
+  application.properties (viết dàn ngang)
+  HOẶC STYLE NÂNG CAO - HIỆN ĐẠI HƠN  
+  application.yaml (~yml /za-mồ/ viết thụt ra thụt vào)
+
+* ĐẶT TÊN PROJECT, PACKAGE PHẢI 100% GIỐNG Y CHANG NHƯ FORMAT ĐỀ ĐƯA CHO, ĐỀ TÔ ĐẬM CÁCH ĐẶT TÊN
+- CHÍNH XÁC ĐẾN HOA, THƯỜNG, DẤU _ NẾU CÓ, CHÍNH XÁC ĐẾN MÃ SỐ SINH VIÊN, TÊN SV THEO HOA THƯỜNG NHƯ ĐỀ ĐƯA RA
+  > SAI 0 ĐIỂM
+
+----------------------------------------------------------
+I. CHỌN DEPENDENCY TRONG DỰ ÁN (7 HOẶC 6 TUỲ CHO PHÉP DÙNG LOMBOK HAY KO)
+- ĐỌC KĨ ĐỀ ĐỂ BIẾT ĐC XÀI LOMBOK HAY KO
+- MÙA NÀY ĐC DÙNG THÊM BOOSTRAP ĐỂ LÀM UI CHO ĐẸP (0.X ĐIỂM VỀ UI)
+
+* DEVTOOLS, (LOMBOK), SPRING WEB, THYMELEAF, SPRING JPA, MS SQL SERVER DRIVER, VALIDATION
+  BONUS BOOTSTRAP
+----------------------------------------------------------
+II. KHAI BÁO CẤU HÌNH CSDL, PORT, VÀ THYMELEAF
+* BẮT BUỘC PHẢI KHAI BÁO NGAY KẾT NỐI CƠ SỞ DỮ LIỆU TỚI SQL SERVER TRÊN MÁY MÌNH THÌ MỚI KHỞI ĐỘNG ĐC TOMCAT. 
+
+* CÓ 2 LOẠI FILE LƯU THÔNG TIN CẤU HÌNH DỰ ÁN MÌNH
+- application.properties (default - viết dàn ngang)
+
+  server.port=6969  
+
+- application.yaml (viết thụt ra vô)
+
+  server:
+    port:6969
+
+1. KHAI BÁO PORT, CỔNG LẮNG NGHE REQUEST CỦA CON TOMCAT
+- ĐỀ THI SẼ GHI RÕ PORT BAO NHIÊU, NẾU GHI 8080 (MẶC ĐỊNH) THÌ TA KO CẦN LÀM GÌ THÊM, KO KHAI BÁO LUÔN, 
+  CÒN THÍCH THÌ GÕ RA:
+  server.port=8080      # ghi chú: PHẢI thay bằng port khác nếu đề
+                        #          KO DÙNG 8080
+
+2. KHAI BÁO KẾT NỐI TỚI SQL SERVER 
+- PHẢI LÀM NGAY VÀ LUÔN NẾU MUỐN CHẠY ĐC TOMCAT. KO CHẠY ĐC TOMCAT VÀ DB -> 0 ĐIỂM
+- KHAI BÁO KẾT NỐI CSDL ĐỀ THI CHO GỢI Ý KHAI BÁO, TA CHỈ COPY & PASTE VÀO FILE CẤU HÌNH, CHỈNH LẠI PASSWORD CHO ĐÚNG LÀ OKIE
+- KHI NỘP BÀI, SỬA LẠI PASSWORD NHƯ ĐỀ THI LÀ OKIE
+>>>>> PHẢI TẠO TRƯỚC SẴN DATABASE MÀ TÊN DATABASE 100% GIỐNG ĐỀ THI; ĐỀ THI CHO SẴN TÊN DB
+      HIBERNATE, JPA KO TỰ TẠO DATABASE, MÀ CHỈ TỰ TẠO TABLE TRONG DATABASE
+>>>>> KO KẾT NỐI ĐC DB, THÌ KO KHỞI ĐỘNG APP THÀNH CÔNG, O ĐIỂM!!!
+
+3. CHÚ Ý OPTION CODE FIRST
+spring.jpa.hibernate.ddl-auto=create
+- KHI LÀM BÀI THI, NÊN ĐỂ create ĐỂ ĐẢM BẢO TABLE ĐƯỢC TẠO TỪ CODE MỚI NHẤT, TỪ ENTITY MỚI NHẤT (DÀNH CHO CODE FIRST: TỪ CODE RA TABLE)
+- TRƯỚC KHI NỘP BÀI, SỬA LẠI create THÀNH update GIỐNG NHƯ ĐỀ THI, NẾU ĐỀ THI LÀ 
+  create THÌ ĐỂ NGUYÊN - TÚM LẠI GIỐNG ĐỀ 
+- KHI ĐI LÀM THỰC TẾ, TRƯỚC KHI DEPLOY APP LÊN MÁY KHÁCH HÀNG, NHỚ SET OPTION update
+  HOẶC LÀ TOANG DB KHÁCH
+
+4. CHÚ Ý OPTION CHO DB FIRST.... TODO!!!!!!!!!!!!!!!
+
+5. KHAI BÁO CẤU HÌNH THYMELEAF - ĐƯỜNG DẪN VÀ ĐỊNH DẠNG TRỎ ĐẾN NƠI LƯU TRANG THYMELEAF
+- DÙNG MẶC ĐỊNH, COPY PASTE THEO ĐỀ, HOẶC GIỐNG NHƯ HỌC TRÊN LỚP
+
+--------------------------------------------------------------
+III. CẤU TRÚC DỰ ÁN - DÀN KHUNG CODE
+* ĐỀ THI CHỤP RÕ CẤU TRÚC SOURCE CODE, LÀM GIỐNG 100% TỪ CÁCH ĐẶT TÊN, THƯ MỤC / PACKAGE CHA CON, GIỐNG TỪ CHỮ HOA, CHỮ THƯỜNG, SHIFT GẠCH, TÊN, MÃ SỐ SV, THỨ TỰ CÁC TỪ
+
+* VÍ DỤ CÓ com.hsf302...   THÌ PHẢI GÕ Y CHANG. GÕ: com.HSF302 -> TOANG
+
+1. CẤU TRÚC CODE CHUẨN ĐỀ NGHỊ - NHỚ ĐỐI CHIẾU VỚI ĐỀ THI
+com.../ -> theo đề
+  controller/
+  entity/
+  dto/
+  repository/
+  service/      //chứa interface, hàm ko code 
+    impl/       //chứa hàm có code
+  config/       //code first
+  
+2. CẤU TRÚC TRANG THYMELEAF
+- TUỲ Ý, KO BẮT BUỘC, CÓ NHIỀU STYLE
+
+* ĐÃ HỌC:
+fruits.html        //show list
+fruit-form.html    //view (readonly), edit (fill sẵn), create (form trống)
+                   //if else trong form để biết mode nào
+
+* ĐỀ XUẤT:
+fruit/ 
+  list.html       //show list
+  detail.html     //view hoy: th:text là đủ
+  edit.html       //fill sẵn & sửa: th:value  th:field & th:object, 
+                  //           Model box box.addAttribute(new Xxx(đủ data để fill màn hình))
+
+  create.html     //form trống: th:value  th:field & th:object,
+                  //           Model box box.addAttribute(new Xxx(rỗng))
+
+user/
+  ... .html
+
+order/
+
+error.html
+
+
+
+
