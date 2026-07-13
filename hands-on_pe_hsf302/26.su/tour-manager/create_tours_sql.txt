@@ -37,38 +37,3 @@ VALUES
 (N'PhuQuocLuxury6D5N', N'Phu Quoc', 15, 6, '2026-09-01', 5500, N'AC'),
 (N'NhaTrangFun3D2N', N'Nha Trang', 40, 3, '2026-06-20', 2100, N'DR'),
 (N'DalatChill2D1N', N'Da Lat', 35, 2, '2026-05-25', 1500, N'AC');
-
-
-@Repository
-public interface TourRepository extends JpaRepository<Tour, Integer> {
-    @Query("""
-    select new com.se196258.mvc.dto.TourDto(t.id, t.tourName, t.destination, t.capacity, t.duration,  t.startDate, t.price, t.status)
-        FROM Tour t
-            WHERE t.tourName like concat('%', :name, '%')
-                order by t.tourName""")
-    List<TourDto> findByName(@Param(value = "name") String name);
-}
-
-
-CHECK MODAL
-NGÀY THÁNG
-DTO & AUTO MAP
-SAVE DYUPLICATE NÊN LÀM HÀM NÀY THÉ NÀO
-VIET CAU QUERY, NEW DTO NGAY CAU QUERY
-SỐ THỨ TỰ AUTO TRONG MÀN HÌNH LIST 2 THAM SỐ FOREACH
-
-    {
-      "address": "HCMC",
-      "categoryId": 8,
-      "openDate": "2026-01-01",
-      "ownerName": "FU HCM",
-      "priceFrom": 5555,
-      "priceTo": 9999,
-      "restaurantName": "Hủ tíu"
-    }
-
-
-UPDATE CATEGORIES SET category_name = 'VIET NAMM' WHERE category_id = 8
-
-C:\Users\giao.lang\Downloads\2026.SP.PE\SBA301\SBA301_SP26_FE_PE\FE
-
