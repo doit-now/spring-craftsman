@@ -1,0 +1,59 @@
+// =============================================================================================================
+// CODE .map(xxx => xxx-đột-biến-biến-đổi-sang-div-đơn-giản) 
+function App() {
+    const src = [
+        { id: 1, name: "Cầu", price: 30000 },
+        { id: 2, name: "Sung Sướng", price: 40000 },
+        { id: 3, name: "Dừa Dừa", price: 50000 },
+        { id: 4, name: "Đu Đủ", price: 60000 },
+        { id: 5, name: "Xài Xoài", price: 70000 }
+    ];
+
+    return (
+        <div>
+            {src.map(xxx => (
+                              <div key={xxx.id}>
+                                <p>Name: {xxx.name}</p>                       
+                              </div>
+                            )
+                    ) 
+            }         
+        </div>
+    );
+}
+
+export default App
+
+
+// =============================================================================================================
+// CODE .map(xxx => xxx-đột-biến-biến-đổi-sang-div) 
+// FULL 4 TRÁI 1 DÒNG, TỰ CHẢY XUỐNG DÒNG KẾ TIẾP 
+function App() {
+    const fruits = [
+        { id: 1, name: "Cầu", price: 30000 },
+        { id: 2, name: "Sung Sướng", price: 40000 },
+        { id: 3, name: "Dừa Dừa", price: 50000 },
+        { id: 4, name: "Đu Đủ", price: 60000 },
+        { id: 5, name: "Xài Xoài", price: 70000 }
+    ];
+
+    return (
+        <div>
+            <h1>Điều Đào Shop</h1>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                {fruits.map(fruit => (
+                    <div key={fruit.id} 
+                         style={{ width: "calc(25% - 10px)", border: "1px solid black", 
+                                  padding: "10px", boxSizing: "border-box", backgroundColor: "#ffd6e0" }} >                    
+                        <p>ID: {fruit.id}</p>
+                        <p>Name: {fruit.name}</p>
+                        <p>Price: {fruit.price}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default App;
