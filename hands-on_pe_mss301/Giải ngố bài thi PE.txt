@@ -1,0 +1,98 @@
+=============================================================
+   GIẢI NGỐ THI PE MÔN MSS301 - MICROSERVICES WITH SPRING
+=============================================================
+I. ĐỀ THI CÓ GÌ LẠ?
+1. >= 10 TRANG ĐỀ THI
+
+2. 2 FILE SCRIPT CHỨA LỆNH SQL TẠO CÁC TABLE CHO 2 SERVICE (2 API PROJECT) KHÁC NHAU
+   NHƯNG CÁC TABLE NÀY ĐANG TẠM Ở CHUNG 1 DATABASE NHƯNG ĐỘC LẬP KO RELATIONSHIP
+   (1 DATABASE DÙNG CHUNG CHO 2 SERVICE CHO TIỆN LÀM BÀI)   
+   * ĐÚNG CHUẨN NGOÀI CÔNG NGHIỆP MỖI SERVICE DÙNG 1 DATABASE RIÊNG, TABLE RIÊNG
+   
+   2 FILE SCRIPT CHỨA LỆNH TẠO 2 TABLE MỐI QUAN HỆ 1 - N (DEPARTMENT ----< EMPLOYEE)
+   NHƯNG BÀI THI GIẢ LẬP CHÚNG KHÁC DATABASE NÊN KHÔNG CÓ KÉO RELATIONSHIP!!! 
+  
+   * LÁT HỒI TRONG ENTITY KHÔNG DÙNG ĐƯỢC @OneToMany, @ManyToOne TRONG CLASS DEPARTMENT, EMPLOYEE
+                                                 DO 2 TABLE / ENTITY ĐANG GIẢ BỘ ĐỘC LẬP DATABASE 
+
+3. TẠO MỚI 3 REST-API PROJECT ĐỘC LẬP NHAU ỨNG VỚI 3 SERVICE, VỚI 3 PORT KHÁC NHAU, MÓC VÀO CÁC 
+   TABLE TƯƠNG ỨNG KHÁC NHAU (GIẢ BỘ CHÚNG ĐANG KHÁC DATABASE)
+   API PROJECT 1: Department Service - port 8081       -> CRUD TABLE DEPARTMENT
+   API PROJECT 2: Employee Service   - port 8082       -> CRUD TABLE EMPLOYEE
+
+   API PROJECT 3: Employee Gateway   - port 8080       -> PORT NÀY EXPORT RA CHO END-USER DÙNG
+                                                          SWAGGER-UI TRÊN PORT NÀY TỰ ĐIỀU HƯỚNG
+                                                          VÀO 2 PORT KIA
+
+4. Employee Service 8082 -------- DÙNG OPENFEIGN GỌI --------------> Department Service 8081
+                                  ĐỂ XIN THÔNG TIN DEPARTMENT, DO BỊ CHIA CẮT DB :)
+                                  -> NẾU KO CHIA CẮT THÌ DÙNG JOIN TRUYỀN THỐNG  :)
+
+5. NỘP 3 FILE .ZIP RIÊNG LẺ!!!
+   HOẶC FILE .ZIP LỚN CHỨA 3 .ZIP RIÊNG LẺ
+
+=================================================================
+II. CODING CONVENTION - XEM ĐỀ THI, ĐẶT CHÍNH XÁC TỪNG CÂU CHỮ, THƯỜNG CÓ CHỨA MÃ SỐ SV
+                        CHÚ Ý CHỮ HOA CHỮ THƯỜNG
+
+1. ĐẶT TÊN PROJECT RIÊNG BIỆT!!!
+SE668868DepartmentService -> port 8081
+SE668868EmployeeService   -> port 8082
+SE668868EmployeeGateway   -> port 8080
+
+1++: DÙNG PROJECT CHA VÀ MODULE CON - CHƠI GỘP :) - CÁC EM RA CHÀO KHÁCH :) ĐÃ HỌC, TỪ TỪ ÚP VIDEO
+
+2. ĐẶT TÊN CẤU TRÚC PACKAGE
+
+fu.se668868.department/
+                     .common/  
+                     .config/  
+                     .entity/ 
+                     .dto/ 
+                     .repository/ 
+                     .service/
+                     .service/impl/
+                     .controller/
+ 
+fu.se668868.employee/
+                     .common/  
+                     .config/  
+                     .entity/ 
+                     .dto/ 
+                     .repository/ 
+                     .service/
+                     .service/impl/
+                     .controller/
+
+fu.se668868.gateway/
+
+=================================================================
+III. TẠO MỚI DATABASE VÀ CHẠY SCRIPT
+- VÀO SQL SERVER MANAGEMENT STUDIO TẠO MỚI DATABASE THEO TÊN TRONG ĐỀ THI
+  HOẶC THEO TÊN TRONG 2 FILE .SQL ĐÍNH KÈM THEO ĐỀ
+  VÍ DỤ: CREATE DATABASE <TÊN-DATABASE-CỦA-ĐỀ>
+         CREATE DATABASE MSS301_2026_PE
+
+- DOUBLE CLICK VÀO 2 FILE SCRIPT .TXT MỞ NOTEPAD CẮT DÁN VÀO VÀ PLAY
+                                 .SQL TỰ MỞ LUÔN MANAGEMENT STUDIO
+  CTRL-A  CTRL-C  SANG TOOL CTRL-A / CTRL-V
+
+IV. TẠO MỚI 3 API PROJECT RIÊNG LẺ (HOẶC GỘP CHA CON)
+
+>>>>> CẦN WIFI ĐỂ TẠO MỚI PROJECT THÀNH CÔNG VÌ SẼ TẢI DEPENDENCY NGAY KHI TẠO
+* CHỌN 6 DEPENDENCY KHI TẠO SPRING BOOT PROJECT
+* 1 DEPENDENCY SWAGGER-UI (COPY TỪ GITHUB CỦA TUI)
+ 
+* COPY FILE APPLICATION.PROPERTIES TỪ GITHUB CỦA TUI VÀO
+  CHỈNH LẠI: PASSWORD SQLSERVER CHO KHỚP MÁY BẠN
+  CHỈNH LẠI: TÊN DATABASE CHO KHỚP VỚI ĐỀ THI, VÍ DỤ: MSS301_2026_PE
+  CHỈNH LẠI: PORT 8081 CHO APP DEPARMENT
+                  8082 CHO APP EMPLOYEE
+
+  RUN THỬ TOMCAT, PHẢI THẤY ĐỎ HOÀI, MỚI LÀ ĐÚNG
+  
+V. MỖI PROJECT TẠO CẤU TRÚC PACKAGE NHƯ ĐỀ ĐÃ CHO VÀ TIẾN HÀNH CODE
+1. TẠO CẤU TRÚC PACKAGE
+2. QUAN TRỌNG: TẠO @ENTITY CLASS. CÓ 2 CÁCH:  
+  - GÕ TAY
+  - SUY NGƯỢC TỪ TABLE: CÁCH NÀY NÊN CHỌN VÌ DỄ ĐỂ ĐẢM BẢO LIÊN THÔNG ENTITY / TABLE / FIELDS
