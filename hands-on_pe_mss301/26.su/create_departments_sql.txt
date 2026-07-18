@@ -1,0 +1,31 @@
+
+/* Table: Departments
+   Target: MS SQL Server 2016
+*/
+USE [MSS301_2026_PE]
+GO
+
+CREATE TABLE [dbo].[departments] (
+    [department_id]  INT IDENTITY(1,1) NOT NULL, -- Auto increment
+    [name]           NVARCHAR(50)      NOT NULL,
+    [code]           NVARCHAR(10)      NOT NULL, -- Marked as Mandatory in latest image
+    [effective_date] DATE              NULL,
+    [status]         NVARCHAR(10)      NULL, 
+    [location]       NVARCHAR(100)     NULL,
+    [parent_id]      INT               NULL,
+
+    -- Primary Key Constraint
+    CONSTRAINT [PK_Departments] PRIMARY KEY CLUSTERED ([department_id] ASC),
+
+    -- Unique Constraint for Code
+    CONSTRAINT [UQ_Departments_Code] UNIQUE NONCLUSTERED ([code] ASC),
+
+    -- Enum implementation via Check Constraint
+    CONSTRAINT [CK_Departments_Status] 
+        CHECK ([status] IN ('ACTIVE', 'INACTIVE', 'CLOSED')),
+
+    -- Date logic constraint (ensuring effective_date is not in the past if required)
+    CONSTRAINT [CK_Departments_EffectiveDate] 
+        CHECK ([effective_date] >= CAST(GETDATE() AS DATE)) 
+);
+GO

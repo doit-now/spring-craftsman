@@ -1,0 +1,92 @@
+======================================================================================================
+        TẠO SWAGGER-UI TRONG SPRINGBOOT RESTAPI PROJECT TRONG 1 NỐT NHẠC - © 2026 giáo.làng
+======================================================================================================
+
+
+
+
+
+======================================================================================================
+pom.xml - KHAI BÁO DEPENDENCY - KEYWORD SEARCH: SpringDoc OpenAPI Starter
+======================================================================================================
+
+<!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>3.0.3</version>
+    <scope>compile</scope>
+</dependency>
+
+
+
+======================================================================================================
+application.properties - CẤU HÌNH ĐƯỜNG DẪN GỌI SWAGGER-UI
+======================================================================================================
+
+# Swagger/OpenAPI Configuration
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.api-docs.path=/v3/api-docs
+
+
+
+======================================================================================================
+class config.OpenApiConfig - CẤU HÌNH TRANG CHỦ SWAGGER-UI MANG THÔNG TIN CÁ NHÂN - KHÔNG BẮT BUỘC
+                             NẾU KHÔNG LÀM SẼ MANG THÔNG TIN DEFAULT
+======================================================================================================
+
+package com.giaolang.mamnguqua.config;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Configuration - OpenAPI 3.0 (Swagger) Documentation
+ *
+ * Tạo API documentation tự động từ code annotations
+ * Truy cập tại: http://localhost:6969/swagger-ui.html
+ *
+ * Cung cấp:
+ * - Interactive API documentation
+ * - Try-it-out feature để test endpoints
+ * - Detailed request/response schemas
+ * - Security scheme definition (Bearer JWT)
+ *
+ * @author giáo.làng with AI support
+ * @version 2026.0603
+ * @since 2026
+ */
+@Configuration
+public class OpenApiConfig {
+
+    /**
+     * Define OpenAPI specification
+     *
+     * @return OpenAPI configuration
+     */
+    @Bean
+    public OpenAPI fruitManagementOpenAPI() {
+        return new OpenAPI()
+                // API Info
+                .info(new Info()
+                        .title("🍎 Điều Đào API")
+                        .description("REST API để quản lý tiệm Điều Đào với" +
+                                "30 fruits pre-loaded in database: Điều Đào Mơ Mận Bưởi Cam...")
+                        .version("2026.0603")
+                        .contact(new Contact()
+                                .name("giáo.làng - Ngọc Trinh & AI mãi đỉnh")
+                                .email("hoangnt20@fe.edu.vn")
+                                .url("http://localhost:6969"))
+                        .license(new License()
+                                .name("MIT License")
+                                .url("https://opensource.org/licenses/MIT")));
+
+    }
+}
