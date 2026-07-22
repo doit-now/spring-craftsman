@@ -4,6 +4,7 @@
 I. ĐỀ THI CÓ GÌ LẠ?
 1. >= 10 TRANG ĐỀ THI
 
+
 2. 2 FILE SCRIPT CHỨA LỆNH SQL TẠO CÁC TABLE CHO 2 SERVICE (2 API PROJECT) KHÁC NHAU
    NHƯNG CÁC TABLE NÀY ĐANG TẠM Ở CHUNG 1 DATABASE NHƯNG ĐỘC LẬP KO RELATIONSHIP
    (1 DATABASE DÙNG CHUNG CHO 2 SERVICE CHO TIỆN LÀM BÀI)   
@@ -13,7 +14,9 @@ I. ĐỀ THI CÓ GÌ LẠ?
    NHƯNG BÀI THI GIẢ LẬP CHÚNG KHÁC DATABASE NÊN KHÔNG CÓ KÉO RELATIONSHIP!!! 
   
    * LÁT HỒI TRONG ENTITY KHÔNG DÙNG ĐƯỢC @OneToMany, @ManyToOne TRONG CLASS DEPARTMENT, EMPLOYEE
-                                                 DO 2 TABLE / ENTITY ĐANG GIẢ BỘ ĐỘC LẬP DATABASE 
+                                                 DO 2 TABLE / ENTITY ĐANG GIẢ BỘ ĐỘC LẬP DATABASE
+   >>>>> DATABASE FIRST: CÓ TABLE -> @ENTITY
+  
 
 3. TẠO MỚI 3 REST-API PROJECT ĐỘC LẬP NHAU ỨNG VỚI 3 SERVICE, VỚI 3 PORT KHÁC NHAU, MÓC VÀO CÁC 
    TABLE TƯƠNG ỨNG KHÁC NHAU (GIẢ BỘ CHÚNG ĐANG KHÁC DATABASE)
@@ -31,9 +34,11 @@ I. ĐỀ THI CÓ GÌ LẠ?
 5. NỘP 3 FILE .ZIP RIÊNG LẺ!!!
    HOẶC FILE .ZIP LỚN CHỨA 3 .ZIP RIÊNG LẺ
 
+
 =================================================================
 II. CODING CONVENTION - XEM ĐỀ THI, ĐẶT CHÍNH XÁC TỪNG CÂU CHỮ, THƯỜNG CÓ CHỨA MÃ SỐ SV
-                        CHÚ Ý CHỮ HOA CHỮ THƯỜNG
+                        CHÚ Ý CHỮ HOA CHỮ THƯỜNG, KỂ CẢ MSSV, CÓ LÚC CHỮ HOA, CÓ LÚC CHỮ THƯỜNG
+                        ĐẶT CHO ĐÚNG!!!
 
 1. ĐẶT TÊN PROJECT RIÊNG BIỆT!!!
 SE668868DepartmentService -> port 8081

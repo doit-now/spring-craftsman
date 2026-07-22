@@ -2,52 +2,88 @@
       GIẢI NGỐ ĐỀ THI PE HSF302
 =======================================
 I. ĐỀ THI CÓ GÌ?
-* ĐỘ DÀI >= 5 TRANG 
+* ĐỘ DÀI ĐỀ THI >= 5 TRANG 
 
-* CUNG CẤP KÈM THEO 1 DATABASE SCRIPT (CHỨA LỆNH CREATE TABLE).TXT HOẶC .SQL
+* CUNG CẤP KÈM THEO 1 DATABASE SCRIPT (CHỨA LỆNH CREATE TABLE) 
+  PHẦN ĐUÔI FILE DB SCRIPT CÓ DẠNG .TXT HOẶC .SQL
   (.TXT DOUBLE CLICK DEFAULT MỞ NOTEPAD
    .SQL DOUBLE CLICK DEFAULT MỞ SQL SERVER MANAGEMENT STUDIO NẾU CÓ CÀI)
   GIÚP CHÚNG TA CÓ CÁC LỆNH TẠO TABLE; NHƯNG KO CÓ LỆNH TẠO DATABASE
   
-  - ĐỀ THI PE THEO STYLE DATABASE FIRST, PHẢI CÓ TABLE TRƯỚC
-    (TRÊN LỚP MÌNH ĐÃ HỌC CODE FIRST - TỪ @ENTITY, CLASS SẼ THÀNH TABLE)
+  - ĐỀ THI PE THEO STYLE "DATABASE FIRST", PHẢI CÓ TABLE TRƯỚC!!!
+    TABLE SẼ ĐẾN TỪ LỆNH TẠO TABLE CÓ TRONG FILE SCRIPT ĐI KÈM ĐỀ THI
 
-* ĐƯỢC THAM KHẢO TÀI LIỆU Ở MÁY LOCAL CỦA BẠN; 
+    TRÊN LỚP MÌNH ĐÃ HỌC "CODE FIRST" - TỪ @ENTITY, CLASS SẼ THÀNH TABLE
+
+* ĐƯỢC THAM KHẢO TÀI LIỆU Ở MÁY LOCAL CỦA BẠN; :)
+  NHƯNG CẤM ĐỂ LẠI DẤU VẾT COPY & PASTE, HOẶC BỊ 0 ĐIỂM VÌ KEYWORD LẠ TRONG SOURCE
+  TRÊN LỚP THẦY GIẢNG XE-TĂNG, SOURCE CÓ XE-TĂNG
+  ĐỀ THI   CHO        UAV    , SOURCE NỘP LẠI CÓ XE-TĂNG! ĐÁ LƯỢT VỀ (MẤT 1 MẠNG)
+
 * KHÔNG DÙNG LOMBOK (TUỲ TỪNG MÙA)
 
-* CHÚ Ý CODING CONVENTION - QUY ƯỚC VIẾT CODE
+* CHÚ Ý CODING CONVENTION - QUY ƯỚC VIẾT CODE (ĐỌC GẦN CUỐI ĐỀ THI)
   - ĐẢM BẢO ĐÚNG CHỮ HOA CHỮ THƯỜNG, SHIFT GẠCH _ NẾU CÓ KHI ĐẶT TÊN
   - ĐẶT ĐÚNG TÊN PROJECT (CÓ CHỮ HOA VÀ SHIFT GẠCH), ĐÚNG PROJECT CODE (MÃ DỰ ÁN) 
+                                                     Ở NGAY ĐẦU ĐỀ THI
   - ĐẶT ĐÚNG TÊN PACKAGE, MÃ SỐ SINH VIÊN NHỚ HẠ XUỐNG CHỮ THƯỜNG (CHUẨN CÔNG NGHIỆP)
 
-* ĐỀ CHỈ CÓ LIST, CREATE, SEARCH, DELETE (DÙNG MODAL KO DÙNG POPUP DEFAULT CONFIRM())
-* TABLE CHÍNH: TOUR CÓ KEY TỰ TĂNG, 
-               CỘT TOUR_NAME UNIQUE - CẤM TRÙNG, 
-               CỘT NGÀY THÁNG NĂM LƯU Ý FORMAT NHẬP VÀ HIỂN THỊ dd/MM/yyyy
+* ĐỀ CHỈ CÓ LÀM WEB APP THYMELEAF VỚI CÁC TÍNH NĂNG:
+  - LIST
+  - CREATE
+  - SEARCH (gần đúng - nhớ trim() cắt khoảng trắng ở keyword tìm kiếm)
+  - DELETE (DÙNG MODAL; KO DÙNG POPUP DEFAULT confirm('Are you sure?'))
+  - KO THẤY CÓ EDIT!!! NHƯNG ĐÃ HỌC TRÊN LỚP
+  - VẪN CÓ COMBO-BOX, DROP-DOWN - DANH SÁCH XỔ CHỌN TREO ĐẦU DÊ...
+
+  >>>>> MỖI TÍNH NĂNG CREATE, DELETE, SEARCH, LIST ĐỀU PHẢI CÓ THÔNG BÁO 
+        TRẠNG THÁI / KẾT QUẢ CỦA HÀNH ĐỘNG TRÊN TRANG CHỦ LIST
+        ví dụ: 
+               "No record found"
+               "Create successfully"
+               "Delete successfully"
+               
+* TABLE CHÍNH: CHỈ CÓ 1 TABLE, NHƯNG CÓ 1 PHẦN DROP-DOWN TRÊN MÀN HÌNH GIẢ LẬP 1 - N
+
+               TABLE CHÍNH:TOURS
+               CÓ CỘT KEY TỰ TĂNG, 
+               CỘT TOUR_NAME UNIQUE - CẤM TRÙNG - TRONG ĐỀ THI CÓ ĐỀ CẬP!!!
+               CỘT NGÀY THÁNG NĂM. LƯU Ý FORMAT NHẬP VÀ HIỂN THỊ dd/MM/yyyy
                           TRONG KHI ĐÓ DATABASE LƯU DẠNG yyyy-MM-dd
-* CHÚ Ý PHẦN VALIDATION TRÊN CÁC Ô NHẬP - XEM BẢNG MÔ TẢ TRONG ĐỀ
+
+* CHÚ Ý PHẦN VALIDATION TRÊN CÁC Ô NHẬP - XEM BẢNG MÔ TẢ GẦN CUỐI ĐỀ
 * KHÔNG CÓ MỐI QUAN HỆ 1 - N NHƯNG VẪN CÓ 1 DROP-DOWN TREO ĐẦU DÊ LẤY THỊT HEO HARD-CODED
   STATUS (IN - INACTIVE, AC - ACTIVE, DR - DRAFT)
 
-* NỘP BÀI: NÉN THƯ MỤC PROJECT THÀNH .ZIP (< 10MB) VÀ SUBMIT KHI THỜI GIAN LÀM CÒN LẠI 4-5 PHÚT
+* APP CHẠY TỪ 8080, DẤU / VÀO TRANG LIST SHOW ALL!!!!!!!!!! BẮT BUỘC, LÀM KHÁC 0 ĐIỂM!!!
 
-3-LAYER VÀ PROPERTIES
+*>>>>> NỘP BÀI: NÉN THƯ MỤC PROJECT THÀNH .ZIP (< 10MB) VÀ SUBMIT KHI THỜI GIAN LÀM CÒN LẠI COUNT DOWN 4-5 PHÚT
 
+=============================================================
 II. LÀM BÀI - TẠO MỚI PROJECT
 
 O. TẠO MỚI DATABASE
-- TÊN DATABASE 100% GIỐNG THEO ĐỀ THI, HOẶC LẤY TỪ CÁI CHUỖI USE <TÊN DATABASE> Ở TRONG FILE SCRIPT
+- TÊN DATABASE 100% GIỐNG THEO ĐỀ THI, 
+  HOẶC LẤY TỪ CÁI CHUỖI USE <TÊN DATABASE> Ở TRONG FILE SCRIPT
 - MỞ SQL SERVER MANAGEMENT STUDIO, GÕ LỆNH SAU:
 
   CREATE DATABASE TÊN-DB-CỦA-ĐỀ
+  CREATE DATANASE HSF302_2026_PE   //THEO ĐỀ MINH HOẠ
 
-- COPY TOÀN BỘ FILE DATABASE SCRIPT DÁN VÀO MÀN HÌNH QUERY VÀ RUN (EXECUTE - CTRL-X) ĐỂ TẠO TABLE
+- COPY TOÀN BỘ FILE DATABASE SCRIPT DÁN VÀO MÀN HÌNH QUERY 
+  VÀ RUN (EXECUTE ALT-X) ĐỂ TẠO TABLE
+  
   GÕ LỆNH SAU ĐỂ CHECK TABLE CÓ CHƯA
   SELECT * FROM TÊN-TABLE-CHÍNH
-  SELECT * FROM TOURS (ĐỪNG QUÊN TÊN CLASS LÀ SỐ ÍT NHEN!!!)  
+  SELECT * FROM TOURS (TÊN TABLE CÓ THỂ SỐ NHIỀU, 
+                       ĐỪNG QUÊN TÊN CLASS LÀ SỐ ÍT NHEN ĐỂ LÁT CODE CHO ĐÚNG!!!)  
 
 
 1. TẠO MỚI SPRINGBOOT PROJECT, ĐẶT TÊN 100% GIỐNG HOA THƯỜNG THEO ĐỀ YÊU CẦU
+   (XEM QUY ƯỚC TÊN PROJECT GẦN CUỐI ĐỀ)
+
+>>>>> CẦN CÓ WIFI THÌ MỚI TẠO PROJECT THÀNH CÔNG!!! 
+
 * TÊN PROJECT (CHÍNH LÀ THƯ MỤC NỘP BÀI LUÔN) CHÚ Ý HOA, SHIFT GẠCH _
          ClassName_StudentId_ProjectCode_PE
          HSF302_SE668868_RMS_PE
@@ -56,37 +92,49 @@ O. TẠO MỚI DATABASE
 * CHÚ Ý: QUÊN CHECK VÀO MAVEN LÀ TOANG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 * CHÚ Ý: TÊN PACKAGE THEO ĐỀ GÕ NGAY LÚC TẠO PROJECT
-         fu.<studentid>.mvc, 100% CHỮ THƯỜNG NHEN
-         fu.se668868.mvc
+         com.<studentid>.mvc, 100% CHỮ THƯỜNG NHEN
+         com.se668868.mvc
 
-* CHÚ Ý: GROUP ID GÕ fu.<mã sv của mình>
-         fu.se668868
+* CHÚ Ý: GROUP ID GÕ com.<mã sv của mình>
+         com.se668868
 
-* CHÚ Ý: CHỌN VERSION JDK: 21
+* CHÚ Ý: CHỌN VERSION JDK: 21, .WAR
 
-* CHÚ Ý: CHỌN 6 DEPENDENCY. TUỲ ĐỀ CHO DÙNG LOMBOK HAY KO, NẾU CHO THÌ LÀ 7 DEPENDENCY
-  - DevTools, Lombok(tuỳ đợt), SpringMVC, Thymeleaf, Spring Data JPA/Hibernate, MS SQL Server, Validation
+* CHÚ Ý: CHỌN 6 DEPENDENCY. 
+         TUỲ ĐỀ CHO DÙNG LOMBOK HAY KO, NẾU CHO THÌ LÀ 7 DEPENDENCY
+         - DevTools, 
+         - Lombok(tuỳ đợt thi cho dùng hay ko, cấm sẽ ghi rõ)
+         - Spring Web MVC
+         - Thymeleaf 
+         - Spring Data JPA/Hibernate
+         - MS SQL Server Driver
+         - I/O Validation
 
 >>>>> CẦN CÓ WIFI THÌ MỚI TẠO PROJECT THÀNH CÔNG!!!
 
 2. TẠO LUÔN CẤU TRÚC PACKAGE THEO 3-LAYER ARCHITECT & REPOSITORY PATTERN
 - CHÚ Ý CHỮ THƯỜNG 100% KỂ CẢ MÃ SINH VIÊN
 - ĐI THEO THỨ TỰ CHO DỄ NHỚ
-  fu.mã-sv.mvc/      đã làm lúc tạo project rồi 
-  fu.se668868.mvc/
+
+  com.mã-sv.mvc/      đã có sẵn lúc tạo mới project rồi 
+  com.se668868.mvc/
                  entity/
                  dto/
                  repository/
                  service/        tạo trước ku này
-                        impl/    đừng tạo sớm ku này, 
-                                 khi nào tạo interface xong thì hãy tạo ku này                                      
+                 service/impl/   đừng tạo sớm ku này, 
+                                 khi nào tạo interface xong thì hãy tạo ku này!                                      
                  controller/
 
 3. CHỈNH SỬA FILE APPLICATION.PROPERTIES
-- PORT: NẾU ĐỀ THI CHO 8080 THÌ TA KO CẦN ĐIỀU CHỈNH; 
-        KO CẦN OPTION server.port=8080 CX ĐC. NHƯNG NÊN ĐỂ CHO RÕ THEO ĐỀ
 
-- THÔNG SỐ KẾT NỐI CSDL: TÊN DATABASE THEO ĐỀ, 
+* GỢI Ý: LẤY TRÊN GITHUB CỦA TUI, ĐỘ LẠI THÀNH CỦA BẠN
+         VÀO PHÒNG THI COPY TỪ PHIÊN BẢN ĐỘ!
+
+- PORT: NẾU ĐỀ THI CHO 8080 THÌ TA KO CẦN ĐIỀU CHỈNH; 
+        KO CẦN OPTION server.port=8080 CX ĐC. NHƯNG NÊN ĐỂ CHO RÕ THEO ĐỀ!!!
+
+- THÔNG SỐ KẾT NỐI CSDL: TÊN DATABASE THEO ĐỀ 
                          USER SA THEO ĐỀ
                          PASSWORD SA THEO MÁY MÌNH
 
@@ -99,15 +147,15 @@ O. TẠO MỚI DATABASE
                                         LÁT HỒI LÀM CONTROLLER LÀ ĐC!!!
              http://localhost:8080/ 
 
-* GỢI Ý: LẤY TRÊN GITHUB CỦA TUI, ĐỘ LẠI THÀNH CỦA BẠN
-         VÀO PHÒNG THI COPY TỪ PHIÊN BẢN ĐỘ!
 
->>>>>4. PLAY THỬ COI XEM TOMCAT SỐNG ĐC KO, MUỐN SỐNG ĐC NÓ PHẢI MÓC VÀO DB 
-        MÌNH ĐÃ TẠO!!!!!!!!!!!!!!!!!!!!!!!!!!
+>>>>>4. PLAY THỬ COI XEM TOMCAT SỐNG ĐC KO
+        MUỐN TOMCAT SỐNG ĐC NÓ PHẢI MÓC VÀO DB MÌNH VỪA TẠO Ở TRÊN!!!!!!!!!!!!!!!!!!!!!!!!!!
+        DƯỚI ĐÁY MÀN HÌNH BÁO RẰNG TOMCAT THÀNH CÔNG (MÀU ĐỎ 4EVER)
+                                                       SAU X GIÂY Ở PORT 8080 MỚI LÀ OKIE!!!
 
         NẾU KO THẤY BIỂU TƯỢNG PLAY THÀNH MÀU ĐỎ 4EVER => COI NHƯ TOANG!!!
-        DƯỚI ĐÁY MÀN HÌNH BÁO RẰNG TOMCAT THÀNH CÔNG SAU X GIÂY Ở PORT 8080
-
+        
+==========================================================================
 III. LÀM BÀI - CODE
 1. GENERATE ENTITY CLASS NGƯỢC TỪ TABLE ĐỂ ĐẢO LIÊN THÔNG GIỮA CODE VÀ TABLE
 - ANH EM CẦN PHIÊN BẢN INTELLIJ ULTIMATE MỚI GENERATE NGƯỢC TỪ TABLE THÀNH CLAS
