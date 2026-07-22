@@ -2,7 +2,11 @@
       GIẢI NGỐ ĐỀ THI PE HSF302
 =======================================
 I. ĐỀ THI CÓ GÌ?
-* ĐỘ DÀI ĐỀ THI >= 5 TRANG 
+* ĐỘ DÀI ĐỀ THI >= 5 TRANG VÀ 1 FILE DB SCRIPT 
+  - ĐẦU ĐỀ THI CHỨA TÊN DỰ ÁN VÀ MÀN HÌNH CHÍNH CRUD TABLE X 
+  - GIỮA ĐỀ MÔ TẢ CHI TIẾT CÁC CHỨC NĂNG CẦN CÀI ĐẶT / CODE
+  - CUỐI ĐỀ (QUAN TRỌNG) MÔ TẢ CÁC QUY ƯỚC VỀ PROJECT, CODE
+    NỘP BÀI => NẾU VI PHẠM 0 ĐIỂM!!!
 
 * CUNG CẤP KÈM THEO 1 DATABASE SCRIPT (CHỨA LỆNH CREATE TABLE) 
   PHẦN ĐUÔI FILE DB SCRIPT CÓ DẠNG .TXT HOẶC .SQL
@@ -12,13 +16,14 @@ I. ĐỀ THI CÓ GÌ?
   
   - ĐỀ THI PE THEO STYLE "DATABASE FIRST", PHẢI CÓ TABLE TRƯỚC!!!
     TABLE SẼ ĐẾN TỪ LỆNH TẠO TABLE CÓ TRONG FILE SCRIPT ĐI KÈM ĐỀ THI
+    DB FIRST NGHĨA LÀ SẼ TỪ TABLE DỘI NGƯỢC RA @ENTTY CLASS
 
-    TRÊN LỚP MÌNH ĐÃ HỌC "CODE FIRST" - TỪ @ENTITY, CLASS SẼ THÀNH TABLE
+    TRÊN LỚP MÌNH ĐÃ HỌC "CODE FIRST" - TỪ @ENTITY CLASS SẼ THÀNH TABLE
 
 * ĐƯỢC THAM KHẢO TÀI LIỆU Ở MÁY LOCAL CỦA BẠN; :)
   NHƯNG CẤM ĐỂ LẠI DẤU VẾT COPY & PASTE, HOẶC BỊ 0 ĐIỂM VÌ KEYWORD LẠ TRONG SOURCE
   TRÊN LỚP THẦY GIẢNG XE-TĂNG, SOURCE CÓ XE-TĂNG
-  ĐỀ THI   CHO        UAV    , SOURCE NỘP LẠI CÓ XE-TĂNG! ĐÁ LƯỢT VỀ (MẤT 1 MẠNG)
+  ĐỀ THI   CHO        UAV    , SOURCE NỘP LẠI CÓ XE-TĂNG! MỜI ĐÁ LƯỢT VỀ (MẤT 1 MẠNG)
 
 * KHÔNG DÙNG LOMBOK (TUỲ TỪNG MÙA)
 
@@ -35,6 +40,7 @@ I. ĐỀ THI CÓ GÌ?
   - DELETE (DÙNG MODAL; KO DÙNG POPUP DEFAULT confirm('Are you sure?'))
   - KO THẤY CÓ EDIT!!! NHƯNG ĐÃ HỌC TRÊN LỚP
   - VẪN CÓ COMBO-BOX, DROP-DOWN - DANH SÁCH XỔ CHỌN TREO ĐẦU DÊ...
+    ĐẰNG SAU LÀ TABLE 1-N HOẶC DANH SÁCH HARD-CODE (KO CÓ TABLE 1 - TUỲ ĐỀ)
 
   >>>>> MỖI TÍNH NĂNG CREATE, DELETE, SEARCH, LIST ĐỀU PHẢI CÓ THÔNG BÁO 
         TRẠNG THÁI / KẾT QUẢ CỦA HÀNH ĐỘNG TRÊN TRANG CHỦ LIST
@@ -43,9 +49,9 @@ I. ĐỀ THI CÓ GÌ?
                "Create successfully"
                "Delete successfully"
                
-* TABLE CHÍNH: CHỈ CÓ 1 TABLE, NHƯNG CÓ 1 PHẦN DROP-DOWN TRÊN MÀN HÌNH GIẢ LẬP 1 - N
+* DB -> TABLE CHÍNH: CHỈ CÓ 1 TABLE, NHƯNG CÓ 1 PHẦN DROP-DOWN TRÊN MÀN HÌNH GIẢ LẬP 1 - N
 
-               TABLE CHÍNH:TOURS
+               TABLE CHÍNH: TOURS
                CÓ CỘT KEY TỰ TĂNG, 
                CỘT TOUR_NAME UNIQUE - CẤM TRÙNG - TRONG ĐỀ THI CÓ ĐỀ CẬP!!!
                CỘT NGÀY THÁNG NĂM. LƯU Ý FORMAT NHẬP VÀ HIỂN THỊ dd/MM/yyyy
@@ -59,6 +65,10 @@ I. ĐỀ THI CÓ GÌ?
 
 *>>>>> NỘP BÀI: NÉN THƯ MỤC PROJECT THÀNH .ZIP (< 10MB) VÀ SUBMIT KHI THỜI GIAN LÀM CÒN LẠI COUNT DOWN 4-5 PHÚT
 
+   > KHÔNG NỘP SOURCE CODE CÓ ERROR KHI NHẤN NÚT RUN, RÁNG NỘP CX 0 ĐIỂM, CODE ERROR KO CHẤM!!!
+   > ĐẢM BẢO MAVEN PROJECT!!!!!!!!!!!!!!!!!!!!!!! CHÚ Ý NGAY KHI TẠO MỚI PROJECT!!! 
+                                                  LỘN SANG GRADLE KO CHẤM!!!!!!!!!!
+
 =============================================================
 II. LÀM BÀI - TẠO MỚI PROJECT
 
@@ -68,10 +78,12 @@ O. TẠO MỚI DATABASE
 - MỞ SQL SERVER MANAGEMENT STUDIO, GÕ LỆNH SAU:
 
   CREATE DATABASE TÊN-DB-CỦA-ĐỀ
-  CREATE DATANASE HSF302_2026_PE   //THEO ĐỀ MINH HOẠ
+  CREATE DATANASE HSF302_2026_PE   //THEO ĐỀ MINH HOẠ !!!!!!!!!!!!!!!!!!!
 
 - COPY TOÀN BỘ FILE DATABASE SCRIPT DÁN VÀO MÀN HÌNH QUERY 
-  VÀ RUN (EXECUTE ALT-X) ĐỂ TẠO TABLE
+  HOẶC DOUBLE CLICK .SQL ĐỂ MỞ LUÔN FILE SCRIPT TRONG MAGEMENT STUDIO
+
+  VÀ RUN (EXECUTE ALT-X) ĐỂ TẠO TABLE!!!!!!!!!!!!!!!!
   
   GÕ LỆNH SAU ĐỂ CHECK TABLE CÓ CHƯA
   SELECT * FROM TÊN-TABLE-CHÍNH
@@ -82,7 +94,7 @@ O. TẠO MỚI DATABASE
 1. TẠO MỚI SPRINGBOOT PROJECT, ĐẶT TÊN 100% GIỐNG HOA THƯỜNG THEO ĐỀ YÊU CẦU
    (XEM QUY ƯỚC TÊN PROJECT GẦN CUỐI ĐỀ)
 
->>>>> CẦN CÓ WIFI THÌ MỚI TẠO PROJECT THÀNH CÔNG!!! 
+>>>>> CẦN CÓ WIFI THÌ MỚI TẠO PROJECT THÀNH CÔNG!!! BẮT BUỘC MỞ WIFI NGAY LÚC NÀY
 
 * TÊN PROJECT (CHÍNH LÀ THƯ MỤC NỘP BÀI LUÔN) CHÚ Ý HOA, SHIFT GẠCH _
          ClassName_StudentId_ProjectCode_PE
@@ -90,6 +102,8 @@ O. TẠO MỚI DATABASE
    
 
 * CHÚ Ý: QUÊN CHECK VÀO MAVEN LÀ TOANG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+* CHÚ Ý: GROUP-ID: com.<studentid>.mvc | ARTIFACT: GIỮ NGUYÊN, VÌ NÓ ĂN THEO TÊN PROJECT
 
 * CHÚ Ý: TÊN PACKAGE THEO ĐỀ GÕ NGAY LÚC TẠO PROJECT
          com.<studentid>.mvc, 100% CHỮ THƯỜNG NHEN
@@ -112,18 +126,24 @@ O. TẠO MỚI DATABASE
 
 >>>>> CẦN CÓ WIFI THÌ MỚI TẠO PROJECT THÀNH CÔNG!!!
 
-2. TẠO LUÔN CẤU TRÚC PACKAGE THEO 3-LAYER ARCHITECT & REPOSITORY PATTERN
+>>>>> KHÔNG CHẠY ĐƯỢC TOMCAT, KO RUN APP LÚC NÀY ĐC, VÌ ĐANG THIẾU PHẦN KHAI BÁO KẾT NỐI CSDL
+      DO MÌNH CÓ CHỌN JPA/HIBERNATE/SQL SERVER Ở BƯỚC TẠO PROJECT VÀ DEPENDENCY
+
+      > CHUẨN BỊ THIẾT LẬP FILE APPLICATION.PROPERTIES!!!
+
+2. TẠO LUÔN CẤU TRÚC PACKAGE THEO 3-LAYER ARCHITECTURE & REPOSITORY PATTERN
 - CHÚ Ý CHỮ THƯỜNG 100% KỂ CẢ MÃ SINH VIÊN
-- ĐI THEO THỨ TỰ CHO DỄ NHỚ
+- ĐI THEO THỨ TỰ TỪ DB NGOI LÊN CONTROLLER CHO DỄ NHỚ, TRÁNH SAI, THIẾU
+  (TẠO XONG THẰNG INTELLIJ TỰ SORT LẠI THỨ TỰ PACKAGE KỆ NÓ)
 
   com.mã-sv.mvc/      đã có sẵn lúc tạo mới project rồi 
   com.se668868.mvc/
                  entity/
                  dto/
                  repository/
-                 service/        tạo trước ku này
+                 service/        tạo trước ku này, sau này chứa các public interface...
                  service/impl/   đừng tạo sớm ku này, 
-                                 khi nào tạo interface xong thì hãy tạo ku này!                                      
+                                 khi nào tạo interface xong thì hãy tạo ku này để IMPLEMENTS!                                      
                  controller/
 
 3. CHỈNH SỬA FILE APPLICATION.PROPERTIES
@@ -136,15 +156,15 @@ O. TẠO MỚI DATABASE
 
 - THÔNG SỐ KẾT NỐI CSDL: TÊN DATABASE THEO ĐỀ 
                          USER SA THEO ĐỀ
-                         PASSWORD SA THEO MÁY MÌNH
+                         PASSWORD SA THEO MÁY MÌNH; LÚC NỘP BÀI SỬA LẠI PASS GIỐNG ĐỀ!!!
 
 - TẮT OPTION hibernate.ddl=none           quên tắt thì thành code first
                                           đi tạo table từ class!!!COI CHỪNG!!!
 
 - THÔNG SỐ THYMELEAF
 
-- MẶC ĐỊNH VÀO APP VỚI ĐƯỜNG LINK /     KO CÓ PHẦN PHÍA SAU NHƯ HỌC TRÊN LỚP
-                                        LÁT HỒI LÀM CONTROLLER LÀ ĐC!!!
+- MẶC ĐỊNH VÀO APP VỚI ĐƯỜNG LINK /     KO CÓ PHẦN PHÍA SAU /dieudao/fruits NHƯ HỌC TRÊN LỚP
+                                        LÁT HỒI LÀM CONTROLLER LÀ ĐC; KO LO!!!
              http://localhost:8080/ 
 
 
@@ -153,14 +173,22 @@ O. TẠO MỚI DATABASE
         DƯỚI ĐÁY MÀN HÌNH BÁO RẰNG TOMCAT THÀNH CÔNG (MÀU ĐỎ 4EVER)
                                                        SAU X GIÂY Ở PORT 8080 MỚI LÀ OKIE!!!
 
-        NẾU KO THẤY BIỂU TƯỢNG PLAY THÀNH MÀU ĐỎ 4EVER => COI NHƯ TOANG!!!
+        NẾU KO THẤY BIỂU TƯỢNG PLAY THÀNH MÀU ĐỎ 4EVER => COI NHƯ TOANG!!! DÙNG MẠNG 2!!!
         
 ==========================================================================
 III. LÀM BÀI - CODE
-1. GENERATE ENTITY CLASS NGƯỢC TỪ TABLE ĐỂ ĐẢO LIÊN THÔNG GIỮA CODE VÀ TABLE
-- ANH EM CẦN PHIÊN BẢN INTELLIJ ULTIMATE MỚI GENERATE NGƯỢC TỪ TABLE THÀNH CLAS
-- NẾU KO CÓ THÌ CÀI THÊM PLUGIN JPA BUDDY!!!
-- TẠO MỚI CONNECTION TỚI SQL SERVER, TỚI DB CỦA MÌNH ĐỂ SHOW RA CÁC TABLE
+***** BƯỚC QUAN TRỌNG NHẤT - ĐÁNH THÔNG TABLE VÀ ENTITY CLASS (TRONG STYLE DATABASE FIRST)
+
+1. GENERATE ENTITY CLASS NGƯỢC TỪ TABLE (TABLE -> @Entity!!!)
+   ĐỂ ĐẢO LIÊN THÔNG GIỮA CODE VÀ TABLE!!!
+
+* ANH EM CẦN PHIÊN BẢN INTELLIJ ULTIMATE MỚI GENERATE NGƯỢC TỪ TABLE THÀNH CLAS
+
+* NẾU KO CÓ THÌ CÀI THÊM PLUGIN JPA BUDDY!!!
+  MENU FILE | SETTINGS | PLUGINS | MARKET PLACE | GÕ JPA BUDDY
+  HOẶC ICON BÁNH RĂNG GÓC PHẢI TRÊN CÙNG | PLUGINS | MARKET PLACE | GÕ JPA BUDDY
+
+-> TẠO MỚI CONNECTION TỚI SQL SERVER, TỚI DB CỦA MÌNH ĐỂ SHOW RA CÁC TABLE
   MENU VIEW | TOOL WINDOWS | DATABASE
   HOẶC
   CLICK VÀO ICON THÙNG CHỨA DB Ở BÊN GÓC PHẢI TRÊN MÀN HÌNH
