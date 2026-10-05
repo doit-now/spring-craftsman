@@ -40,15 +40,18 @@ II. CODING CONVENTION - XEM ĐỀ THI, ĐẶT CHÍNH XÁC TỪNG CÂU CHỮ, TH�
                         CHÚ Ý CHỮ HOA CHỮ THƯỜNG, KỂ CẢ MSSV, CÓ LÚC CHỮ HOA, CÓ LÚC CHỮ THƯỜNG
                         ĐẶT CHO ĐÚNG!!!
 
-1. ĐẶT TÊN PROJECT RIÊNG BIỆT!!!
-SE668868DepartmentService -> port 8081
-SE668868EmployeeService   -> port 8082
-SE668868EmployeeGateway   -> port 8080
+---------------------------------------------------------------
+1. ĐẶT TÊN PROJECT RIÊNG BIỆT!!! NÊN GOM CHUNG VÀO 1 THƯ MỤC CHA VÍ DỤ: 
+SE668868PE\
+  SE668868DepartmentService -> port 8081
+  SE668868EmployeeService   -> port 8082
+  SE668868EmployeeGateway   -> port 8080
 
 1++: DÙNG PROJECT CHA VÀ MODULE CON - CHƠI GỘP :) - CÁC EM RA CHÀO KHÁCH :) ĐÃ HỌC, TỪ TỪ ÚP VIDEO
 
+---------------------------------------------------------------
 2. ĐẶT TÊN CẤU TRÚC PACKAGE
-
+* CẤU TRÚC NÀY DÀNH CHO 2 PROJECT CRUD TƯƠNG ỨNG, CÒN PROJECT GATEWAY THÌ KO ĐẶT THEO
 fu.se668868.department/
                      .common/  
                      .config/  
@@ -81,12 +84,21 @@ III. TẠO MỚI DATABASE VÀ CHẠY SCRIPT
 - DOUBLE CLICK VÀO 2 FILE SCRIPT .TXT MỞ NOTEPAD CẮT DÁN VÀO VÀ PLAY
                                  .SQL TỰ MỞ LUÔN MANAGEMENT STUDIO
   CTRL-A  CTRL-C  SANG TOOL CTRL-A / CTRL-V
+                                            VÀ NHẤN NÚT PLAY ĐỂ TẠO TABLE
 
+=================================================================         
 IV. TẠO MỚI 3 API PROJECT RIÊNG LẺ (HOẶC GỘP CHA CON)
 
 >>>>> CẦN WIFI ĐỂ TẠO MỚI PROJECT THÀNH CÔNG VÌ SẼ TẢI DEPENDENCY NGAY KHI TẠO
+
+-----------------------------------------------------------------
+1. TẠO MỚI 2 API PROJECT CRUD - DEPARTMENT SERVICE VÀ EMPLOYEE SERVICE
+
 * CHỌN 6 DEPENDENCY KHI TẠO SPRING BOOT PROJECT
-* 1 DEPENDENCY SWAGGER-UI (COPY TỪ GITHUB CỦA TUI)
+* THÊM 1 DEPENDENCY SWAGGER-UI (COPY TỪ GITHUB CỦA TUI)
+  
+  QUAN TRỌNG: NHẤN CTRL-SHIFT-O ĐỂ TẢI DEPENDENCY SWAGGER-UI VỀ MÁY!!!
+
  
 * COPY FILE APPLICATION.PROPERTIES TỪ GITHUB CỦA TUI VÀO
   CHỈNH LẠI: PASSWORD SQLSERVER CHO KHỚP MÁY BẠN
@@ -96,8 +108,20 @@ IV. TẠO MỚI 3 API PROJECT RIÊNG LẺ (HOẶC GỘP CHA CON)
 
   RUN THỬ TOMCAT, PHẢI THẤY ĐỎ HOÀI, MỚI LÀ ĐÚNG
   
-V. MỖI PROJECT TẠO CẤU TRÚC PACKAGE NHƯ ĐỀ ĐÃ CHO VÀ TIẾN HÀNH CODE
-1. TẠO CẤU TRÚC PACKAGE
+2. TẠO MỚI API PROJECT - EMPLOYEE GATEWAY
+
+
+V. MỖI PROJECT CRUD TẠO CẤU TRÚC PACKAGE NHƯ ĐỀ ĐÃ CHO VÀ TIẾN HÀNH CODE
+1. TẠO CẤU TRÚC PACKAGE THEO 3-LAYER ARCHITECTURE & REPOSITORY PATTERN
 2. QUAN TRỌNG: TẠO @ENTITY CLASS. CÓ 2 CÁCH:  
-  - GÕ TAY
-  - SUY NGƯỢC TỪ TABLE: CÁCH NÀY NÊN CHỌN VÌ DỄ ĐỂ ĐẢM BẢO LIÊN THÔNG ENTITY / TABLE / FIELDS
+  - GÕ TAY: DỄ RỦI RO TÊN FIELD KO MAP ĐC VỚI TABLE!!!
+  - SUY NGƯỢC TỪ TABLE: CÁCH NÀY NÊN CHỌN VÌ DỄ ĐỂ ĐẢM BẢO LIÊN THÔNG ENTITY / TABLE / FIELDS -> REVERSE ENGINEERING
+
+* MENU VIEW | TOOL WINDOWS | DATABASE -> CÓ ICON DB Ở GÓC PHẢI TRÊN 
+
+* CÀI THÊM PLUGIN: JPA BUDDY 
+  C1: MENU FILE | SETTINGS | PLUGINS | MARKET PLACE | GÕ JPA BUDDY | INSTALL
+  C2: NHẤN BIỂU TƯỢNG BÁNH RĂNG SETTINGS NHANH Ở GÓC PHẢI TRÊN CỦA INTELLIJ | PLUGINS | MARKET 
+      PLACE | GÕ JPA BUDDY | INSTALL 
+
+
