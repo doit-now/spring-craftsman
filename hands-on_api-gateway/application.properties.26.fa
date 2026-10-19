@@ -1,0 +1,80 @@
+> CHỌN DEPENDENCY: SPRING CLOUD ROUTING | REACTIVE GATEWAY (WEBFLUX)
+    <properties>
+        <java.version>17</java.version>
+        <spring-cloud.version>2025.1.3</spring-cloud.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+# ================================================================
+# API GATEWAY với Spring Boot 4.x 
+# Dùng Spring Cloud 2025.1.x để tương thích với Spring Boot 4.0.x
+# ================================================================
+
+# ====================================================
+# 1. CẤU HÌNH CƠ BẢN
+# ====================================================
+# Cổng chạy của API Gateway - CLIENT gọi vào đây
+server.port=8080
+# Tên định danh của ứng dụng (dùng trong logs, tracing, hoặc đăng ký lên Eureka)
+spring.application.name=api-gateway
+
+# ====================================================
+# 2. CẤU HÌNH ROUTING (ĐỊNH TUYẾN REQUEST)
+# ====================================================
+
+# ----- Route 1: Chuyển tiếp các request /api/users/** sang user-service (cổng 6969) -----
+# ID định danh duy nhất cho Route 1. Dùng [0] cho route đầu tiên, [1] cho route kế tiếp,...
+spring.cloud.gateway.server.webflux.routes[0].id=user-service-route
+# Đích đến: URL của User Service
+spring.cloud.gateway.server.webflux.routes[0].uri=http://localhost:6969
+# Điều kiện: Request phải bắt đầu bằng /api/users/
+spring.cloud.gateway.server.webflux.routes[0].predicates[0]=Path=/api/users/**
+# (Tùy chọn) Bỏ tiền tố /api/users trước khi chuyển tiếp (VD: /api/users/1 -> /1). 
+# Nếu service con có sẵn /api/users/... thì KHÔNG cần dòng này.
+# spring.cloud.gateway.server.webflux.routes[0].filters[0]=StripPrefix=2
+
+# ----- Route 2: Chuyển tiếp các request /api/orders/** sang order-service (cổng 6789) -----
+# ID định danh duy nhất cho Route 2
+spring.cloud.gateway.server.webflux.routes[1].id=order-service-route
+# Đích đến: URL của Order Service
+spring.cloud.gateway.server.webflux.routes[1].uri=http://localhost:6789
+# Điều kiện: Request phải bắt đầu bằng /api/orders/
+spring.cloud.gateway.server.webflux.routes[1].predicates[0]=Path=/api/orders/**
+# (Tùy chọn) Bỏ tiền tố /api/orders (VD: /api/orders/1 -> /1)
+# spring.cloud.gateway.server.webflux.routes[1].filters[0]=StripPrefix=2
+
+# ====================================================
+# 3. CẤU HÌNH ACTUATOR & LOG
+# Actuator - Endpoint quản trị, giám sát Gateway
+# Truy cập: GET /actuator/health
+#           GET /actuator/gateway/routes
+# ====================================================
+# Bật log chi tiết của Gateway để dễ debug luồng định tuyến
+logging.level.org.springframework.cloud.gateway=DEBUG
+
+# Mở các endpoint web để xem: gateway (danh sách route), health (trạng thái), info, metrics
+management.endpoints.web.exposure.include=gateway,health,info,metrics
+# Chỉ cho phép đọc thông tin gateway, không cho phép sửa/xóa route qua API
+management.endpoint.gateway.access=read-only
