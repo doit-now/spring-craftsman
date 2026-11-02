@@ -1,0 +1,170 @@
+HƯỚNG DẪN THỰC HÀNH KAFKA TRÊN WINDOWS + DOCKER DESKTOP
+========================================================
+Môi trường: Windows 11, Docker Desktop, image apache/kafka:latest
+Tên container: dieudao
+
+SƠ ĐỒ CỔNG
+- Windows localhost:8888 -> container:9092: cổng BOOTSTRAP (kết nối ban đầu).
+- Windows localhost:9999 -> container:9092: cổng ADVERTISED (broker trả về cho client).
+- Trong container localhost:9094: listener INTERNAL, dùng cho các lệnh Kafka CLI nội bộ.
+- Trong container localhost:9093: listener CONTROLLER (KRaft).
+- Spring Boot chạy trên Windows: spring.kafka.bootstrap-servers=localhost:8888
+- Chú ý: client sẽ chuyển sang localhost:9999 sau khi nhận metadata từ broker.
+
+1. TẠO CONTAINER - POWERSHELL (dấu ` để xuống dòng)
+---------------------------------------------------
+docker run -d --name dieudao `
+  -p 127.0.0.1:8888:9092 `
+  -p 127.0.0.1:9999:9092 `
+  -e KAFKA_NODE_ID=1 `
+  -e KAFKA_PROCESS_ROLES=broker,controller `
+  -e KAFKA_LISTENERS=EXTERNAL://0.0.0.0:9092,INTERNAL://0.0.0.0:9094,CONTROLLER://0.0.0.0:9093 `
+  -e KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9999,INTERNAL://localhost:9094 `
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT `
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL `
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER `
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 `
+  -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 `
+  -e KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1 `
+  -e KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1 `
+  apache/kafka:latest
+
+2. TẠO CONTAINER - CMD (dấu ^ để xuống dòng)
+--------------------------------------------
+docker run -d --name dieudao ^
+  -p 127.0.0.1:8888:9092 ^
+  -p 127.0.0.1:9999:9092 ^
+  -e KAFKA_NODE_ID=1 ^
+  -e KAFKA_PROCESS_ROLES=broker,controller ^
+  -e KAFKA_LISTENERS=EXTERNAL://0.0.0.0:9092,INTERNAL://0.0.0.0:9094,CONTROLLER://0.0.0.0:9093 ^
+  -e KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9999,INTERNAL://localhost:9094 ^
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT ^
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL ^
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER ^
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 ^
+  -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 ^
+  -e KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1 ^
+  -e KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1 ^
+  apache/kafka:latest
+
+LƯU Ý: Chỉ chạy MỘT trong hai lệnh trên. Trong CMD, dấu ^ phải nằm cuối dòng,
+không có khoảng trắng phía sau. Trong PowerShell, dấu ` cũng phải nằm cuối dòng.
+Nếu container dieudao đã tồn tại, dùng docker rm -f dieudao trước khi tạo lại.
+Xóa container có thể làm mất dữ liệu nếu không cấu hình volume.
+
+3. QUẢN LÝ CONTAINER - CHẠY TỪ WINDOWS (POWERSHELL HOẶC CMD)
+-----------------------------------------------------------
+docker ps                         # Xem container đang chạy
+docker ps -a                      # Xem tất cả container
+docker logs dieudao              # Xem log Kafka
+docker logs -f dieudao           # Theo dõi log liên tục; Ctrl+C để dừng xem
+docker stop dieudao              # Dừng container
+docker start dieudao             # Khởi động lại container
+docker rm -f dieudao             # Xóa container (cẩn thận dữ liệu)
+
+4. KAFKA CLI TỪ WINDOWS BẰNG docker exec
+---------------------------------------
+Các lệnh dưới đây gõ trên Windows nhưng Kafka CLI chạy BÊN TRONG container.
+Vì vậy dùng localhost:9094 (INTERNAL), KHÔNG dùng localhost:8888.
+
+# Tạo topic 3 partitions, replication factor 1
+docker exec dieudao /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --create --topic order-created --partitions 3 --replication-factor 1
+
+# Liệt kê topic
+docker exec dieudao /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --list
+
+# Xem số partition và thông tin topic
+docker exec dieudao /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --describe --topic order-created
+
+# Gửi message; nhập từng dòng rồi Enter; Ctrl+C để kết thúc
+docker exec -it dieudao /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9094 --topic order-created
+
+# Đọc message từ offset sớm nhất còn lưu; Ctrl+C để thoát
+docker exec -it dieudao /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic order-created --from-beginning
+
+# Chỉ xem partition 0, kèm partition, offset, key
+docker exec -it dieudao /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic order-created --partition 0 --from-beginning --property print.partition=true --property print.offset=true --property print.key=true
+
+# Chỉ xem partition 1 (thay 1 bằng 2 để xem partition 2)
+docker exec -it dieudao /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic order-created --partition 1 --from-beginning --property print.partition=true --property print.offset=true
+
+# Xem danh sách Consumer Group
+docker exec dieudao /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9094 --list
+
+# Xem phân công partition, offset và lag của group user-group
+docker exec dieudao /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9094 --describe --group user-group
+
+# Xóa topic (chỉ thực hiện khi không còn cần dữ liệu)
+docker exec dieudao /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --delete --topic order-created
+
+5. THỰC THI TRỰC TIẾP TRONG LINUX CONTAINER
+------------------------------------------
+# Từ Windows mở shell của container:
+docker exec -it dieudao /bin/bash
+
+# TỪ ĐÂY TRỞ ĐI gõ trong Linux shell (không có tiền tố docker exec):
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --list
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --create --topic linux-demo --partitions 2 --replication-factor 1
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --describe --topic linux-demo
+/opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9094 --topic linux-demo
+/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic linux-demo --from-beginning
+/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic linux-demo --partition 0 --from-beginning --property print.offset=true
+/opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9094 --list
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --delete --topic linux-demo
+exit
+
+GHI CHÚ: Lệnh producer/consumer chạy liên tục. Nhấn Ctrl+C để dừng trước khi
+chạy lệnh tiếp theo. Lệnh exit thoát shell Linux và quay lại Windows.
+
+6. THỰC HÀNH KAFKA CLI TRÊN WINDOWS (NẾU ĐÃ CÀI KAFKA CLI)
+---------------------------------------------------------
+Đây là Kafka CLI chạy THỰC SỰ trên Windows, khác với docker exec.
+Bootstrap dùng localhost:8888, sau đó Kafka quảng bá localhost:9999.
+Ví dụ dưới đây áp dụng cho bản Kafka có script bin\windows\*.bat:
+
+.\bin\windows\kafka-topics.bat --bootstrap-server localhost:8888 --list
+.\bin\windows\kafka-topics.bat --bootstrap-server localhost:8888 --describe --topic order-created
+.\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:8888 --topic order-created
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:8888 --topic order-created --from-beginning
+
+Nếu bộ Kafka tải về không có script Windows, hãy dùng cách 4 (docker exec).
+
+7. SPRING BOOT CHẠY TRÊN WINDOWS
+-------------------------------
+# application.properties dùng cho cả order-service và user-service:
+spring.kafka.bootstrap-servers=localhost:8888
+
+# Producer gửi JSON:
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
+# Consumer đọc String (dùng khi producer gửi String):
+spring.kafka.consumer.group-id=${KAFKA_GROUP:user-group}
+spring.kafka.consumer.auto-offset-reset=earliest
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+LƯU Ý: Nếu Producer gửi object JSON, Consumer cần JsonDeserializer và cấu hình
+kiểu OrderCreatedEvent tương ứng; KHÔNG dùng StringDeserializer để ép nhận object.
+
+8. THỰC HÀNH CHIA TẢI VỚI CONSUMER GROUP
+--------------------------------------
+- Tạo topic có 3 partitions (xem mục 4).
+- Chạy 3 instance user-service, port khác nhau nhưng cùng group-id=demo-group.
+- Kafka phân công các partition giữa các instance; không nhất thiết theo thứ tự port.
+- Hai instance khác group-id sẽ đọc độc lập cùng một topic.
+- Muốn thấy rõ 12 message chia đều, Producer có thể chủ động chọn partition
+  theo (i - 1) % 3; nếu không chỉ định, Kafka không bảo đảm chia đều từng message.
+- auto-offset-reset=earliest chỉ có tác dụng khi group chưa có offset hợp lệ.
+
+GHI NHỚ NHANH
+------------
+LISTENERS: địa chỉ/port Kafka thực sự lắng nghe.
+ADVERTISED_LISTENERS: địa chỉ/port Kafka báo cho client dùng sau khi lấy metadata.
+BOOTSTRAP-SERVERS: địa chỉ client kết nối ban đầu.
+Docker -p: chuyển tiếp port từ Windows vào container.
+Cùng Consumer Group: chia partition để xử lý song song.
+Khác Consumer Group: mỗi group có thể đọc độc lập toàn bộ topic.
+Message không tự bị xóa khi Consumer đọc; Kafka giữ theo retention.
+
+Chỉ sử dụng cấu hình này để học tập trên máy cá nhân (PLAINTEXT, không xác thực).
