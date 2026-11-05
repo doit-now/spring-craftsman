@@ -1,0 +1,17 @@
+package com.giaolang.shopdieudao.orderservice;
+
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@FeignClient(name = "xxx", url = "http://localhost:6969/api/users")
+public interface UserClient {
+
+    //khai báo các hàm như ta viết rest api bình thường
+    @GetMapping("/{userId}")
+    public UserResponseDTO getUserById(@RequestParam Long userId);
+}
+//chỉ khai báo các lời gọi api sang bên user-service
+
+//DI - DEPENDENCY INJECTION, new cái Interface này và chấm gọi hàm getUserById(555L) @Autowire

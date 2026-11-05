@@ -1,0 +1,44 @@
+1. Business rule có trong đề thi
+Business rule	Đã cài đặt
+Room Number không được trùng	
+Giá phòng phải lớn hơn 0	
+Capacity từ 1 đến 10	
+Floor ≥ 1	
+Tạo phòng mặc định AVAILABLE	
+DELETE Room chuyển sang MAINTENANCE	
+Tạo Reservation yêu cầu phòng AVAILABLE	
+Số khách không vượt capacity	
+CheckOutDate sau CheckInDate	
+TotalAmount = PricePerNight × số đêm	
+Reservation mặc định CONFIRMED	
+DELETE Reservation chuyển sang CANCELLED	
+
+2. Business rule tôi tự bổ sung
+Có hai quy tắc bổ sung đáng chú ý:
+
+BR bổ sung 1: Không cho phép đặt phòng trùng lịch.
+if (repo.overlaps(...) > 0) {
+    throw new BusinessException(
+        HttpStatus.BAD_REQUEST,
+        5,
+        "Room already reserved for these dates"
+    );
+}
+
+
+Đề chỉ yêu cầu phòng có trạng thái AVAILABLE, không yêu cầu kiểm tra lịch đặt trùng.
+
+BR bổ sung 2: Không cho phép sửa Reservation đã CANCELLED hoặc CHECKED_OUT.
+if (r.status == ReservationStatus.CANCELLED
+        || r.status == ReservationStatus.CHECKED_OUT) {
+    throw new BusinessException(
+        HttpStatus.BAD_REQUEST,
+        5,
+        "Finalized reservation cannot be modified"
+    );
+}
+
+
+Đề không quy định hạn chế này.
+
+Ngoài ra, việc bỏ qua totalAmount từ client để server tự tính là lựa chọn triển khai nhằm bảo đảm công thức tính tiền trong đề, không phải một business rule độc lập mới.
