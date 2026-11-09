@@ -1,0 +1,118 @@
+==============================================
+  GIẢI NGỐ BÀI THI PE 
+==============================================
+0. ĐỀ THI
+- ĐỀ THI THEO STYLE DB FIRST, CÓ DATABASE TRƯỚC, CÓ CLASS ENTITY SAU. 
+(PHẢI DÙNG BẢN ULTIMATE ĐỂ REVERSE ENGINEERING - SUY NGƯỢC CODE TỪ DATABASE)
+- ĐỀ THI CHO SẴN LỆNH TẠO TABLE, CẶP TABLE 1 - N 
+- ĐỀ THI CHO SẴN TÊN DATABASE, TẠO ĐÚNG TÊN DATABASE!!! HOẶC 0 ĐIỂM
+- ĐỀ THI YÊU CẦU TUÂN THỦ CODING CONVENTION, QUY TẮC ĐẶT TÊN, CHỮ HOA CHỮ THƯỜNG, CẤU TRÚC PACKAGE, VERSION JDK, MÃ SINH VIÊN
+- CẤM ĐỂ LẠI DẤU VẾT: KEYWORD CỦA BÀI CODE Ở NHÀ DÍNH TRONG BÀI NỘP!!!
+- TUÂN THỦ API CONTRACT: /URL API, JSON REQUEST VÀ RESPONSE
+                                   ĐẶC BIỆT CHÚ Y KIỂU DATETIME
+                                   FORMAT NHẬP NGÀY THÁNG:
+                                   XEM KĨ ĐỀ: DD/MM/YYYY
+                                              MM/DD/YYYY
+                                              8/8 CHẠY NGON
+                                              13/12
+
+- API THÌ CRUD ĐẦY ĐỦ CHO CẢ TABLE 1 VÀ TABLE N -> KHÁ DÀI
+- THẰNG N GỌI THẰNG 1 ĐỂ XIN THÔNG TIN BÊN 1 GỒM: FK, CHI TIẾT THẰNG 1
+  VÍ DỤ  ORDER SẼ GỌI USER ĐỂ XIN: MÃ K/H, ĐIỆN THOẠI, ĐỊA CHỈ GIAO
+         RESERVATION SẼ GỌI ROOM ĐỂ XIN: MÃ PHÒNG, TIỀN PHÒNG, MAX_CAPACITY
+ 
+- TUÂN THỦ PORT, PHẢI LÀM SWAGGER CHO CẢ 3
+- XÀI MAVEN, KO XÀI GRADLE
+
+I. BƯỚC 1: TẠO MỚI 1 PROJECT CHA - UNG VOI FOLDER CHA
+- QUY UOC ĐẶT TÊN PROJECT: <StudentID>AppName, ví dụ: SE686868Hotel
+- QUY UOC DAT TEN PACKAGE, ARTIFACT...:  fu.se686868.    THEO ĐỀ KÌ TRƯỚC, CHÚ Y KỲ NÀY ĐỔI HOK
+- SPRINGBOOT PROJECT, MAVEN TYPE
+- KO TÍCH CHỌN DEPENDENCY NÀO CẢ
+- XOÁ THƯ MỤC SRC\
+- XOÁ PHẦN ĐUÔI CỦA .POM
+- ĐIỀN <packaging>pom</packaging>
+- ĐIỀN <modules> 
+         <module>... </module>
+       <modules>
+
+II. TẠO PROJECT PHÍA 1 - MODULE CON CỦA PROJECT TỔNG Ở TRÊN
+- MAVEN, SPRINGBOOT 
+- TÊN PROJECT: SExxxxxx<TênServiceKèmTừService>, 
+  ví dụ: SE686868RoomService
+
+- TÊN PACKAGE: fu.sexxxxxx.<tên service bỏ đi chữ service>
+               fu.se686868.room      fu.se686868.reservation
+
+- CHỌN 7 DEPENDENCY
+  [DevTools, Lombok], 
+  [SpringWeb, Swagger Doc ̉̉ở cuối],
+  [Spring Data JPA, MS SQL Server driver], 
+  [I/O Validation]          
+
+III. TẠO PROJECT PHÍA N - MODULE CON CỦA PROJECT TỔNG Ở TRÊN
+- MAVEN, SPRINGBOOT 
+- TÊN PROJECT: SExxxxxx<TênServiceKèmTừService>, 
+  ví dụ: SE686868ReservationService
+
+- TÊN PACKAGE: fu.sexxxxxx.<tên service bỏ đi chữ service>
+               fu.se686868.room      fu.se686868.reservation
+
+- CHỌN 8 DEPENDENCY
+  [DevTools, Lombok], 
+  [SpringWeb, Swagger Doc ̉̉ở cuối],
+  [Spring Data JPA, MS SQL Server driver], 
+  [I/O Validation] 
+  [Spring Cloud Routing -> OpenFeign]
+
+IV. TẠO PROJECT GATEWAY
+- MAVEN, SPRINGBOOT
+- TÊN PROJECT: SExxxxxx<TênServiceKèmTừService>, 
+  ví dụ: SE686868ReservationService
+
+- TÊN PACKAGE: fu.sexxxxxx.<tên service bỏ đi chữ service>
+               fu.se686868.gateway      fu.se686868.reservation
+
+- CHỌN 2 DEPENDENCY
+  [DevTools], 
+  [Spring Cloud Routing -> Reactive Gateway]
+
+-> BỔ SUNG THÊM CÁI DEPENDENCY LIÊN QUAN ĐẾN SWAGGER-UI 
+
+          <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+----------------------------------------------------
+V. TẠO DATABASE THEO ĐỀ, CHẠY SCRIPT THEO ĐỀ, GENERATE NGƯỢC TABLE THÀNH CLASS!!!
+- TÊN DATABASE CÓ NẰM O ĐOẠN ĐẦU TRONG ĐỀ O MỤC MÔ TẢ MỖI SERVICE, 
+  TẠO 100 GIỐNG CHỮ HOA THƯỜNG VÀ SHIFT GẠCH
+  VÍ DỤ THEO ĐỀ: MSS301_2026_PE
+- GÕ LỆNH CREATE DATABASE <TÊN DATABASE THEO ĐỀ>, VÍ DỤ CREATE DATABASE MSS301_2026_PE
+- GÕ LỆNH USE <TÊN DB> VÍ DỤ USE MSS301_2026_PE ĐỂ CHUYỂN FOCUS VÀO DB NÀY ĐỂ TẠO TABLE
+- MỞ 2 FILE SCRIPT, CHẠY THẰNG 1 TRƯỚC, THẰNG N SAU TRONG TRONG CỬA SỔ GÕ CÂU SQL
+
+- KIỂM TRA TABLE CÓ TỒN TẠI CHƯA:
+  SELECT * FROM TABLE-1   <-------------THAM CHIẾU PK THẰNG 1 - -------------+
+                                                                             |
+                                                                         OPENFEIGN
+                                                                             |
+  SELECT * FROM TABLE-N   TRONG THẰNG N PHẢI CÓ CỘT FK TRỞ THẲNG LÊN THẰNG 1 |
+
+VI. SETUP 3 FILE CẤU HÌNH application.properties
+1. PROPERTIES CỦA SERVICE-1   
+- CHỨA PORT 8081
+- CHỨA KẾT NỐI CSDL, USER/PASS TỚI SQL SERVER, HIBERNATE
+- CHỨA KHAI BÁO CHO SWAGGER-UI
+
+2. PROPERTIES CỦA SERVICE-N
+- CHỨA PORT 8082
+- CHỨA KẾT NỐI CSDL, USER/PASS TỚI SQL SERVER, HIBERNATE
+- CHỨA KHAI BÁO CHO SWAGGER-UI
+
+
+3. PROPERTIES CỦA GATEWAY KHÁC HOÀN TOÀN 2 THẰNG TRÊN
+
+
