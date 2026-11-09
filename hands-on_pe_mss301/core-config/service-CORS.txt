@@ -1,0 +1,16 @@
+// CẤU HÌNH NHANH CORS
+
+@RestController
+@CrossOrigin(originPatterns = {"http://localhost:[*]", "http://127.0.0.1:[*]"})
+@RequestMapping("/api/reservations")
+public class ReservationController {
+
+}
+
+
+@RestController
+@CrossOrigin(originPatterns = {"http://localhost:[*]", "http://127.0.0.1:[*]"})
+@RequestMapping("/api/rooms")
+public class RoomController {
+
+}

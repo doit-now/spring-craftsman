@@ -1,0 +1,48 @@
+//DI - DEPENDENCY INJECTION, RESERVATION-SERVICE GỌI ROOM-SERVICE ĐỂ XIN THÔNG TIN CHI TIẾT PHÒNG LƯU TRÚ/NGHỈ DƯỠNG
+
+package fu.se686868.reservation.config;
+
+import fu.se686868.reservation.dto.*;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+/** Feign synchronous: Reservation -> Room qua HTTP, không gọi thẳng RoomRepository. */
+// room.service.url trỏ đến URL của bên bị gọi - khai báo trong file application.properties của bên đi gọi
+
+@FeignClient(name = "roomClient", url = "${room.service.url}")
+public interface RoomClient {
+    @GetMapping("/api/rooms/{id}")
+    ApiResponseDTO findRoom(@PathVariable("id") long id);
+}
+
+
+@SpringBootApplication
+@EnableFeignClients                         //QUAN TRỌNG!!! THIẾU LÀ BỊ BÁO LỖI BÊN Client class
+public class Se686868ReservationServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Se686868ReservationServiceApplication.class, args);
+    }
+}
+
+//--------------------------------------------------------------------
+
+//DI - DEPENDENCY INJECTION, khai báo @Autowire cái Interface này và chấm gọi hàm getUserById(555L) bên service package nơi API này gọi API kia
+
+package com.giaolang.shopdieudao.orderservice;
+
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@FeignClient(name = "xxx", url = "http://localhost:6969/api/users")
+public interface UserClient {
+
+    //khai báo các hàm như ta viết rest api bình thường
+    @GetMapping("/{userId}")
+    public UserResponseDTO getUserById(@RequestParam Long userId);
+}
+//chỉ khai báo các lời gọi api từ bên này (order-service) sang bên kia (user-service)
+
